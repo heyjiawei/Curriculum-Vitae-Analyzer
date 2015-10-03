@@ -7,9 +7,11 @@
   "private": true,
   "dependencies": {
     "angular": "~1.4.0",
-    "angular-route": "~1.4.0",
     "angular-loader": "~1.4.0",
+    "angular-material": "~0.11.2",
     "angular-mocks": "~1.4.0",
+    "angular-nlp-compromise": "~1.1.0",
+    "angular-route": "~1.4.0",
     "html5-boilerplate": "~5.2.0"
   }
 }
