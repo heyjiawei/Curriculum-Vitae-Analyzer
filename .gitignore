@@ -27,6 +27,6 @@ build/Release
 node_modules
 app/bower_components
 
-# Project
-workspace.xml
-tasks.xml
+# JetBrains IDEs configuration
+*.iml
+.idea/
