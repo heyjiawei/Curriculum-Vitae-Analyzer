@@ -9,6 +9,17 @@ angular.module('myApp.view1', ['ngRoute'])
   });
 }])
 
-.controller('View1Ctrl', [function() {
+.controller('View1Ctrl', [function($scope, fileReader) {
+  //http://odetocode.com/blogs/scott/archive/2013/07/03/building-a-filereader-service-for-angularjs-the-service.aspx
+  $scope.getFile = function () {
+    $scope.progress = 0;
+    fileReader.readAsDataUrl($scope.file, $scope)
+      .then(function(result) {
+        $scope.imageSrc = result;
+      });
+  };
 
+  $scope.$on("fileProgress", function(e, progress) {
+    $scope.progress = progress.loaded / progress.total;
+  });
 }]);

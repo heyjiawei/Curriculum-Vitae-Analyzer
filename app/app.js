@@ -4,6 +4,7 @@
 angular.module('myApp', [
   'ngRoute',
   'ngMaterial', 'nlpCompromise',
+  'myApp.factories',
   'myApp.view1',
   'myApp.view2',
   'myApp.version'
