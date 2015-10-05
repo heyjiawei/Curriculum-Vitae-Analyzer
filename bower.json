@@ -1,9 +1,8 @@
 {
-  "name": "angular-seed",
-  "description": "A starter project for AngularJS",
+  "name": "cv-analyzer",
+  "description": "A CV parser and analyzer",
   "version": "0.0.0",
-  "homepage": "https://github.com/angular/angular-seed",
-  "license": "MIT",
+  "homepage": "https://github.com/heyjiawei/Curriculum-Vitae-Analyzer",
   "private": true,
   "dependencies": {
     "angular": "~1.4.0",
@@ -13,6 +12,7 @@
     "angular-nlp-compromise": "~1.1.0",
     "angular-route": "~1.4.0",
     "html5-boilerplate": "~5.2.0",
-    "ng-file-upload": "~9.0.6"
+    "ng-file-upload": "~9.0.6",
+    "pdfjs-dist": "~1.1.507"
   }
 }
