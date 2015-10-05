@@ -6,11 +6,7 @@
            ngf-drag-over-class="dragover" ngf-multiple="true" accept="application/pdf"
            ngf-pattern="'application/pdf'">Drop PDFs files here</div>
       <md-progress-linear ng-if="showProgressBar" md-mode="determinate" value="{{progress}}"></md-progress-linear>
-    </md-card-content>
-  </md-card>
-  <md-card flex>
-    <md-card-content>
-        blah
+      <md-button class="md-raised md-primary" data-ng-click="doProcess()" data-ng-disabled="!files">Process!</md-button>
     </md-card-content>
   </md-card>
 </div>
