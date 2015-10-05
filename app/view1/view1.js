@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('myApp.view1', ['ngRoute'])
+angular.module('myApp.view1', ['ngRoute', 'ngFileUpload'])
 
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/view1', {
