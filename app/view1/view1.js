@@ -21,12 +21,13 @@ angular.module('myApp.view1', ['ngRoute', 'ngFileUpload'])
   });
 
   $scope.$on("fileProgress", function(e, progress) {
-    $scope.progress = progress.loaded / progress.total;
+    $scope.progress = (progress.loaded / progress.total) * 100;
   });
 
   $scope.upload = function (files) {
     if (files && files.length) {
       for (var i = 0; i < files.length; i++) {
+        $scope.showProgressBar = true;
         fileReader.readAsDataUrl(files[i], $scope)
           .then(function(result) {
             console.log(result);
