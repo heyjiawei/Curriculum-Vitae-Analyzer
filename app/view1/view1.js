@@ -9,17 +9,29 @@ angular.module('myApp.view1', ['ngRoute', 'ngFileUpload'])
   });
 }])
 
-.controller('View1Ctrl', [function($scope, fileReader) {
-  //http://odetocode.com/blogs/scott/archive/2013/07/03/building-a-filereader-service-for-angularjs-the-service.aspx
-  $scope.getFile = function () {
-    $scope.progress = 0;
-    fileReader.readAsDataUrl($scope.file, $scope)
-      .then(function(result) {
-        $scope.imageSrc = result;
-      });
-  };
+.controller('View1Ctrl', function($scope, fileReader) {
+  $scope.$watch('files', function () {
+    $scope.upload($scope.files);
+  });
+
+  $scope.$watch('file', function () {
+    if ($scope.file != null) {
+      $scope.files = [$scope.file];
+    }
+  });
 
   $scope.$on("fileProgress", function(e, progress) {
     $scope.progress = progress.loaded / progress.total;
   });
-}]);
+
+  $scope.upload = function (files) {
+    if (files && files.length) {
+      for (var i = 0; i < files.length; i++) {
+        fileReader.readAsDataUrl(files[i], $scope)
+          .then(function(result) {
+            console.log(result);
+          });
+      }
+    }
+  }
+});
