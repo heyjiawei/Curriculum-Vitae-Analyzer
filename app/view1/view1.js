@@ -10,6 +10,7 @@ angular.module('myApp.view1', ['ngRoute', 'ngFileUpload'])
 }])
 
 .controller('View1Ctrl', function($scope, fileReader) {
+    $scope.page1content = "No file opened.";
   $scope.$watch('file', function () {
     if ($scope.file != null) {
       $scope.files = [$scope.file];
@@ -37,7 +38,11 @@ angular.module('myApp.view1', ['ngRoute', 'ngFileUpload'])
                     return item.str;
                   });
                   console.log('## Text Content ##');
-                  console.log(strings.join(' '));
+
+                  $scope.$apply(function() {
+                    $scope.page1content = trimSpaces(strings.join(' '));
+                  });
+                  console.log($scope.page1content);
                 })
               })
             });
@@ -49,4 +54,12 @@ angular.module('myApp.view1', ['ngRoute', 'ngFileUpload'])
   $scope.doProcess = function () {
     $scope.processFiles($scope.files);
   };
+
+  function trimSpaces(text){
+    // http://www.mediacollege.com/internet/javascript/text/remove-extra-spaces.html
+    text = text.replace(/(^\s*)|(\s*$)/gi,"");
+    text = text.replace(/[ ]{2,}/gi," ");
+    text = text.replace(/\n /,"\n");
+    return text;
+  }
 });
