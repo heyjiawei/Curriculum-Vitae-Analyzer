@@ -1,12 +1,27 @@
-<div layout="row" layout-margin layout-fill layout-sm="column" data-ng-controller="View1Ctrl">
-  <md-card flex>
-    <md-card-content>
-      <h2>Analyze CVs!</h2>
-      <div ngf-select ngf-drop ng-model="files" class="drop-box"
+<form>
+  <div layout="row" layout-margin layout-fill layout-sm="column" data-ng-controller="View1Ctrl">
+    <md-card flex="40">
+      <md-card-content>
+        <md-input-container flex>
+          <label>Job Description</label>
+          <textarea ng-model="jobDescript" columns="1" md-maxlength="1000"></textarea>
+        </md-input-container>
+      </md-card-content>
+    </md-card>
+
+    <md-card flex="40">
+      <md-card-content>
+        <div ngf-select ngf-drop ng-model="files" class="drop-box"
            ngf-drag-over-class="dragover" ngf-multiple="true" accept="application/pdf"
-           ngf-pattern="'application/pdf'">Drop PDFs files here</div>
-      <md-progress-linear ng-if="showProgressBar" md-mode="determinate" value="{{progress}}"></md-progress-linear>
-      <md-button class="md-raised md-primary" data-ng-click="doProcess()" data-ng-disabled="!files">Process!</md-button>
-    </md-card-content>
-  </md-card>
-</div>
+           ngf-pattern="'application/pdf'">
+          <h3 class="md-headline">Drop PDF CV here</h3>
+          <span class="md-caption">*Only .pdf files are accepted</span>
+        </div>
+        <md-progress-linear ng-if="showProgressBar" md-mode="determinate" value="{{progress}}"></md-progress-linear>
+        <md-button class="md-raised md-primary" data-ng-click="doProcess()" data-ng-disabled="!files"
+                   href = "#view2">Process</md-button>
+        <span class="md-caption">*Please fill in Job description</span>
+      </md-card-content>
+    </md-card>
+  </div>
+</form>
