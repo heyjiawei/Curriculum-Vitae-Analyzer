@@ -58,14 +58,18 @@ angular.module('myApp.view1', ['ngRoute', 'ngFileUpload'])
       page.getTextContent().then(function(textContent) {
         // TODO: Figure out how to chain promises properly, this is ugly as heck
         var strings = textContent.items.map(function (item) {
+          if (item.str == String.fromCharCode(160)) { // TODO: factor as global const
+            // Non-breakable space is char 160. Fixes PDFs exported from Google Docs
+            item.str = " ";
+          }
           return item.str;
         });
-        console.log('## Text Content ##');
+//        console.log('## Text Content ##');
 
         $scope.$apply(function() {
           $scope.page1content += strings.join('');
         });
-        console.log($scope.page1content);
+//        console.log($scope.page1content);
       })
     })
   }
