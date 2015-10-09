@@ -6,7 +6,7 @@ angular.module('myApp', [
   'ngMaterial', 'nlpCompromise', 'ngFileUpload',
   'myApp.factories',
   'myApp.view1',
-  'myApp.view2',
+  'myApp.view2', 'md.data.table',
   'myApp.version'
 ]).
 config(['$routeProvider', function($routeProvider) {
