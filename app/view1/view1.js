@@ -40,6 +40,7 @@ angular.module('myApp.view1', ['ngRoute', 'ngFileUpload'])
   };
 
   $scope.doProcess = function () {
+    $scope.page1content = "";
     $scope.processFiles($scope.files);
   };
 
@@ -62,7 +63,7 @@ angular.module('myApp.view1', ['ngRoute', 'ngFileUpload'])
         console.log('## Text Content ##');
 
         $scope.$apply(function() {
-          $scope.page1content = trimSpaces(strings.join(' '));
+          $scope.page1content += strings.join('');
         });
         console.log($scope.page1content);
       })
