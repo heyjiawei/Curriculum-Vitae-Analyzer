@@ -46,8 +46,9 @@ angular.module('myApp.view1', ['ngRoute', 'ngFileUpload'])
   function getTextFromPdf(result) {
     PDFJS.getDocument(result).then(function(pdf) {
       var numPages = pdf.pdfInfo.numPages;
-      console.log(pdf);
-      getTextFromPdfPage(1, pdf);
+      for (var i = 1; i <= numPages; i++) {
+        getTextFromPdfPage(i, pdf);
+      }
     });
   }
 
