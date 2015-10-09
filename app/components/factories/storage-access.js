@@ -6,42 +6,41 @@
 angular.module('myApp.factories')
 
 .factory('storageAccess', function() {
-	var jobDescription = ""
-	var parsedCVs = []
+	var jobDescription = "";
+	var parsedCVs = [];
 
 	/** ----- STORAGE WRITING ----- **/
 
 	var setJobDescription = function(input) {
-		jobDescription = input
-	}
+		jobDescription = input;
+	};
 
 	// storing one by one or all at once?
 	var storeParsedCV = function(parsedCV) {
-		var cv = JSON.parse(parsedCV)
-		parsedCVs.push({cv.name:cv})
-		console.log(parsedCVs[name])
-	}
+		var cv = JSON.parse(parsedCV);
+		parsedCVs.push(cv);
+	};
 
 
 	/** ----- STORAGE RETRIEVAL ----- */
 
 	var getJobDescription = function() {
-		return jobDecription
-	}
+		return jobDecription;
+	};
 
 	var getAllCV = function() {
-		return parsedCVs
-	}
+		return parsedCVs;
+	};
 
 	var getCV = function(name) {
-		return parsedCVs[name]
-	}
+		return parsedCVs[name];
+	};
 
 	return {
 		setJobDescription: setJobDescription,
-		storeParsedCV: storeParsedCV
-		getJobDescription: getJobDescription
-		getAllCV: getAllCV
+		storeParsedCV: storeParsedCV,
+		getJobDescription: getJobDescription,
+		getAllCV: getAllCV,
 		getCV: getCV
-	}
+	};
 });
