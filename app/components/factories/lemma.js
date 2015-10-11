@@ -3,30 +3,27 @@
 angular.module('myApp.factories')
 
     .factory('lemma', function (nlp) {
-        var instituteKeyWords = ["college", "university", "institute"];
-        var courseKeyWords = ["computer", "computing", "engineering", "information technology", "physics", "it", "neuroscience"];
-        var degreeKeyWords = ["bachelor's", "bachelor", "bsc", "master", "master's", "phd", "ph.d", "degree", "mscs", "msc", "be"];
-        var gradeKeyWords = ["grade:", "cap", "gpa"];
 
-        function Result() {
-            this.institute = [];
-            this.course = [];
-            this.degree = [];
-            this.date = [];
-            this.grade = [];
-        };
-
-        //var test = nlp.pos(text).sentences;
-        var results = [];
+        //returns an array of result objects with institute, course, degree, date and grade fields
         var parseEducationBackground = function (sentenceArray) {
+            function Result() {
+                this.institute = [];
+                this.course = [];
+                this.degree = [];
+                this.date = [];
+                this.grade = [];
+            };
+            var results = [];
+            var instituteKeyWords = ["college", "university", "institute"];
+            var courseKeyWords = ["computer", "computing", "engineering", "information technology", "physics", "it", "neuroscience"];
+            var degreeKeyWords = ["bachelor's", "bachelor", "bsc", "master", "master's", "phd", "ph.d", "degree", "mscs", "msc", "be"];
+            var gradeKeyWords = ["grade:", "cap", "gpa"];
             var prev = null;
             var result = new Result();
-            console.log(sentenceArray);
             sentenceArray.forEach(
                 function (sentence) {
                     //assume 1 sentence
                     var tokens = nlp.pos(sentence).sentences[0].tokens;
-                    console.log(tokens);
                     tokens.forEach(
                         function (token) {
                             var hasKeyWord = function (keyWord) {
@@ -84,6 +81,7 @@ angular.module('myApp.factories')
                             } else if (token.pos.tag == "UH") {
                                 //for symbol
                             } else {
+                                //push into the same place as the last pushed place
                                 if (prev === "course") {
                                     result.course.push(token.text);
                                 } else if (prev === "degree") {
@@ -98,16 +96,62 @@ angular.module('myApp.factories')
                             }
                         }
                     )
+                    results.push(result);
                 }
             )
-
-            results.push(result);
             return results;
         }
+
+        //returns all the sentence splitted up by " "
+        var parseLanguages = function (sentenceArray) {
+            var results = [];
+            sentenceArray.forEach(
+                function (sentence) {
+                    var tokens = sentence.split(" ");
+                    results = results.concat(tokens);
+                }
+            )
+            return results;
+            //function LanguageResult() {
+            //    this.language = "";
+            //    this.level = [];
+            //};
+            ////assume one sentence -> no full stops
+            //var languageResults = [];
+            //var result = new LanguageResult();
+            //sentenceArray.forEach(
+            //    function (sentence) {
+            //        var tokens = nlp.pos(sentence).sentences[0].tokens;
+            //        console.log(tokens);
+            //        var prev = null;
+            //        tokens.forEach(
+            //            function (token) {
+            //                if (token.pos.tag === "JJ") {
+            //                    if (prev !== "level" && result.level.length > 0 && result.language !== "") {
+            //                        languageResults.push(result);
+            //                        result = new LanguageResult();
+            //                    }
+            //                    result.level.push(token.text);
+            //                } else {
+            //                    if (result.language !== "") {
+            //                        languageResults.push(result);
+            //                        result = new LanguageResult();
+            //                    }
+            //                    result.language = token.text;
+            //                }
+            //            }
+            //        )
+            //        languageResults.push(result);
+            //    }
+            //)
+            //return languageResults;
+        }
+
         //var test = ["National University of Singapore", "MSCS, IT, 2010 - 2012"];
         //console.log(parseEducationBackground(test));
         return {
-            lemma_string: parseEducationBackground
+            parse_education: parseEducationBackground,
+            parse_language: parseLanguages
         }
     }
 )
