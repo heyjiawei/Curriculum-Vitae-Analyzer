@@ -9,7 +9,12 @@ angular.module('myApp.view1', ['ngRoute', 'ngFileUpload'])
   });
 }])
 
-.controller('View1Ctrl', function($scope, fileReader) {
+.controller('View1Ctrl', function($scope, fileReader, lemma) {
+      var test = ["(Phd.) Neuroscience, Nanyang Technological University, Singapore Jan 2014- Nov 2014 \
+        MSc Biomedical Engineering, Nanyang Technological University, Singapore Aug 2010- July 2012 \
+        BE Biomedical Engineering, Anna University, India Aug 2006 - May 2010"];
+      $scope.testString = lemma.lemma_string(test);
+      console.log($scope.testString);
   $scope.$watch('file', function () {
     if ($scope.file != null) {
       $scope.files = [$scope.file];
