@@ -34,9 +34,11 @@ angular.module('myApp.view1', ['ngRoute', 'ngFileUpload'])
           .then(function(result) {
             pdfReader.getAllTextFromPdf(result).then(function(result) {
               console.log("final array of string", result);
-//              $scope.$apply(function() {
-//                $scope.page1content = result.join("");
-//              });
+              $scope.$apply(function() {
+                result.forEach(function(line) {
+                  $scope.page1content += line + '\n';
+                });
+              });
             });
           });
       }
