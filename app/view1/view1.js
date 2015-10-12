@@ -9,7 +9,7 @@ angular.module('myApp.view1', ['ngRoute', 'ngFileUpload'])
   });
 }])
 
-.controller('View1Ctrl', function($scope, fileReader, pdfReader, lemma) {
+.controller('View1Ctrl', function($scope, fileReader, pdfReader, lemma, cvTokenizer) {
     $scope.page1content = "No file opened.";
     $scope.fileNames = "";
 
@@ -48,6 +48,7 @@ angular.module('myApp.view1', ['ngRoute', 'ngFileUpload'])
                   $scope.page1content += line + '\n';
                 });
               });
+              cvTokenizer.tokenizeCv(result);
             });
           });
       }
