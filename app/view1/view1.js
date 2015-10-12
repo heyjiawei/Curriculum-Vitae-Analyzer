@@ -9,7 +9,7 @@ angular.module('myApp.view1', ['ngRoute', 'ngFileUpload'])
   });
 }])
 
-.controller('View1Ctrl', function($scope, fileReader) {
+.controller('View1Ctrl', function($scope, fileReader, pdfReader) {
     $scope.page1content = "No file opened.";
     $scope.fileNames = "";
 
@@ -32,8 +32,12 @@ angular.module('myApp.view1', ['ngRoute', 'ngFileUpload'])
         $scope.showProgressBar = true;
         fileReader.readAsDataUrl(files[i], $scope)
           .then(function(result) {
-            console.log(result);
-            getTextFromPdf(result);
+            pdfReader.getAllTextFromPdf(result).then(function(result) {
+              console.log("final array of string", result);
+//              $scope.$apply(function() {
+//                $scope.page1content = result.join("");
+//              });
+            });
           });
       }
     }
@@ -43,42 +47,4 @@ angular.module('myApp.view1', ['ngRoute', 'ngFileUpload'])
     $scope.page1content = "";
     $scope.processFiles($scope.files);
   };
-
-  function getTextFromPdf(result) {
-    PDFJS.getDocument(result).then(function(pdf) {
-      var numPages = pdf.pdfInfo.numPages;
-      for (var i = 1; i <= numPages; i++) {
-        getTextFromPdfPage(i, pdf);
-      }
-    });
-  }
-
-  function getTextFromPdfPage(pageNumber, pdf) {
-    pdf.getPage(pageNumber).then(function(page) {
-      page.getTextContent().then(function(textContent) {
-        // TODO: Figure out how to chain promises properly, this is ugly as heck
-        var strings = textContent.items.map(function (item) {
-          if (item.str == String.fromCharCode(160)) { // TODO: factor as global const
-            // Non-breakable space is char 160. Fixes PDFs exported from Google Docs
-            item.str = " ";
-          }
-          return item.str;
-        });
-//        console.log('## Text Content ##');
-
-        $scope.$apply(function() {
-          $scope.page1content += strings.join('');
-        });
-//        console.log($scope.page1content);
-      })
-    })
-  }
-
-  function trimSpaces(text){
-    // http://www.mediacollege.com/internet/javascript/text/remove-extra-spaces.html
-    text = text.replace(/(^\s*)|(\s*$)/gi,"");
-    text = text.replace(/[ ]{2,}/gi," ");
-    text = text.replace(/\n /,"\n");
-    return text;
-  }
 });
