@@ -46,12 +46,16 @@ angular.module('myApp.factories')
       // it contains a ":" at the end
       // it's the only word in the line provided
 
-      if(isEmptyOrWhiteSpace(text) || hasDisallowedPunctuation(text)) {
+      if(text === text.toUpperCase() || text.trim().slice(-1) == ":") {
+        return true;
+      } else if(isEmptyOrWhiteSpace(text) || hasDisallowedPunctuation(text) || hasTooManyWords(text)) {
         return false;
       }
-      // TODO: only word in the line provided?
       // FIXME: text === text.toUpperCase() is true for strings with only numbers
-      return (text === text.toUpperCase() || text.trim().slice(-1) == ":");
+    }
+
+    function hasTooManyWords(str) {
+      return str.split(' ').length > 5;
     }
 
     function hasDisallowedPunctuation(str) {
