@@ -19,7 +19,7 @@ angular.module('myApp.view1', ['ngRoute', 'ngFileUpload'])
     var education = ["(Phd.) Neuroscience, Nanyang Technological University, Singapore Jan 2014- Nov 2014 \
       MSc Biomedical Engineering Nanyang Technological University, Singapore Aug 2010- July 2012 \
       BE Biomedical Engineering Anna University, India Aug 2006 - May 2010"];
-    $scope.testEducation = lemma.parse_education(education);
+    $scope.testEducation = lemma.find_and_parse_education(education);
     var languages = ["Chinese Tamil Japanese"];
     $scope.testLanguages = lemma.parse_language(languages);
     var workExperience = ["Technical papers /Projects First place in paper presentation organized by Anna university Second place in the paper presentation at the inter-collegiate symposium Designed a system to use brain signals to control motor functions. Created a motion capture system for upper limb movement analysis for stroke patients"];
@@ -60,7 +60,7 @@ angular.module('myApp.view1', ['ngRoute', 'ngFileUpload'])
               console.log("tokens", tokens);
 
               // TODO: Factor into CV handler method
-              var educationParsed = lemma.parse_education(tokens.education);
+              var educationParsed = lemma.find_and_parse_education(tokens.education);
               var languageParsed = lemma.parse_language(tokens.language);
               var interestParsed = lemma.parse_interest(tokens.interest);
               var skillParsed = lemma.parse_skills(tokens.skill);
