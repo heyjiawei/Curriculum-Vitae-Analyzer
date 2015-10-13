@@ -12,7 +12,7 @@ angular.module('myApp.view1', ['ngRoute', 'ngFileUpload'])
     });
   }])
 
-.controller('View1Ctrl', function($scope, fileReader, pdfReader, lemma, cvTokenizer, storageAccess) {
+.controller('View1Ctrl', function($scope, fileReader, pdfReader, lemma, cvTokenizer, storageAccess, jobDescriptionParser) {
     $scope.page1content = "No file opened.";
     $scope.fileNames = "";
 
@@ -27,6 +27,8 @@ angular.module('myApp.view1', ['ngRoute', 'ngFileUpload'])
     console.log("education", $scope.testEducation);
     console.log("languages", $scope.testLanguages);
     console.log("work", $scope.testWork);
+      $scope.testJob = jobDescriptionParser.find_and_parse_work_time(["blah blah blah", "5 years experience"]);
+      console.log("job", $scope.testJob);
 
   $scope.$watch('file', function () {
     if ($scope.file != null) {
