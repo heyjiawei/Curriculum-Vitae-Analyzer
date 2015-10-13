@@ -78,9 +78,9 @@ angular.module('myApp.factories')
                     var singularSentence = nlp.singularize(sentence).toLowerCase();
                     durationKeyWords.forEach(
                         function(keyWord) {
-                            var durationRegex = new RegExp( "/[\d] " + keyWord +"[s]?/g");
+                            var durationRegex = new RegExp("[\\d] " + keyWord + "[s]?", "g");
                             if (singularSentence.match(durationRegex) &&
-                                workKeyWords.some(function(v) { return singularSentece.match(new RegExp("/\b" + v + "\b/i"));})) {
+                                workKeyWords.some(function(v) { return singularSentence.match(new RegExp("\\b" + v + "\\b", "i"));})) {
                                 result.value = str.replace(/\D+$/g, "");
                                 result.duration = keyWord;
                                 return result;
