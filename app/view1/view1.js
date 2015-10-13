@@ -1,11 +1,14 @@
 'use strict';
 
 angular.module('myApp.view1', ['ngRoute', 'ngFileUpload'])
-
   .config(['$routeProvider', function($routeProvider) {
     $routeProvider.when('/view1', {
       templateUrl: 'view1/view1.html',
       controller: 'View1Ctrl'
+    })
+    .when('/view2', {
+      templateUrl: 'view2/view2.html',
+      controller: 'View2Ctrl'
     });
   }])
 
@@ -30,6 +33,8 @@ angular.module('myApp.view1', ['ngRoute', 'ngFileUpload'])
       $scope.files = [$scope.file];
     }
   });
+
+  $scope.jobDescript = null;
 
   $scope.$on("fileProgress", function(e, progress) {
     $scope.progress = (progress.loaded / progress.total) * 100;
@@ -61,5 +66,7 @@ angular.module('myApp.view1', ['ngRoute', 'ngFileUpload'])
   $scope.doProcess = function () {
     $scope.page1content = "";
     $scope.processFiles($scope.files);
+    $scope.jobDescript = this.jobDescript;
+    console.log($scope.jobDescript);
   };
 });
