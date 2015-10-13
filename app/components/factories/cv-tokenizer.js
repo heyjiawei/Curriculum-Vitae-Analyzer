@@ -8,22 +8,47 @@ angular.module('myApp.factories')
     var experienceKeywords = ["experience", "employment", "work", "history"];
     var projectKeywords = ["projects"];
     var educationKeywords = ["education", "educational"];
+    var languageKeywords = ["languages"];
     var interestKeywords = ["interests"];
     var refereeKeywords = ["referees", "references", "reference"];
 
     var allHeadingKeywords = [].concat(summaryKeywords, skillKeywords, experienceKeywords,
-      projectKeywords, educationKeywords, interestKeywords, refereeKeywords);
+      projectKeywords, educationKeywords, languageKeywords, interestKeywords, refereeKeywords);
 
     var tokenizeCv = function(allTextFromPdf) {
       // parse name
       // name is usually either big header, or has the word "name" near it
 
+      var summaryToken = findToken(summaryKeywords, allTextFromPdf);
+
+      var skillToken = findToken(skillKeywords, allTextFromPdf);
+
+      var experienceToken = findToken(experienceKeywords, allTextFromPdf);
+
+      var projectToken = findToken(projectKeywords, allTextFromPdf);
+
       // parse education
-      var educationToken = lookForHeading(educationKeywords, allTextFromPdf);
-      console.log(educationToken);
+      var educationToken = findToken(educationKeywords, allTextFromPdf);
+
+      var languageToken = findToken(languageKeywords, allTextFromPdf);
+
+      var interestToken = findToken(interestKeywords, allTextFromPdf);
+
+      var refereeToken = findToken(refereeKeywords, allTextFromPdf);
+
+      return {
+        summary: summaryToken,
+        skill: skillToken,
+        experience: experienceToken,
+        project: projectToken,
+        education: educationToken,
+        language: languageToken,
+        interest: interestToken,
+        referee: refereeToken
+      };
     };
 
-    function lookForHeading(keywords, sourceText) {
+    function findToken(keywords, sourceText) {
       var results = [];
       var isHeaderFound = false;
 
