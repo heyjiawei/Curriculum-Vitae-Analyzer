@@ -16,8 +16,11 @@ angular.module('myApp.view1', ['ngRoute', 'ngFileUpload'])
       $scope.testEducation = lemma.parse_education(education);
       var languages = ["Chinese Tamil Japanese"];
       $scope.testLanguages = lemma.parse_language(languages);
+      var workExperience = ["Technical papers /Projects First place in paper presentation organized by Anna university Second place in the paper presentation at the inter-collegiate symposium Designed a system to use brain signals to control motor functions. Created a motion capture system for upper limb movement analysis for stroke patients"];
+      $scope.testWork = lemma.parse_work(workExperience);
       console.log("education", $scope.testEducation);
       console.log("languages", $scope.testLanguages);
+      console.log("work", $scope.testWork);
   $scope.$watch('file', function () {
     if ($scope.file != null) {
       $scope.files = [$scope.file];

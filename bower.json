@@ -13,6 +13,7 @@
     "angular-route": "~1.4.0",
     "html5-boilerplate": "~5.2.0",
     "ng-file-upload": "~9.0.6",
-    "pdfjs-dist": "~1.1.507"
+    "pdfjs-dist": "~1.1.507",
+    "stemmer": "~0.1.4"
   }
 }

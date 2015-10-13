@@ -102,6 +102,27 @@ angular.module('myApp.factories')
             return results;
         }
 
+        //get keywords from work experience
+        var parseWorkExperience = function(sentenceArray) {
+            var results = [];
+            sentenceArray.forEach(
+                function (sentence) {
+                    var tokens = nlp.spot(sentence);
+                    tokens.forEach(
+                        function(token) {
+                            results.push(token.analysis.singularize());
+                        }
+                    )
+                    //because nlp library will not pick up the word research, which is quite important
+                    if (sentence.toLowerCase().contains("research")) {
+                        results.push("research");
+                    }
+                }
+            )
+
+            return results;
+        }
+
         //split by sentences, then commas within each sentence
         //used for parsing of Skills too
         var parseInterestsAndSkills = function(sentenceArray) {
@@ -125,39 +146,6 @@ angular.module('myApp.factories')
                 }
             )
             return results;
-            //function LanguageResult() {
-            //    this.language = "";
-            //    this.level = [];
-            //};
-            ////assume one sentence -> no full stops
-            //var languageResults = [];
-            //var result = new LanguageResult();
-            //sentenceArray.forEach(
-            //    function (sentence) {
-            //        var tokens = nlp.pos(sentence).sentences[0].tokens;
-            //        console.log(tokens);
-            //        var prev = null;
-            //        tokens.forEach(
-            //            function (token) {
-            //                if (token.pos.tag === "JJ") {
-            //                    if (prev !== "level" && result.level.length > 0 && result.language !== "") {
-            //                        languageResults.push(result);
-            //                        result = new LanguageResult();
-            //                    }
-            //                    result.level.push(token.text);
-            //                } else {
-            //                    if (result.language !== "") {
-            //                        languageResults.push(result);
-            //                        result = new LanguageResult();
-            //                    }
-            //                    result.language = token.text;
-            //                }
-            //            }
-            //        )
-            //        languageResults.push(result);
-            //    }
-            //)
-            //return languageResults;
         }
 
         //var test = ["National University of Singapore", "MSCS, IT, 2010 - 2012"];
@@ -166,7 +154,8 @@ angular.module('myApp.factories')
             parse_education: parseEducationBackground,
             parse_language: parseLanguages,
             parse_interest: parseInterestsAndSkills,
-            parse_skills: parseInterestsAndSkills
+            parse_skills: parseInterestsAndSkills,
+            parse_work: parseWorkExperience
         }
     }
 )
