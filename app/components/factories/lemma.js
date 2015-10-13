@@ -114,7 +114,7 @@ angular.module('myApp.factories')
                         }
                     )
                     //because nlp library will not pick up the word research, which is quite important
-                    if (sentence.toLowerCase().contains("research")) {
+                    if (sentence.toLowerCase().indexOf("research") >= 0) {
                         results.push("research");
                     }
                 }
