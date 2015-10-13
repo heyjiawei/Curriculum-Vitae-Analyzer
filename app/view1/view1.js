@@ -15,7 +15,9 @@ angular.module('myApp.view1', ['ngRoute', 'ngFileUpload'])
 .controller('View1Ctrl', function($scope, fileReader, pdfReader, lemma, cvTokenizer, storageAccess) {
     $scope.page1content = "No file opened.";
     $scope.fileNames = "";
+    $scope.jobDescript = null;
 
+    // TODO: Remove testing code
     var education = ["(Phd.) Neuroscience, Nanyang Technological University, Singapore Jan 2014- Nov 2014 \
       MSc Biomedical Engineering Nanyang Technological University, Singapore Aug 2010- July 2012 \
       BE Biomedical Engineering Anna University, India Aug 2006 - May 2010"];
@@ -34,13 +36,11 @@ angular.module('myApp.view1', ['ngRoute', 'ngFileUpload'])
     }
   });
 
-  $scope.jobDescript = null;
-
   $scope.$on("fileProgress", function(e, progress) {
     $scope.progress = (progress.loaded / progress.total) * 100;
   });
 
-  $scope.processFiles = function (files) {
+  var processFiles = function (files) {
     $scope.fileNames = "";
     if (files && files.length) {
       for (var i = 0; i < files.length; i++) {
@@ -78,8 +78,6 @@ angular.module('myApp.view1', ['ngRoute', 'ngFileUpload'])
 
   $scope.doProcess = function () {
     $scope.page1content = "";
-    $scope.processFiles($scope.files);
-    $scope.jobDescript = this.jobDescript;
-    console.log($scope.jobDescript);
+    processFiles($scope.files);
   };
 });
