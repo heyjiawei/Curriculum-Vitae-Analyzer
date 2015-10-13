@@ -9,7 +9,7 @@ angular.module('myApp.view1', ['ngRoute', 'ngFileUpload'])
   });
 }])
 
-.controller('View1Ctrl', function($scope, fileReader, pdfReader, lemma, cvTokenizer) {
+.controller('View1Ctrl', function($scope, fileReader, pdfReader, lemma, cvTokenizer, storageAccess) {
     $scope.page1content = "No file opened.";
     $scope.fileNames = "";
 
