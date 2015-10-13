@@ -6,6 +6,8 @@ angular.module('myApp.factories')
 
         //returns an array of result objects with institute, course, degree, date and grade fields
         var parseEducationBackground = function (sentenceArray) {
+
+            console.log(nlp.pos("1.5 years of experience"));
             function Result() {
                 this.institute = [];
                 this.course = [];
@@ -16,7 +18,7 @@ angular.module('myApp.factories')
             var results = [];
             var instituteKeyWords = ["college", "university", "institute"];
             var courseKeyWords = ["computer", "computing", "engineering", "information technology", "physics", "it", "neuroscience"];
-            var degreeKeyWords = ["bachelor's", "bachelor", "bsc", "master", "master's", "phd", "ph.d", "degree", "mscs", "msc", "be"];
+            var degreeKeyWords = ["bachelor's", "bachelor", "bsc", "master", "master's", "phd", "ph.d", "degree", "mscs", "msc", "be", "diploma"];
             var gradeKeyWords = ["grade:", "cap", "gpa"];
             var prev = null;
             var result = new Result();
@@ -151,7 +153,7 @@ angular.module('myApp.factories')
         //var test = ["National University of Singapore", "MSCS, IT, 2010 - 2012"];
         //console.log(parseEducationBackground(test));
         return {
-            parse_education: parseEducationBackground,
+            find_and_parse_education: parseEducationBackground,
             parse_language: parseLanguages,
             parse_interest: parseInterestsAndSkills,
             parse_skills: parseInterestsAndSkills,
