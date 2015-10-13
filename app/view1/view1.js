@@ -12,7 +12,7 @@ angular.module('myApp.view1', ['ngRoute', 'ngFileUpload'])
     });
   }])
 
-.controller('View1Ctrl', function($scope, fileReader, pdfReader, lemma, cvTokenizer, storageAccess) {
+.controller('View1Ctrl', function($scope, fileReader, pdfReader, lemma, cvTokenizer, jobDescTokenizer, storageAccess) {
     $scope.page1content = "No file opened.";
     $scope.fileNames = "";
     $scope.jobDescript = null;
@@ -76,8 +76,14 @@ angular.module('myApp.view1', ['ngRoute', 'ngFileUpload'])
     }
   };
 
+  var processJobDesc = function(jobDesc) {
+    var tokens = jobDescTokenizer.tokenizeJobDesc(jobDesc);
+    console.log("job desc processed", tokens);
+  };
+
   $scope.doProcess = function () {
     $scope.page1content = "";
     processFiles($scope.files);
+    processJobDesc($scope.jobDescript);
   };
 });
