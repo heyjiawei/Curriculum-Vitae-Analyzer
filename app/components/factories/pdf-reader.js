@@ -28,13 +28,13 @@ angular.module('myApp.factories')
         var promises = [];
         console.log("pages", numPages);
         for (var i = 1; i <= numPages; i++) {
-          promises.push(getTextFromPdfPage(i, pdf).then(function(result) {
-            return result;
+          promises.push(getTextFromPdfPage(i, pdf).then(function(textFromPdfPage) {
+            return textFromPdfPage;
           })); // push the Promises to our array
         }
         return $q.all(promises).then(function(allPromiseResults) {
-          allPromiseResults.forEach(function(result) {
-            Array.prototype.push.apply(allTextFromPdf, result);
+          allPromiseResults.forEach(function(textFromPdfPage) {
+            Array.prototype.push.apply(allTextFromPdf, textFromPdfPage);
           });
           return allTextFromPdf;
         });
@@ -44,14 +44,29 @@ angular.module('myApp.factories')
     var getTextFromPdfPage = function(pageNumber, pdf) {
       return pdf.getPage(pageNumber).then(function(page) {
         return page.getTextContent().then(function(textContent) {
-          var strings = textContent.items.map(function (item) {
-            if (item.str == String.fromCharCode(160)) { // TODO: factor as global const
-              // Non-breakable space is char 160. Fixes PDFs exported from Google Docs
-              item.str = " ";
+          function isLowerCase(str) {
+            return str === str.toLowerCase();
+          }
+
+          function repairPdfTextFormatting(textContent) {
+            var repairedTextContent = [];
+            for(var i = 0; i < textContent.items.length; i++) {
+              var currentElement = textContent.items[i].str;
+              if (currentElement == String.fromCharCode(160)) { // TODO: factor as global const
+                // Non-breakable space is char 160. Fixes PDFs exported from Google Docs
+                currentElement = " ";
+                repairedTextContent.push(currentElement);
+              } else if (isLowerCase(currentElement.slice(0, 1))) {
+                // If it starts with lowercase letter, append it to the end of the previous line
+                // Fixes things like ["Work experi", "e", "n", "ce"]
+                repairedTextContent[repairedTextContent.length - 1] += currentElement;
+              } else {
+                repairedTextContent.push(currentElement);
+              }
             }
-            return item.str;
-          });
-          return strings;
+            return repairedTextContent;
+          }
+          return repairPdfTextFormatting(textContent);
         });
       });
     };

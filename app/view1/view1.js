@@ -1,30 +1,19 @@
-'use strict';
+.controller('View1Ctrl', function($scope, fileReader, pdfReader, lemma, cvTokenizer) {
+    $scope.page1content = "No file opened.";
+    $scope.fileNames = "";
 
-angular.module('myApp.view1', ['ngRoute', 'ngFileUpload'])
+    var education = ["(Phd.) Neuroscience, Nanyang Technological University, Singapore Jan 2014- Nov 2014 \
+      MSc Biomedical Engineering Nanyang Technological University, Singapore Aug 2010- July 2012 \
+      BE Biomedical Engineering Anna University, India Aug 2006 - May 2010"];
+    $scope.testEducation = lemma.parse_education(education);
+    var languages = ["Chinese Tamil Japanese"];
+    $scope.testLanguages = lemma.parse_language(languages);
+    var workExperience = ["Technical papers /Projects First place in paper presentation organized by Anna university Second place in the paper presentation at the inter-collegiate symposium Designed a system to use brain signals to control motor functions. Created a motion capture system for upper limb movement analysis for stroke patients"];
+    $scope.testWork = lemma.parse_work(workExperience);
+    console.log("education", $scope.testEducation);
+    console.log("languages", $scope.testLanguages);
+    console.log("work", $scope.testWork);
 
-.config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/view1', {
-    templateUrl: 'view1/view1.html',
-    controller: 'View1Ctrl'
-  });
-}])
-
-.controller('View1Ctrl', function($scope, fileReader, pdfReader, lemma) {
-      var education = ["(Phd.) Neuroscience, Nanyang Technological University, Singapore Jan 2014- Nov 2014 \
-        MSc Biomedical Engineering Nanyang Technological University, Singapore Aug 2010- July 2012 \
-        BE Biomedical Engineering Anna University, India Aug 2006 - May 2010"];
-      $scope.testEducation = lemma.parse_education(education);
-      var languages = ["Chinese Tamil Japanese"];
-      $scope.testLanguages = lemma.parse_language(languages);
-      var workExperience = ["Technical papers /Projects First place in paper presentation organized by Anna university Second place in the paper presentation at the inter-collegiate symposium Designed a system to use brain signals to control motor functions. Created a motion capture system for upper limb movement analysis for stroke patients"];
-      $scope.testWork = lemma.parse_work(workExperience);
-      console.log("education", $scope.testEducation);
-      console.log("languages", $scope.testLanguages);
-      console.log("work", $scope.testWork);
-
-      $scope.page1content = "No file opened.";
-      $scope.fileNames = "";
-      
   $scope.$watch('file', function () {
     if ($scope.file != null) {
       $scope.files = [$scope.file];
@@ -46,9 +35,12 @@ angular.module('myApp.view1', ['ngRoute', 'ngFileUpload'])
           .then(function(result) {
             pdfReader.getAllTextFromPdf(result).then(function(result) {
               console.log("final array of string", result);
-//              $scope.$apply(function() {
-//                $scope.page1content = result.join("");
-//              });
+              $scope.$apply(function() {
+                result.forEach(function(line) {
+                  $scope.page1content += line + '\n';
+                });
+              });
+              cvTokenizer.tokenizeCv(result);
             });
           });
       }
