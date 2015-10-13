@@ -47,6 +47,7 @@ angular.module('myApp.factories')
           }
         }
       }
+      return results;
     }
 
     function isHeading(text) {
