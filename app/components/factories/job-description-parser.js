@@ -36,7 +36,7 @@ angular.module('myApp.factories')
 
         //parse min requirements inside?
         //can parse job description line by line?
-        var parseEducation = function (sentenceArray) {
+        var findAndParseEducation = function (sentenceArray) {
             //find word degree, get sentence
             //sentenceArray -> each line is one element in the array
             var results = [];
@@ -97,7 +97,7 @@ angular.module('myApp.factories')
             parse_skills: findKeywords,
             parse_location: findKeywords,
             find_and_parse_location: findAndParseLocation,
-            find_and_parse_education: parseEducation,
+            find_and_parse_education: findAndParseEducation,
             find_and_parse_work_time: findWorkTime,
             parse_languages: findLanguages
 
