@@ -3,13 +3,23 @@
 angular.module('myApp.factories')
 
 .factory('cvTokenizer', function() {
+    var summaryKeywords = ["summary", "introduction"];
+    var skillKeywords = ["skills & expertise", "skill set", "skillset", "skills"];
+    var experienceKeywords = ["experience", "employment", "work", "history"];
+    var projectKeywords = ["projects"];
+    var educationKeywords = ["education", "educational"];
+    var interestKeywords = ["interests"];
+    var refereeKeywords = ["referees", "references", "reference"];
+
+    var allHeadingKeywords = [].concat(summaryKeywords, skillKeywords, experienceKeywords,
+      projectKeywords, educationKeywords, interestKeywords, refereeKeywords);
+
     var tokenizeCv = function(allTextFromPdf) {
       // parse name
       // name is usually either big header, or has the word "name" near it
 
       // parse education
-      var educationIdentifierKeywords = ["education", "educational", "qualification"];
-      var educationToken = lookForHeading(educationIdentifierKeywords, allTextFromPdf);
+      var educationToken = lookForHeading(educationKeywords, allTextFromPdf);
       console.log(educationToken);
     };
 
