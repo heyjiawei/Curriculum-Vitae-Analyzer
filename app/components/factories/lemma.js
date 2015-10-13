@@ -102,6 +102,18 @@ angular.module('myApp.factories')
             return results;
         }
 
+        //split by commas
+        var parseInterests = function(sentenceArray) {
+            var results = [];
+            sentenceArray.forEach(
+                function (sentence) {
+                    var tokens = sentence.split(",");
+                    results = results.concat(tokens.map(Function.prototype.call, String.prototype.trim));
+                }
+            )
+            return results;
+        }
+
         //returns all the sentence splitted up by " "
         var parseLanguages = function (sentenceArray) {
             var results = [];
@@ -151,7 +163,8 @@ angular.module('myApp.factories')
         //console.log(parseEducationBackground(test));
         return {
             parse_education: parseEducationBackground,
-            parse_language: parseLanguages
+            parse_language: parseLanguages,
+            parse_interest: parseInterests
         }
     }
 )
