@@ -102,8 +102,9 @@ angular.module('myApp.factories')
             return results;
         }
 
-        //split by commas
-        var parseInterests = function(sentenceArray) {
+        //split by sentences, then commas within each sentence
+        //used for parsing of Skills too
+        var parseInterestsAndSkills = function(sentenceArray) {
             var results = [];
             sentenceArray.forEach(
                 function (sentence) {
@@ -164,7 +165,8 @@ angular.module('myApp.factories')
         return {
             parse_education: parseEducationBackground,
             parse_language: parseLanguages,
-            parse_interest: parseInterests
+            parse_interest: parseInterestsAndSkills,
+            parse_skills: parseInterestsAndSkills
         }
     }
 )
