@@ -84,8 +84,8 @@ angular.module('myApp.factories')
       // it's the only word in the line provided (?)
 
       var hasKeyWord = function (keyWord) {
-        var matchExactWordRegex = new RegExp("(?![\w])" + keyWord + "(?![\w])", "g");
-        return text.match(matchExactWordRegex);
+        var matchExactWordRegex = new RegExp("(?:^|\\s)" + keyWord.toLowerCase() + "(?=\\s|$)", "g");
+        return text.toLowerCase().match(matchExactWordRegex);
       };
       
       if(allHeadingKeywords.some(hasKeyWord)) {
