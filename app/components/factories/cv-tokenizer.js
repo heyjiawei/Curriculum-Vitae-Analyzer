@@ -53,9 +53,19 @@ angular.module('myApp.factories')
     function isHeading(text) {
       // determine how likely it is to be a heading
       // it's likely a heading, if
+      // it matches the heading keywords defined above
       // if it's all caps
       // it contains a ":" at the end
-      // it's the only word in the line provided
+      // it's the only word in the line provided (?)
+
+      var hasKeyWord = function (keyWord) {
+        var matchExactWordRegex = new RegExp("(?![\w])" + keyWord + "(?![\w])", "g");
+        return text.match(matchExactWordRegex);
+      };
+      
+      if(allHeadingKeywords.some(hasKeyWord)) {
+        return true;
+      }
 
       if(text === text.toUpperCase() || text.trim().slice(-1) == ":") {
         return true;
