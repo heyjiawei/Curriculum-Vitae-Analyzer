@@ -56,7 +56,20 @@ angular.module('myApp.view1', ['ngRoute', 'ngFileUpload'])
                   $scope.page1content += line + '\n';
                 });
               });
-              cvTokenizer.tokenizeCv(result);
+              var tokens = cvTokenizer.tokenizeCv(result);
+              console.log("tokens", tokens);
+
+              // TODO: Factor into CV handler method
+              var educationParsed = lemma.parse_education(tokens.education);
+              var languageParsed = lemma.parse_language(tokens.language);
+              var interestParsed = lemma.parse_interest(tokens.interest);
+              var skillParsed = lemma.parse_skills(tokens.skill);
+              var experienceParsed = lemma.parse_work(tokens.experience);
+              console.log("education", educationParsed);
+              console.log("language", languageParsed);
+              console.log("interest", interestParsed);
+              console.log("skill", skillParsed);
+              console.log("experience", experienceParsed);
             });
           });
       }
