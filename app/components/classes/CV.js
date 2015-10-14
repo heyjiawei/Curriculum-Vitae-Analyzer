@@ -5,4 +5,5 @@ function CV () {
     this.experience = [];
     this.interest = [];
     this.language = [];
+    this.id = [];
 }

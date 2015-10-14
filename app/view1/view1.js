@@ -63,6 +63,7 @@ angular.module('myApp.view1', ['ngRoute', 'ngFileUpload'])
               cvParsed.interest = lemma.parse_interest(tokens.interest);
               cvParsed.skill = lemma.parse_skills(tokens.skill);
               cvParsed.experience = lemma.parse_work(tokens.experience);
+              cvParsed.id = i;
               console.log("cv parsed", cvParsed);
               storageAccess.storeParsedCV(cvParsed);
               console.log(storageAccess.getAllCV());
