@@ -12,8 +12,33 @@ angular.module('myApp.factories')
         stemmedAllCv.push(stemCv(cv));
       });
 
+      stemmedAllCv.forEach(function(stemmedCv) {
+        // evaluate minimum requirements
+        var skillMatch = findMatchingWords(stemmedJobDescription.minRequirements, stemmedCv);
+        console.log("cv skill match", skillMatch);
+      });
 
+      var rankedCvs = [];
+
+      return rankedCvs;
     };
+
+    function findMatchingWords(source1, source2) {
+      var wordsOfSource1 = source1.join().split(" ");
+      var wordsOfSource2 = source2.join().split(" ");
+      var results = [];
+
+      for(var i = 0; i < wordsOfSource1.length; i++) {
+        //for each word, check the entire wordsOfSource2?
+        var hasKeyWord = function (keyWord) {
+          return wordsOfSource1[i].toLowerCase().indexOf(keyWord.toLowerCase()) >= 0;
+        };
+        if(wordsOfSource2.some(hasKeyWord)) {
+          results[hasKeyWord] = results[hasKeyWord] ? results[hasKeyWord]++ : 1;
+        }
+      }
+      return results;
+    }
 
     function stemCv(cv) {
       var stemmedCv = new CV();
