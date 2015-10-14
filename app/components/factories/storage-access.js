@@ -17,8 +17,8 @@ angular.module('myApp.factories')
 
 	// storing one by one or all at once?
 	var storeParsedCV = function(parsedCV) {
-		var cv = JSON.parse(parsedCV);
-		parsedCVs.push(cv);
+//		var cv = JSON.parse(parsedCV);
+		parsedCVs.push(parsedCV);
 	};
 
 

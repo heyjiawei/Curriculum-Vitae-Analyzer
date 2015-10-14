@@ -67,11 +67,15 @@ angular.module('myApp.view1', ['ngRoute', 'ngFileUpload'])
               var interestParsed = lemma.parse_interest(tokens.interest);
               var skillParsed = lemma.parse_skills(tokens.skill);
               var experienceParsed = lemma.parse_work(tokens.experience);
-              console.log("education", educationParsed);
-              console.log("language", languageParsed);
-              console.log("interest", interestParsed);
-              console.log("skill", skillParsed);
-              console.log("experience", experienceParsed);
+              var cvParsed = new CV();
+              cvParsed.education = educationParsed;
+              cvParsed.language = languageParsed;
+              cvParsed.interest = interestParsed;
+              cvParsed.skill = skillParsed;
+              cvParsed.experience = experienceParsed;
+              console.log("cv parsed", cvParsed);
+              storageAccess.storeParsedCV(cvParsed);
+              console.log(storageAccess.getAllCV());
             });
           });
       }
@@ -86,11 +90,16 @@ angular.module('myApp.view1', ['ngRoute', 'ngFileUpload'])
     var locationParsed = jobDescriptionParser.parse_location(tokens.location);
     var educationParsed = jobDescriptionParser.find_and_parse_education(tokens.minimumRequirement);
     var workTimeParsed = jobDescriptionParser.find_and_parse_work_time(tokens.minimumRequirement);
-    console.log("minimum requirements", minReqParsed);
-    console.log("preferred qualifications", skillsParsed);
-    console.log("location", locationParsed);
-    console.log("education", educationParsed);
-    console.log("worktime", workTimeParsed);
+    var jobDescParsed = new JobDescription();
+    jobDescParsed.minRequirements = minReqParsed;
+    jobDescParsed.skills = skillsParsed;
+    jobDescParsed.location = locationParsed;
+    jobDescParsed.education = educationParsed;
+    jobDescParsed.workExperienceTime = workTimeParsed;
+    // TODO: languages
+    console.log("job desc parsed", jobDescParsed);
+    storageAccess.setJobDescription(jobDescParsed);
+    console.log("job desc", jobDescParsed);
   };
 
   $scope.doProcess = function () {
