@@ -12,7 +12,7 @@ angular.module('myApp.view1', ['ngRoute', 'ngFileUpload'])
     });
   }])
 
-.controller('View1Ctrl', function($scope, fileReader, pdfReader, lemma, cvTokenizer, jobDescTokenizer, jobDescriptionParser, storageAccess) {
+.controller('View1Ctrl', function($scope, $q, fileReader, pdfReader, lemma, cvTokenizer, jobDescTokenizer, jobDescriptionParser, storageAccess) {
     $scope.fileNames = "";
     $scope.jobDescript = "";
 
@@ -44,36 +44,52 @@ angular.module('myApp.view1', ['ngRoute', 'ngFileUpload'])
   var processFiles = function (files) {
     $scope.fileNames = "";
     if (files && files.length) {
+      var promises = [];
       for (var i = 0; i < files.length; i++) {
         //console.log(files[i]);
         $scope.fileNames += files[i].name + "\n";
         $scope.showProgressBar = true;
-        fileReader.readAsDataUrl(files[i], $scope)
+
+        var readPdf = fileReader.readAsDataUrl(files[i], $scope)
           .then(function(result) {
-            pdfReader.getAllTextFromPdf(result).then(function(result) {
-              //console.log("final array of string", result);
-
-              var tokens = cvTokenizer.tokenizeCv(result);
-              //console.log("cv tokens", tokens);
-
-              // TODO: Factor into CV handler method
-              var cvParsed = new CV();
-              cvParsed.education = lemma.find_and_parse_education(tokens.education);
-              cvParsed.language = lemma.parse_language(tokens.language);
-              cvParsed.interest = lemma.parse_interest(tokens.interest);
-              cvParsed.skill = lemma.parse_skills(tokens.skill);
-              cvParsed.experience = lemma.parse_work(tokens.experience);
-              cvParsed.id = i;
-              //console.log("cv parsed", cvParsed);
-              storageAccess.storeParsedCV(cvParsed);
-              console.log(storageAccess.getAllCV());
+            return getAllTextFromPdf(result).then(function(allTextFromPdf) {
+              return allTextFromPdf;
             });
           });
+        promises.push(readPdf);
       }
+      return $q.all(promises).then(function(allCvParsed) {
+        console.log("all cv parsed promise", allCvParsed);
+        return allCvParsed;
+      });
     }
   };
 
+  function getAllTextFromPdf(result) {
+    return pdfReader.getAllTextFromPdf(result).then(function(result) {
+      console.log("final array of string", result);
+
+      var tokens = cvTokenizer.tokenizeCv(result);
+      console.log("cv tokens", tokens);
+
+      // TODO: Factor into CV handler method
+      var cvParsed = new CV();
+      cvParsed.education = lemma.find_and_parse_education(tokens.education);
+      cvParsed.language = lemma.parse_language(tokens.language);
+      cvParsed.interest = lemma.parse_interest(tokens.interest);
+      cvParsed.skill = lemma.parse_skills(tokens.skill);
+      cvParsed.experience = lemma.parse_work(tokens.experience);
+      console.log("cv parsed", cvParsed);
+      storageAccess.storeParsedCV(cvParsed);
+      console.log(storageAccess.getAllCV());
+
+      return cvParsed;
+    });
+  }
+
   var processJobDesc = function(jobDesc) {
+    var deferred = $q.defer();
+
     var tokens = jobDescTokenizer.tokenizeJobDesc(jobDesc);
     //console.log("job desc tokens", tokens);
 
@@ -87,10 +103,15 @@ angular.module('myApp.view1', ['ngRoute', 'ngFileUpload'])
     //console.log("job desc parsed", jobDescParsed);
     storageAccess.setJobDescription(jobDescParsed);
     console.log("job desc", jobDescParsed);
+    deferred.resolve(jobDescParsed);
+    return deferred.promise;
   };
 
   $scope.doProcess = function () {
-    processFiles($scope.files);
-    processJobDesc($scope.jobDescript);
+    var processJobDescPromise = processJobDesc($scope.jobDescript);
+    var processFilesPromise = processFiles($scope.files);
+    $q.all([processJobDescPromise, processFilesPromise]).then(function(jobDescAndFiles) {
+      console.log("THS IS THE END", jobDescAndFiles);
+    });
   };
 });
