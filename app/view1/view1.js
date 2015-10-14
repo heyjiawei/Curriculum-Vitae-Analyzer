@@ -59,7 +59,7 @@ angular.module('myApp.view1', ['ngRoute', 'ngFileUpload'])
                 });
               });
               var tokens = cvTokenizer.tokenizeCv(result);
-              console.log("tokens", tokens);
+              console.log("cv tokens", tokens);
 
               // TODO: Factor into CV handler method
               var educationParsed = lemma.find_and_parse_education(tokens.education);
@@ -80,7 +80,17 @@ angular.module('myApp.view1', ['ngRoute', 'ngFileUpload'])
 
   var processJobDesc = function(jobDesc) {
     var tokens = jobDescTokenizer.tokenizeJobDesc(jobDesc);
-    console.log("job desc processed", tokens);
+    console.log("job desc tokens", tokens);
+    var minReqParsed = jobDescriptionParser.parse_min_req(tokens.minimumRequirement);
+    var skillsParsed = jobDescriptionParser.parse_skills(tokens.preferredQualification); // TODO: parse from minreq as well
+    var locationParsed = jobDescriptionParser.parse_location(tokens.location);
+    var educationParsed = jobDescriptionParser.find_and_parse_education(tokens.minimumRequirement);
+    var workTimeParsed = jobDescriptionParser.find_and_parse_work_time(tokens.minimumRequirement);
+    console.log("minimum requirements", minReqParsed);
+    console.log("preferred qualifications", skillsParsed);
+    console.log("location", locationParsed);
+    console.log("education", educationParsed);
+    console.log("worktime", workTimeParsed);
   };
 
   $scope.doProcess = function () {
