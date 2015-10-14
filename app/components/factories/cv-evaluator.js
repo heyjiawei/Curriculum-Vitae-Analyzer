@@ -35,15 +35,17 @@ angular.module('myApp.factories')
         function findMatchingWords(source1, source2) {
             var wordsOfSource1 = source1.join(" ").split(" ");
             var wordsOfSource2 = source2.join(" ").split(" ");
+          console.log("1", wordsOfSource1, "2", wordsOfSource2);
             //results will contain all of the matched words between word source 1 and word source 2
             var results = [];
 
             for (var i = 0; i < wordsOfSource1.length; i++) {
                 //for each word, check the entire wordsOfSource2?
                 var hasKeyWord = function (keyWord) {
-                    return wordsOfSource1[i].toLowerCase().indexOf(keyWord.toLowerCase() > 0);
+                    return wordsOfSource1[i].toLowerCase().indexOf(keyWord.toLowerCase()) >= 0;
                 };
                 var matchedWords = wordsOfSource2.filter(hasKeyWord);
+              console.log("match?", matchedWords);
                 results = results.concat(matchedWords);
             }
             return results.length;
