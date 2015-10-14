@@ -13,7 +13,6 @@ angular.module('myApp.view1', ['ngRoute', 'ngFileUpload'])
   }])
 
 .controller('View1Ctrl', function($scope, fileReader, pdfReader, lemma, cvTokenizer, jobDescTokenizer, jobDescriptionParser, storageAccess) {
-    $scope.page1content = "No file opened.";
     $scope.fileNames = "";
     $scope.jobDescript = null;
 
@@ -53,11 +52,7 @@ angular.module('myApp.view1', ['ngRoute', 'ngFileUpload'])
           .then(function(result) {
             pdfReader.getAllTextFromPdf(result).then(function(result) {
               console.log("final array of string", result);
-              $scope.$apply(function() {
-                result.forEach(function(line) {
-                  $scope.page1content += line + '\n';
-                });
-              });
+
               var tokens = cvTokenizer.tokenizeCv(result);
               console.log("cv tokens", tokens);
 
@@ -103,7 +98,7 @@ angular.module('myApp.view1', ['ngRoute', 'ngFileUpload'])
   };
 
   $scope.doProcess = function () {
-    $scope.page1content = "";
+    console.log("stem", stemmer("considerations"));
     processFiles($scope.files);
     processJobDesc($scope.jobDescript);
   };
