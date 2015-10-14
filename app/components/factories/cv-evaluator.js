@@ -9,20 +9,25 @@ angular.module('myApp.factories')
             var stemmedJobDescription = stemJobDesc(jobDesc);
             var stemmedAllCv = allCv.map(function(cv) {return stemCv(cv);});
 
+            var rankedCvs = [];
             stemmedAllCv.forEach(function (stemmedCv) {
                 // evaluate minimum requirements
                 //to give different weightage
+                //parse essential skills and preferred skills for now
                 var essentialSkillsMatch = findMatchingWords(stemmedJobDescription.essentialSkills, stemmedCv.skill)
                     + findMatchingWords(stemmedJobDescription.essentialSkills, stemmedCV.experience);
                 console.log("cv essential skill match", essentialSkillsMatch);
 
                 var preferredSkillsMatch = findMatchingWords(stemmedJobDescription.preferredSkills, stemmedCV.skill)
                 + findMatchingWords(stemmedJobDescription.preferredSkills, stemmedCV.experience);
-                console.log("cv preferred skill match", essentialSkillsMatch);
+                console.log("cv preferred skill match", preferredSkillsMatch);
+                var result = {
+                    id: stemmedCv.id,
+                    score: essentialSkillsMatch + preferredSkillsMatch
+                }
+                rankedCvs.push(result);
             });
-
-            var rankedCvs = [];
-
+            console.log("ranked CVS", rankedCVs);
             return rankedCvs;
         };
 
@@ -36,7 +41,7 @@ angular.module('myApp.factories')
             for (var i = 0; i < wordsOfSource1.length; i++) {
                 //for each word, check the entire wordsOfSource2?
                 var hasKeyWord = function (keyWord) {
-                    return wordsOfSource1[i].toLowerCase() === keyWord.toLowerCase();
+                    return wordsOfSource1[i].toLowerCase().indexOf(keyWord.toLowerCase() > 0);
                 };
                 var matchedWords = wordsOfSource2.filter(hasKeyWord);
                 results = results.concat(matchedWords);
@@ -51,6 +56,7 @@ angular.module('myApp.factories')
             stemmedCv.interest = stem.stem(cv.interest);
             stemmedCv.skill = stem.stem(cv.skill);
             stemmedCv.experience = stem.stem(cv.experience);
+            stemmedCv.id = cv.id;
             return stemmedCv;
         }
 

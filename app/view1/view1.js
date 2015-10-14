@@ -16,20 +16,20 @@ angular.module('myApp.view1', ['ngRoute', 'ngFileUpload'])
     $scope.fileNames = "";
     $scope.jobDescript = "";
 
-    // TODO: Remove testing code
-    var education = ["(Phd.) Neuroscience, Nanyang Technological University, Singapore Jan 2014- Nov 2014 \
-      MSc Biomedical Engineering Nanyang Technological University, Singapore Aug 2010- July 2012 \
-      BE Biomedical Engineering Anna University, India Aug 2006 - May 2010"];
-    $scope.testEducation = lemma.find_and_parse_education(education);
-    var languages = ["Chinese Tamil Japanese"];
-    $scope.testLanguages = lemma.parse_language(languages);
-    var workExperience = ["Technical papers /Projects First place in paper presentation organized by Anna university Second place in the paper presentation at the inter-collegiate symposium Designed a system to use brain signals to control motor functions. Created a motion capture system for upper limb movement analysis for stroke patients"];
-    $scope.testWork = lemma.parse_work(workExperience);
-    console.log("education", $scope.testEducation);
-    console.log("languages", $scope.testLanguages);
-    console.log("work", $scope.testWork);
-      $scope.testJob = jobDescriptionParser.find_and_parse_work_time(["blah blah blah", "5 years experience"]);
-      console.log("job", $scope.testJob);
+    //// TODO: Remove testing code
+    //var education = ["(Phd.) Neuroscience, Nanyang Technological University, Singapore Jan 2014- Nov 2014 \
+    //  MSc Biomedical Engineering Nanyang Technological University, Singapore Aug 2010- July 2012 \
+    //  BE Biomedical Engineering Anna University, India Aug 2006 - May 2010"];
+    //$scope.testEducation = lemma.find_and_parse_education(education);
+    //var languages = ["Chinese Tamil Japanese"];
+    //$scope.testLanguages = lemma.parse_language(languages);
+    //var workExperience = ["Technical papers /Projects First place in paper presentation organized by Anna university Second place in the paper presentation at the inter-collegiate symposium Designed a system to use brain signals to control motor functions. Created a motion capture system for upper limb movement analysis for stroke patients"];
+    //$scope.testWork = lemma.parse_work(workExperience);
+    //console.log("education", $scope.testEducation);
+    //console.log("languages", $scope.testLanguages);
+    //console.log("work", $scope.testWork);
+    //  $scope.testJob = jobDescriptionParser.find_and_parse_work_time(["blah blah blah", "5 years experience"]);
+    //  console.log("job", $scope.testJob);
 
   $scope.$watch('file', function () {
     if ($scope.file != null) {
@@ -45,16 +45,16 @@ angular.module('myApp.view1', ['ngRoute', 'ngFileUpload'])
     $scope.fileNames = "";
     if (files && files.length) {
       for (var i = 0; i < files.length; i++) {
-        console.log(files[i]);
+        //console.log(files[i]);
         $scope.fileNames += files[i].name + "\n";
         $scope.showProgressBar = true;
         fileReader.readAsDataUrl(files[i], $scope)
           .then(function(result) {
             pdfReader.getAllTextFromPdf(result).then(function(result) {
-              console.log("final array of string", result);
+              //console.log("final array of string", result);
 
               var tokens = cvTokenizer.tokenizeCv(result);
-              console.log("cv tokens", tokens);
+              //console.log("cv tokens", tokens);
 
               // TODO: Factor into CV handler method
               var cvParsed = new CV();
@@ -64,7 +64,7 @@ angular.module('myApp.view1', ['ngRoute', 'ngFileUpload'])
               cvParsed.skill = lemma.parse_skills(tokens.skill);
               cvParsed.experience = lemma.parse_work(tokens.experience);
               cvParsed.id = i;
-              console.log("cv parsed", cvParsed);
+              //console.log("cv parsed", cvParsed);
               storageAccess.storeParsedCV(cvParsed);
               console.log(storageAccess.getAllCV());
             });
@@ -75,7 +75,7 @@ angular.module('myApp.view1', ['ngRoute', 'ngFileUpload'])
 
   var processJobDesc = function(jobDesc) {
     var tokens = jobDescTokenizer.tokenizeJobDesc(jobDesc);
-    console.log("job desc tokens", tokens);
+    //console.log("job desc tokens", tokens);
 
     var jobDescParsed = new JobDescription();
     jobDescParsed.essentialSkills = jobDescriptionParser.parse_min_req(tokens.minimumRequirement);
@@ -84,7 +84,7 @@ angular.module('myApp.view1', ['ngRoute', 'ngFileUpload'])
     jobDescParsed.education = jobDescriptionParser.find_and_parse_education(tokens.minimumRequirement);
     jobDescParsed.workExperienceTime = jobDescriptionParser.find_and_parse_work_time(tokens.minimumRequirement);
     // TODO: languages
-    console.log("job desc parsed", jobDescParsed);
+    //console.log("job desc parsed", jobDescParsed);
     storageAccess.setJobDescription(jobDescParsed);
     console.log("job desc", jobDescParsed);
   };
