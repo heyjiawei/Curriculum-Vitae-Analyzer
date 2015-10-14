@@ -26,7 +26,7 @@ angular.module('myApp.factories')
         var allTextFromPdf = [];
         var numPages = pdf.pdfInfo.numPages;
         var promises = [];
-        console.log("pages", numPages);
+        //console.log("pages", numPages);
         for (var i = 1; i <= numPages; i++) {
           promises.push(getTextFromPdfPage(i, pdf).then(function(textFromPdfPage) {
             return textFromPdfPage;
