@@ -7,7 +7,7 @@ angular.module('myApp.factories')
         //returns an array of result objects with institute, course, degree, date and grade fields
         var parseEducationBackground = function (sentenceArray) {
 
-            console.log(nlp.pos("1.5 years of experience"));
+            //console.log(nlp.pos("1.5 years of experience"));
             function Result() {
                 this.institute = [];
                 this.course = [];
