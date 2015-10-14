@@ -8,11 +8,11 @@ angular.module('myApp.factories')
             var results = [];
             sentenceArray.forEach(
                 function(sentence) {
-                    results.push(stemmer.stem(sentence));
+                    results.push(stemmer(sentence));
                 }
-            )
+            );
             return results;
-        }
+        };
         return {
             stem: stemSentence
         }
