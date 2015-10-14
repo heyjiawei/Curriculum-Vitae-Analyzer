@@ -14,7 +14,7 @@ angular.module('myApp.view1', ['ngRoute', 'ngFileUpload'])
 
 .controller('View1Ctrl', function($scope, fileReader, pdfReader, lemma, cvTokenizer, jobDescTokenizer, jobDescriptionParser, storageAccess) {
     $scope.fileNames = "";
-    $scope.jobDescript = null;
+    $scope.jobDescript = "";
 
     // TODO: Remove testing code
     var education = ["(Phd.) Neuroscience, Nanyang Technological University, Singapore Jan 2014- Nov 2014 \
@@ -57,17 +57,12 @@ angular.module('myApp.view1', ['ngRoute', 'ngFileUpload'])
               console.log("cv tokens", tokens);
 
               // TODO: Factor into CV handler method
-              var educationParsed = lemma.find_and_parse_education(tokens.education);
-              var languageParsed = lemma.parse_language(tokens.language);
-              var interestParsed = lemma.parse_interest(tokens.interest);
-              var skillParsed = lemma.parse_skills(tokens.skill);
-              var experienceParsed = lemma.parse_work(tokens.experience);
               var cvParsed = new CV();
-              cvParsed.education = educationParsed;
-              cvParsed.language = languageParsed;
-              cvParsed.interest = interestParsed;
-              cvParsed.skill = skillParsed;
-              cvParsed.experience = experienceParsed;
+              cvParsed.education = lemma.find_and_parse_education(tokens.education);
+              cvParsed.language = lemma.parse_language(tokens.language);
+              cvParsed.interest = lemma.parse_interest(tokens.interest);
+              cvParsed.skill = lemma.parse_skills(tokens.skill);
+              cvParsed.experience = lemma.parse_work(tokens.experience);
               console.log("cv parsed", cvParsed);
               storageAccess.storeParsedCV(cvParsed);
               console.log(storageAccess.getAllCV());
@@ -80,17 +75,13 @@ angular.module('myApp.view1', ['ngRoute', 'ngFileUpload'])
   var processJobDesc = function(jobDesc) {
     var tokens = jobDescTokenizer.tokenizeJobDesc(jobDesc);
     console.log("job desc tokens", tokens);
-    var minReqParsed = jobDescriptionParser.parse_min_req(tokens.minimumRequirement);
-    var skillsParsed = jobDescriptionParser.parse_skills(tokens.preferredQualification); // TODO: parse from minreq as well
-    var locationParsed = jobDescriptionParser.parse_location(tokens.location);
-    var educationParsed = jobDescriptionParser.find_and_parse_education(tokens.minimumRequirement);
-    var workTimeParsed = jobDescriptionParser.find_and_parse_work_time(tokens.minimumRequirement);
+
     var jobDescParsed = new JobDescription();
-    jobDescParsed.minRequirements = minReqParsed;
-    jobDescParsed.skills = skillsParsed;
-    jobDescParsed.location = locationParsed;
-    jobDescParsed.education = educationParsed;
-    jobDescParsed.workExperienceTime = workTimeParsed;
+    jobDescParsed.minRequirements = jobDescriptionParser.parse_min_req(tokens.minimumRequirement);
+    jobDescParsed.skills = jobDescriptionParser.parse_skills(tokens.preferredQualification); // TODO: parse from minreq as well
+    jobDescParsed.location = jobDescriptionParser.parse_location(tokens.location);
+    jobDescParsed.education = jobDescriptionParser.find_and_parse_education(tokens.minimumRequirement);
+    jobDescParsed.workExperienceTime = jobDescriptionParser.find_and_parse_work_time(tokens.minimumRequirement);
     // TODO: languages
     console.log("job desc parsed", jobDescParsed);
     storageAccess.setJobDescription(jobDescParsed);
@@ -98,7 +89,6 @@ angular.module('myApp.view1', ['ngRoute', 'ngFileUpload'])
   };
 
   $scope.doProcess = function () {
-    console.log("stem", stemmer("considerations"));
     processFiles($scope.files);
     processJobDesc($scope.jobDescript);
   };
