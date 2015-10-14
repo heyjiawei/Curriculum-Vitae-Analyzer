@@ -1,7 +1,7 @@
 function JobDescription() {
     this.education = [];
-    this.skills =[];
-    this.minRequirements = [];
+    this.preferredSkills =[];
+    this.essentialSkills = [];
     this.location=[];
     this.workExperienceTime = [];
     this.languages = [];

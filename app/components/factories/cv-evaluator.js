@@ -11,7 +11,7 @@ angular.module('myApp.factories')
 
             stemmedAllCv.forEach(function (stemmedCv) {
                 // evaluate minimum requirements
-                var skillMatch = findMatchingWords(stemmedJobDescription.minRequirements, stemmedCv);
+                var skillMatch = findMatchingWords(stemmedJobDescription.essentialSkills, stemmedCv);
                 console.log("cv skill match", skillMatch);
             });
 
@@ -50,8 +50,8 @@ angular.module('myApp.factories')
 
         function stemJobDesc(jobDesc) {
             var stemmedJobDescription = new JobDescription();
-            stemmedJobDescription.minRequirements = stem.stem(jobDesc.minRequirements);
-            stemmedJobDescription.skills = stem.stem(jobDesc.skills);
+            stemmedJobDescription.essentialSkills = stem.stem(jobDesc.essentialSkills);
+            stemmedJobDescription.preferredSkills = stem.stem(jobDesc.preferredSkills);
             stemmedJobDescription.location = stem.stem(jobDesc.location);
             stemmedJobDescription.education = stem.stem(jobDesc.education);
             stemmedJobDescription.workExperienceTime = stem.stem(jobDesc.workExperienceTime);

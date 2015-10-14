@@ -4,7 +4,7 @@ angular.module('myApp.factories')
   // TODO: REFACTOR INTO A GENERIC TOKENIZER CLASS, USED BY BOTH CV AND JOB DESC
 .factory('jobDescTokenizer', function() {
     // education “bachelor”, min req, skill
-    // (preferred qualifications. responsibilities comes under skills),
+    // (preferred qualifications. responsibilities comes under preferredSkills),
     // location, work experience (time), languages
 
     var responsibilityKeywords = ["responsibilities", "job scope"];

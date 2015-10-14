@@ -77,8 +77,8 @@ angular.module('myApp.view1', ['ngRoute', 'ngFileUpload'])
     console.log("job desc tokens", tokens);
 
     var jobDescParsed = new JobDescription();
-    jobDescParsed.minRequirements = jobDescriptionParser.parse_min_req(tokens.minimumRequirement);
-    jobDescParsed.skills = jobDescriptionParser.parse_skills(tokens.preferredQualification); // TODO: parse from minreq as well
+    jobDescParsed.essentialSkills = jobDescriptionParser.parse_min_req(tokens.minimumRequirement);
+    jobDescParsed.preferredSkills = jobDescriptionParser.parse_skills(tokens.preferredQualification); // TODO: parse from minreq as well
     jobDescParsed.location = jobDescriptionParser.parse_location(tokens.location);
     jobDescParsed.education = jobDescriptionParser.find_and_parse_education(tokens.minimumRequirement);
     jobDescParsed.workExperienceTime = jobDescriptionParser.find_and_parse_work_time(tokens.minimumRequirement);
