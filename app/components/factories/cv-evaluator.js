@@ -11,8 +11,14 @@ angular.module('myApp.factories')
 
             stemmedAllCv.forEach(function (stemmedCv) {
                 // evaluate minimum requirements
-                var skillMatch = findMatchingWords(stemmedJobDescription.essentialSkills, stemmedCv);
-                console.log("cv skill match", skillMatch);
+                //to give different weightage
+                var essentialSkillsMatch = findMatchingWords(stemmedJobDescription.essentialSkills, stemmedCv.skill)
+                    + findMatchingWords(stemmedJobDescription.essentialSkills, stemmedCV.experience);
+                console.log("cv essential skill match", essentialSkillsMatch);
+
+                var preferredSkillsMatch = findMatchingWords(stemmedJobDescription.preferredSkills, stemmedCV.skill)
+                + findMatchingWords(stemmedJobDescription.preferredSkills, stemmedCV.experience);
+                console.log("cv preferred skill match", essentialSkillsMatch);
             });
 
             var rankedCvs = [];
