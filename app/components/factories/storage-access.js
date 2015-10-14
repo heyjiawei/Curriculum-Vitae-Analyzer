@@ -25,7 +25,7 @@ angular.module('myApp.factories')
 	/** ----- STORAGE RETRIEVAL ----- */
 
 	var getJobDescription = function() {
-		return jobDecription;
+		return jobDescription;
 	};
 
 	var getAllCV = function() {

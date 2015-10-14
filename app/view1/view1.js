@@ -12,7 +12,8 @@ angular.module('myApp.view1', ['ngRoute', 'ngFileUpload'])
     });
   }])
 
-.controller('View1Ctrl', function($scope, $q, fileReader, pdfReader, lemma, cvTokenizer, jobDescTokenizer, jobDescriptionParser, storageAccess) {
+.controller('View1Ctrl', function($scope, $q, fileReader, pdfReader, lemma, cvTokenizer,
+                                  jobDescTokenizer, jobDescriptionParser, cvEvaluator, storageAccess) {
     $scope.fileNames = "";
     $scope.jobDescript = "";
 
@@ -46,13 +47,12 @@ angular.module('myApp.view1', ['ngRoute', 'ngFileUpload'])
     if (files && files.length) {
       var promises = [];
       for (var i = 0; i < files.length; i++) {
-        //console.log(files[i]);
         $scope.fileNames += files[i].name + "\n";
         $scope.showProgressBar = true;
 
         var readPdf = fileReader.readAsDataUrl(files[i], $scope)
-          .then(function(result) {
-            return getAllTextFromPdf(result).then(function(allTextFromPdf) {
+          .then(function(pdf) {
+            return getAllTextFromPdf(pdf).then(function(allTextFromPdf) {
               return allTextFromPdf;
             });
           });
@@ -65,8 +65,8 @@ angular.module('myApp.view1', ['ngRoute', 'ngFileUpload'])
     }
   };
 
-  function getAllTextFromPdf(result) {
-    return pdfReader.getAllTextFromPdf(result).then(function(result) {
+  function getAllTextFromPdf(pdf) {
+    return pdfReader.getAllTextFromPdf(pdf).then(function(result) {
       console.log("final array of string", result);
 
       var tokens = cvTokenizer.tokenizeCv(result);

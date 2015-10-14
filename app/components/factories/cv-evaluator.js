@@ -15,19 +15,19 @@ angular.module('myApp.factories')
                 //to give different weightage
                 //parse essential skills and preferred skills for now
                 var essentialSkillsMatch = findMatchingWords(stemmedJobDescription.essentialSkills, stemmedCv.skill)
-                    + findMatchingWords(stemmedJobDescription.essentialSkills, stemmedCV.experience);
+                    + findMatchingWords(stemmedJobDescription.essentialSkills, stemmedCv.experience);
                 console.log("cv essential skill match", essentialSkillsMatch);
 
-                var preferredSkillsMatch = findMatchingWords(stemmedJobDescription.preferredSkills, stemmedCV.skill)
-                + findMatchingWords(stemmedJobDescription.preferredSkills, stemmedCV.experience);
+                var preferredSkillsMatch = findMatchingWords(stemmedJobDescription.preferredSkills, stemmedCv.skill)
+                + findMatchingWords(stemmedJobDescription.preferredSkills, stemmedCv.experience);
                 console.log("cv preferred skill match", preferredSkillsMatch);
                 var result = {
                     id: stemmedCv.id,
                     score: essentialSkillsMatch + preferredSkillsMatch
-                }
+                };
                 rankedCvs.push(result);
             });
-            console.log("ranked CVS", rankedCVs);
+            console.log("ranked CVS", rankedCvs);
             return rankedCvs;
         };
 
@@ -51,7 +51,7 @@ angular.module('myApp.factories')
 
         function stemCv(cv) {
             var stemmedCv = new CV();
-            stemmedCv.education = stem.stem(cv.education);
+//            stemmedCv.education = stem.stem(cv.education);
             stemmedCv.language = stem.stem(cv.language);
             stemmedCv.interest = stem.stem(cv.interest);
             stemmedCv.skill = stem.stem(cv.skill);
@@ -66,7 +66,7 @@ angular.module('myApp.factories')
             stemmedJobDescription.preferredSkills = stem.stem(jobDesc.preferredSkills);
             stemmedJobDescription.location = stem.stem(jobDesc.location);
             stemmedJobDescription.education = stem.stem(jobDesc.education);
-            stemmedJobDescription.workExperienceTime = stem.stem(jobDesc.workExperienceTime);
+//            stemmedJobDescription.workExperienceTime = stem.stem(jobDesc.workExperienceTime);
             return stemmedJobDescription;
         }
 
