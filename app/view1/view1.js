@@ -112,6 +112,8 @@ angular.module('myApp.view1', ['ngRoute', 'ngFileUpload'])
     var processFilesPromise = processFiles($scope.files);
     $q.all([processJobDescPromise, processFilesPromise]).then(function(jobDescAndFiles) {
       console.log("THS IS THE END", jobDescAndFiles);
+      var allParsedCvs = jobDescAndFiles[1];
+      cvEvaluator.evaluateCV(allParsedCvs);
     });
   };
 });
