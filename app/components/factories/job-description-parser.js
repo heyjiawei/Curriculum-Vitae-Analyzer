@@ -5,19 +5,25 @@ angular.module('myApp.factories')
     .factory('jobDescriptionParser', function (nlp) {
 
         //use named-entity recognition to pick keywords
+        //returns the keywords with its corresponding number of occurrences
         var findKeywords = function (sentenceArray) {
-            var results = [];
+            var keyWords = [];
             sentenceArray.forEach(
                 function (sentence) {
                     var tokens = nlp.spot(sentence);
-                    results = results.concat(tokens.map(function(token) { return token.analysis.singularize(); } ))
+                    keyWords = keyWords.concat(tokens.map(function(token) { return token.analysis.singularize(); } ))
                     //because nlp library will not pick up the word research, which is quite important
                     if (sentence.toLowerCase().indexOf("research") >= 0) {
-                        results.push("research");
+                        keyWords.push("research");
                     }
                 }
             )
-
+            console.log("sentence", keyWords);
+            //count number of each words
+            var results = { };
+            for (var i = 0; i < keyWords.length; i++) {
+                results[keyWords[i]] = (results[keyWords[i]] || 0) + 1;
+            }
             return results;
         }
 
