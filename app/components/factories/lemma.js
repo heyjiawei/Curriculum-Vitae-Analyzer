@@ -26,7 +26,6 @@ angular.module('myApp.factories')
                 function (sentence) {
                     //assume 1 sentence
                     var tokens = nlp.pos(sentence).sentences[0].tokens;
-                    console.log("tokens", tokens);
                     tokens.forEach(
                         function (token) {
                             var hasKeyWord = function (keyWord) {
@@ -122,13 +121,11 @@ angular.module('myApp.factories')
                     }
                 }
             )
-            console.log("keywords", keyWords);
             //count number of each words
             var results = { };
             for (var i = 0; i < keyWords.length; i++) {
                 results[keyWords[i]] = (results[keyWords[i]] || 0) + 1;
             }
-            console.log("parseParse", results);
             return results;
         }
 

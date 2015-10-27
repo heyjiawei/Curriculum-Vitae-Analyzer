@@ -70,7 +70,7 @@ angular.module('myApp.factories')
             stemmedJobDescription.preferredSkills = stem.stemKeyWords(jobDesc.preferredSkills);
             stemmedJobDescription.location = stem.stem(jobDesc.location);
             stemmedJobDescription.education = stem.stem(jobDesc.education);
-//            stemmedJobDescription.workExperienceTime = stem.stem(jobDesc.workExperienceTime);
+            stemmedJobDescription.workExperienceTime = stem.stem(jobDesc.workExperienceTime);
             return stemmedJobDescription;
         }
 

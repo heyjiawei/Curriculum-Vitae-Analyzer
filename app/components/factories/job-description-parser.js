@@ -18,7 +18,7 @@ angular.module('myApp.factories')
                     }
                 }
             )
-            console.log("sentence", keyWords);
+            //console.log("sentence", keyWords);
             //count number of each words
             var results = { };
             for (var i = 0; i < keyWords.length; i++) {
