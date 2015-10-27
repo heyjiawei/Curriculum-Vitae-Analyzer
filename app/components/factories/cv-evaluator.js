@@ -17,19 +17,19 @@ angular.module('myApp.factories')
                 //to give different weightage
                 //parse essential skills and preferred skills for now
                 var essentialSkillsMatch = findMatchingWords(stemmedJobDescription.essentialSkills, stemmedCv.skill)
-                    + findMatchingWords(stemmedJobDescription.essentialSkills, stemmedCV.experience);
+                    + findMatchingWords(stemmedJobDescription.essentialSkills, stemmedCv.experience);
                 console.log("cv essential skill match", essentialSkillsMatch);
 
-                var preferredSkillsMatch = findMatchingWords(stemmedJobDescription.preferredSkills, stemmedCV.skill)
-                + findMatchingWords(stemmedJobDescription.preferredSkills, stemmedCV.experience);
+                var preferredSkillsMatch = findMatchingWords(stemmedJobDescription.preferredSkills, stemmedCv.skill)
+                + findMatchingWords(stemmedJobDescription.preferredSkills, stemmedCv.experience);
                 console.log("cv preferred skill match", preferredSkillsMatch);
                 var result = {
                     id: stemmedCv.id,
                     score: essentialSkillsMatch + preferredSkillsMatch
-                }
+                };
                 rankedCvs.push(result);
             });
-            console.log("ranked CVS", rankedCVs);
+            console.log("ranked CVS", rankedCvs);
             return rankedCvs;
         };
 
@@ -37,15 +37,17 @@ angular.module('myApp.factories')
         function findMatchingWords(source1, source2) {
             var wordsOfSource1 = source1.join(" ").split(" ");
             var wordsOfSource2 = source2.join(" ").split(" ");
+          console.log("1", wordsOfSource1, "2", wordsOfSource2);
             //results will contain all of the matched words between word source 1 and word source 2
             var results = [];
 
             for (var i = 0; i < wordsOfSource1.length; i++) {
                 //for each word, check the entire wordsOfSource2?
                 var hasKeyWord = function (keyWord) {
-                    return wordsOfSource1[i].toLowerCase().indexOf(keyWord.toLowerCase() > 0);
+                    return wordsOfSource1[i].toLowerCase().indexOf(keyWord.toLowerCase()) >= 0;
                 };
                 var matchedWords = wordsOfSource2.filter(hasKeyWord);
+              console.log("match?", matchedWords);
                 results = results.concat(matchedWords);
             }
             return results.length;
@@ -53,7 +55,7 @@ angular.module('myApp.factories')
 
         function stemCv(cv) {
             var stemmedCv = new CV();
-            stemmedCv.education = stem.stem(cv.education);
+//            stemmedCv.education = stem.stem(cv.education);
             stemmedCv.language = stem.stem(cv.language);
             stemmedCv.interest = stem.stem(cv.interest);
             stemmedCv.skill = stem.stem(cv.skill);
@@ -68,7 +70,7 @@ angular.module('myApp.factories')
             stemmedJobDescription.preferredSkills = stem.stemKeyWords(jobDesc.preferredSkills);
             stemmedJobDescription.location = stem.stem(jobDesc.location);
             stemmedJobDescription.education = stem.stem(jobDesc.education);
-            stemmedJobDescription.workExperienceTime = stem.stem(jobDesc.workExperienceTime);
+//            stemmedJobDescription.workExperienceTime = stem.stem(jobDesc.workExperienceTime);
             return stemmedJobDescription;
         }
 
