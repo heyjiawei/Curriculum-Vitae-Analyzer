@@ -9,99 +9,54 @@ angular.module('myApp.factories')
 
             //console.log(nlp.pos("1.5 years of experience"));
             function Result() {
-                this.institute = [];
-                this.course = [];
-                this.degree = [];
-                this.date = [];
-                this.grade = [];
+                this.keywords = [];
+                this.degree = 0;
             };
-            var results = [];
-            var instituteKeyWords = ["college", "university", "institute"];
-            var courseKeyWords = ["computer", "computing", "engineering", "information technology", "physics", "it", "neuroscience"];
-            var degreeKeyWords = ["bachelor's", "bachelor", "bsc", "master", "master's", "phd", "ph.d", "degree", "mscs", "msc", "be", "diploma"];
-            var gradeKeyWords = ["grade:", "cap", "gpa"];
-            var prev = null;
-            var result = new Result();
-            sentenceArray.forEach(
-                function (sentence) {
-                    //assume 1 sentence
-                    var tokens = nlp.pos(sentence).sentences[0].tokens;
-                    tokens.forEach(
-                        function (token) {
-                            var hasKeyWord = function (keyWord) {
-                                return token.text.toLowerCase().indexOf(keyWord) >= 0;
-                            };
-                            if (token.pos.tag === "NN" || token.pos.tag === "PRP") {
-                                var isGrade = gradeKeyWords.some(hasKeyWord);
-                                var isInstitute = instituteKeyWords.some(hasKeyWord);
-                                var isCourse = courseKeyWords.some(hasKeyWord);
-                                var isDegree = degreeKeyWords.some(hasKeyWord);
-                                var idk = !(isInstitute || isCourse || isDegree || isGrade);
-                                if (isInstitute || (idk && prev === "institute")) {
-                                    if (prev !== "institute" && result.institute.length > 0) {
-                                        results.push(result);
-                                        result = new Result();
-                                    }
-                                    result.institute.push(token.text);
-                                    prev = "institute"
-                                } else if (isCourse || (idk && prev === "course")) {
-                                    if (prev !== "course" && result.course.length > 0) {
-                                        results.push(result);
-                                        result = new Result();
-                                    }
-                                    result.course.push(token.text);
-                                    prev = "course"
-                                } else if (isDegree || (idk && prev === "degree")) {
-                                    if (prev !== "degree" && result.degree.length > 0) {
-                                        results.push(result);
-                                        result = new Result();
-                                    }
-                                    result.degree.push(token.text);
-                                    prev = "degree"
-                                } else if (isGrade) {
-                                    if (prev !== "grade" && result.grade.length > 0) {
-                                        results.push(result);
-                                        result = new Result();
-                                    }
-                                    prev = "grade"
-                                } else {
-                                    result.institute.push(token.text);
-                                    prev = "institute"
-                                }
-                            } else if (token.pos.tag === "CD") {
-                                //we have a number
-                                if (prev == "grade") {
-                                    result.grade.push(token.text);
-                                } else {
-                                    if (prev !== "date" && result.date.length > 0) {
-                                        results.push(result);
-                                        result = new Result();
-                                    }
-                                    result.date.push(token.text);
-                                    prev = "date"
-                                }
-                            } else if (token.pos.tag == "UH") {
-                                //for symbol
-                            } else {
-                                //push into the same place as the last pushed place
-                                if (prev === "course") {
-                                    result.course.push(token.text);
-                                } else if (prev === "degree") {
-                                    result.degree.push(token.text);
-                                } else if (prev === "grade") {
-                                    result.grade.push(token.text);
-                                } else if (prev === "date") {
-                                    result.date.push(token.text);
-                                } else {
-                                    result.institute.push(token.text);
-                                }
-                            }
+            var diplomaKeyWords = ["diploma"];
+            var bachelorKeyWords = ["bachelor's", "bachelor", "bsc", "be"];
+            var masterKeyWords =  ["master", "master's", "mscs", "msc"];
+            var phdKeyWords = ["phd", "ph.d", "doctorate"];
+            //for categorising degree
+            var degreeKeyWordsArray = [ phdKeyWords, masterKeyWords, bachelorKeyWords, diplomaKeyWords];
+            //takes in an array of keywords in degree
+            //return to see what degree it is
+            //not found: 0, diploma: 1, bachelor: 2, master: 3, phd: 4
+            var categoriseDegree = function(keywords) {
+                for (var i = 0; i < degreeKeyWordsArray.length; i++) {
+                    var currentKeyWords = degreeKeyWordsArray[i];
+                    for (var j = 0; j < currentKeyWords.length; j++) {
+                        if (keywords.indexOf(currentKeyWords[j]) > -1) {
+                            //we found keyword, return integer representing degree
+                            return degreeKeyWordsArray.length - i;
                         }
-                    )
-                    results.push(result);
+                    }
                 }
-            )
-            return results;
+                //not found, return 0
+                return 0;
+            }
+
+            var result = new Result();
+            sentenceArray.forEach(function(sentence) {
+                //find degree
+                var degree = categoriseDegree(sentence.split(" "));
+                //update degree if it is larger
+                if (degree > result.degree) {
+                    result.degree = degree;
+                }
+                var tokens = nlp.spot(sentence);
+                //get keywords (for subject), push into keyword
+                tokens.forEach(
+                    function(token) {
+                        result.keywords.push(token.analysis.singularize());
+                    }
+                )
+                if (sentence.toLowerCase().indexOf("IT") >= 0) {
+                    results.push("IT");
+                }
+            });
+
+
+            return result;
         }
 
         //get keywords from work experience
