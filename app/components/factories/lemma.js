@@ -28,20 +28,13 @@ angular.module('myApp.factories')
             //return to see what degree it is
             //not found: 0, diploma: 1, bachelor: 2, master: 3, phd: 4
             var categoriseDegree = function (keywords) {
-                console.log ("word we are finding", keywords);
                 for (var i = 0; i < allDegreeKeyWordsArray.length; i++) {
                     var degreeKeyWords = allDegreeKeyWordsArray[i];
                     for (var j = 0; j < degreeKeyWords.length; j++) {
-                        var lowerKeywords = keywords.map (function(value) {
-                            return value.toLowerCase();
-                        })
-                        //
-                        if (lowerKeywords.indexOf(degreeKeyWords[j]) > -1) {
+                        if (keywords.toLowerCase().indexOf(degreeKeyWords[j]) > -1) {
                             //we found keyword, return integer representing degree
-                            console.log("found", degreeKeyWords[j]);
                             return allDegreeKeyWordsArray.length - i;
                         }
-                        console.log("not found");
                     }
                 }
                 //not found, return 0
@@ -50,7 +43,7 @@ angular.module('myApp.factories')
             //find degree
             sentenceArray.forEach(function (sentence) {
                 //find degree
-                var degree = categoriseDegree(sentence.split(" "));
+                var degree = categoriseDegree(sentence);
                 //update degree if it is larger
                 if (degree > result) {
                     result = degree;

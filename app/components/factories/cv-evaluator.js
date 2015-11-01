@@ -56,12 +56,15 @@ angular.module('myApp.factories')
 
         function stemCv(cv) {
             var stemmedCv = new CV();
-//            stemmedCv.education = stem.stem(cv.education);
+            //need to stem keys only if needed
+            stemmedCv.education = cv.education;
+            stemmedCv.education.keywords = stem.stemKeyWords(stemmedCv.education.keywords);
             stemmedCv.language = stem.stem(cv.language);
             stemmedCv.interest = stem.stem(cv.interest);
             stemmedCv.skill = stem.stem(cv.skill);
             stemmedCv.experience = stem.stemKeyWords(cv.experience);
             stemmedCv.id = cv.id;
+            console.log(stemmedCv);
             return stemmedCv;
         }
 
@@ -69,9 +72,11 @@ angular.module('myApp.factories')
             var stemmedJobDescription = new JobDescription();
             stemmedJobDescription.essentialSkills = stem.stemKeyWords(jobDesc.essentialSkills);
             stemmedJobDescription.preferredSkills = stem.stemKeyWords(jobDesc.preferredSkills);
-            stemmedJobDescription.location = stem.stem(jobDesc.location);
-            stemmedJobDescription.education = stem.stem(jobDesc.education);
-            stemmedJobDescription.workExperienceTime = stem.stem(jobDesc.workExperienceTime);
+            stemmedJobDescription.location = jobDesc.location;
+            stemmedJobDescription.education = jobDesc.education;
+            stemmedJobDescription.education.keywords = stem.stemKeyWords(stemmedJobDescription.education.keywords);
+            stemmedJobDescription.workExperienceTime = jobDesc.workExperienceTime;
+            console.log(stemmedJobDescription);
             return stemmedJobDescription;
         }
 
