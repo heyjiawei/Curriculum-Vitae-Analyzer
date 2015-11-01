@@ -15,22 +15,8 @@ angular.module('myApp.view1', ['ngRoute', 'ngFileUpload'])
 .controller('View1Ctrl', function($scope, fileReader, pdfReader, lemma, cvTokenizer, jobDescTokenizer, jobDescriptionParser, storageAccess) {
     $scope.page1content = "No file opened.";
     $scope.fileNames = "";
-    $scope.jobDescript = null;
-
-    // TODO: Remove testing code
-    var education = ["(Phd.) Neuroscience, Nanyang Technological University, Singapore Jan 2014- Nov 2014 \
-      MSc Biomedical Engineering Nanyang Technological University, Singapore Aug 2010- July 2012 \
-      BE Biomedical Engineering Anna University, India Aug 2006 - May 2010"];
-    $scope.testEducation = lemma.find_and_parse_education(education);
-    var languages = ["Chinese Tamil Japanese"];
-    $scope.testLanguages = lemma.parse_language(languages);
-    var workExperience = ["Technical papers /Projects First place in paper presentation organized by Anna university Second place in the paper presentation at the inter-collegiate symposium Designed a system to use brain signals to control motor functions. Created a motion capture system for upper limb movement analysis for stroke patients"];
-    $scope.testWork = lemma.parse_work(workExperience);
-    console.log("education", $scope.testEducation);
-    console.log("languages", $scope.testLanguages);
-    console.log("work", $scope.testWork);
-      $scope.testJob = jobDescriptionParser.find_and_parse_work_time(["blah blah blah", "5 years experience"]);
-      console.log("job", $scope.testJob);
+    $scope.jobDescript = "";
+    $scope.results = {};
 
   $scope.$watch('file', function () {
     if ($scope.file != null) {
@@ -100,6 +86,7 @@ angular.module('myApp.view1', ['ngRoute', 'ngFileUpload'])
     console.log("job desc parsed", jobDescParsed);
     storageAccess.setJobDescription(jobDescParsed);
     console.log("job desc", jobDescParsed);
+    return jobDescParsed;
   };
 
   $scope.doProcess = function () {
