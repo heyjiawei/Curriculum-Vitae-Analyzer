@@ -59,38 +59,42 @@ angular.module('myApp.factories')
             return result;
         }
 
-        //get keywords from work experience
-        var parseWorkExperience = function(sentenceArray) {
-            var results = [];
+        //get keywords
+        //returns the keywords with its corresponding number of occurrences
+        var getNamedEntities = function(sentenceArray) {
+            var keyWords = [];
             sentenceArray.forEach(
                 function (sentence) {
                     var tokens = nlp.spot(sentence);
-                    tokens.forEach(
-                        function(token) {
-                            results.push(token.analysis.singularize());
-                        }
-                    )
+                    var singularisedTokens = tokens.map(function(token) {
+                        return token.analysis.singularize();
+                    });
+                    Array.prototype.push.apply(keyWords,singularisedTokens);
                     //because nlp library will not pick up the word research, which is quite important
                     if (sentence.toLowerCase().indexOf("research") >= 0) {
-                        results.push("research");
+                        keyWords.push("research");
                     }
                 }
             )
-
+            //count number of each words
+            var results = { };
+            for (var i = 0; i < keyWords.length; i++) {
+                results[keyWords[i]] = (results[keyWords[i]] || 0) + 1;
+            }
             return results;
         }
 
         //split by sentences, then commas within each sentence
         //used for parsing of Skills too
         var parseInterestsAndSkills = function(sentenceArray) {
-            var results = [];
+            var keyWords = [];
             sentenceArray.forEach(
                 function (sentence) {
                     var tokens = sentence.split(",");
-                    results = results.concat(tokens.map(Function.prototype.call, String.prototype.trim));
+                    keyWords = keyWords.concat(tokens.map(Function.prototype.call, String.prototype.trim));
                 }
             )
-            return results;
+            return keyWords;
         }
 
         //returns all the sentence splitted up by " "
@@ -112,7 +116,8 @@ angular.module('myApp.factories')
             parse_language: parseLanguages,
             parse_interest: parseInterestsAndSkills,
             parse_skills: parseInterestsAndSkills,
-            parse_work: parseWorkExperience
+            parse_work: getNamedEntities,
+            parse_research: getNamedEntities
         }
     }
 )

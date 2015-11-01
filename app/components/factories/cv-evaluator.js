@@ -10,6 +10,8 @@ angular.module('myApp.factories')
             var stemmedAllCv = allCv.map(function(cv) {return stemCv(cv);});
 
             var rankedCvs = [];
+            //to change to suit new structure of cv
+            //essential and preferredSkills is now an array of objects, where the key is the name of the skill, and value is the priority
             stemmedAllCv.forEach(function (stemmedCv) {
                 // evaluate minimum requirements
                 //to give different weightage
@@ -57,18 +59,18 @@ angular.module('myApp.factories')
             stemmedCv.language = stem.stem(cv.language);
             stemmedCv.interest = stem.stem(cv.interest);
             stemmedCv.skill = stem.stem(cv.skill);
-            stemmedCv.experience = stem.stem(cv.experience);
+            stemmedCv.experience = stem.stemKeyWords(cv.experience);
             stemmedCv.id = cv.id;
             return stemmedCv;
         }
 
         function stemJobDesc(jobDesc) {
             var stemmedJobDescription = new JobDescription();
-            stemmedJobDescription.essentialSkills = stem.stem(jobDesc.essentialSkills);
-            stemmedJobDescription.preferredSkills = stem.stem(jobDesc.preferredSkills);
+            stemmedJobDescription.essentialSkills = stem.stemKeyWords(jobDesc.essentialSkills);
+            stemmedJobDescription.preferredSkills = stem.stemKeyWords(jobDesc.preferredSkills);
             stemmedJobDescription.location = stem.stem(jobDesc.location);
             stemmedJobDescription.education = stem.stem(jobDesc.education);
-//            stemmedJobDescription.workExperienceTime = stem.stem(jobDesc.workExperienceTime);
+            stemmedJobDescription.workExperienceTime = stem.stem(jobDesc.workExperienceTime);
             return stemmedJobDescription;
         }
 
