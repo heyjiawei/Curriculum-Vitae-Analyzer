@@ -64,7 +64,7 @@ angular.module('myApp.factories')
             stemmedCv.skill = stem.stem(cv.skill);
             stemmedCv.experience = stem.stemKeyWords(cv.experience);
             stemmedCv.id = cv.id;
-            console.log(stemmedCv);
+            console.log("stemmed cv", stemmedCv);
             return stemmedCv;
         }
 
@@ -76,7 +76,7 @@ angular.module('myApp.factories')
             stemmedJobDescription.education = jobDesc.education;
             stemmedJobDescription.education.keywords = stem.stemKeyWords(stemmedJobDescription.education.keywords);
             stemmedJobDescription.workExperienceTime = jobDesc.workExperienceTime;
-            console.log(stemmedJobDescription);
+            console.log("stemmed job desc", stemmedJobDescription);
             return stemmedJobDescription;
         }
 
