@@ -12,24 +12,25 @@ angular.module('myApp.factories')
             var rankedCvs = [];
             //to change to suit new structure of cv
             //essential and preferredSkills is now an array of objects, where the key is the name of the skill, and value is the priority
-            stemmedAllCv.forEach(function (stemmedCv) {
-                // evaluate minimum requirements
-                //to give different weightage
-                //parse essential skills and preferred skills for now
-                var essentialSkillsMatch = findMatchingWords(stemmedJobDescription.essentialSkills, stemmedCv.skill)
-                    + findMatchingWords(stemmedJobDescription.essentialSkills, stemmedCv.experience);
-                console.log("cv essential skill match", essentialSkillsMatch);
-
-                var preferredSkillsMatch = findMatchingWords(stemmedJobDescription.preferredSkills, stemmedCv.skill)
-                + findMatchingWords(stemmedJobDescription.preferredSkills, stemmedCv.experience);
-                console.log("cv preferred skill match", preferredSkillsMatch);
-                var result = {
-                    id: stemmedCv.id,
-                    score: essentialSkillsMatch + preferredSkillsMatch
-                };
-                rankedCvs.push(result);
-            });
-            console.log("ranked CVS", rankedCvs);
+            //TODO: adapt this to new format
+            //stemmedAllCv.forEach(function (stemmedCv) {
+            //    // evaluate minimum requirements
+            //    //to give different weightage
+            //    //parse essential skills and preferred skills for now
+            //    var essentialSkillsMatch = findMatchingWords(stemmedJobDescription.essentialSkills, stemmedCv.skill)
+            //        + findMatchingWords(stemmedJobDescription.essentialSkills, stemmedCv.experience);
+            //    console.log("cv essential skill match", essentialSkillsMatch);
+            //
+            //    var preferredSkillsMatch = findMatchingWords(stemmedJobDescription.preferredSkills, stemmedCv.skill)
+            //    + findMatchingWords(stemmedJobDescription.preferredSkills, stemmedCv.experience);
+            //    console.log("cv preferred skill match", preferredSkillsMatch);
+            //    var result = {
+            //        id: stemmedCv.id,
+            //        score: essentialSkillsMatch + preferredSkillsMatch
+            //    };
+            //    rankedCvs.push(result);
+            //});
+            //console.log("ranked CVS", rankedCvs);
             return rankedCvs;
         };
 

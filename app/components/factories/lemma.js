@@ -6,58 +6,59 @@ angular.module('myApp.factories')
 
         //returns an array of result objects with institute, course, degree, date and grade fields
         var parseEducationBackground = function (sentenceArray) {
-
-            //console.log(nlp.pos("1.5 years of experience"));
             function Result() {
                 this.keywords = [];
                 this.degree = 0;
             };
+            var result = new Result();
+            result.degree = getDegree(sentenceArray);
+            result.keywords = getNamedEntities(sentenceArray);
+            return result;
+        }
+
+        var getDegree = function(sentenceArray) {
             var diplomaKeyWords = ["diploma"];
             var bachelorKeyWords = ["bachelor's", "bachelor", "bsc", "be"];
-            var masterKeyWords =  ["master", "master's", "mscs", "msc"];
+            var masterKeyWords = ["master", "master's", "mscs", "msc"];
             var phdKeyWords = ["phd", "ph.d", "doctorate"];
             //for categorising degree
-            var degreeKeyWordsArray = [ phdKeyWords, masterKeyWords, bachelorKeyWords, diplomaKeyWords];
+            var allDegreeKeyWordsArray = [phdKeyWords, masterKeyWords, bachelorKeyWords, diplomaKeyWords];
+            var result = 0;
             //takes in an array of keywords in degree
             //return to see what degree it is
             //not found: 0, diploma: 1, bachelor: 2, master: 3, phd: 4
-            var categoriseDegree = function(keywords) {
-                for (var i = 0; i < degreeKeyWordsArray.length; i++) {
-                    var currentKeyWords = degreeKeyWordsArray[i];
-                    for (var j = 0; j < currentKeyWords.length; j++) {
-                        if (keywords.indexOf(currentKeyWords[j]) > -1) {
+            var categoriseDegree = function (keywords) {
+                console.log ("word we are finding", keywords);
+                for (var i = 0; i < allDegreeKeyWordsArray.length; i++) {
+                    var degreeKeyWords = allDegreeKeyWordsArray[i];
+                    for (var j = 0; j < degreeKeyWords.length; j++) {
+                        var lowerKeywords = keywords.map (function(value) {
+                            return value.toLowerCase();
+                        })
+                        //
+                        if (lowerKeywords.indexOf(degreeKeyWords[j]) > -1) {
                             //we found keyword, return integer representing degree
-                            return degreeKeyWordsArray.length - i;
+                            console.log("found", degreeKeyWords[j]);
+                            return allDegreeKeyWordsArray.length - i;
                         }
+                        console.log("not found");
                     }
                 }
                 //not found, return 0
                 return 0;
             }
-
-            var result = new Result();
-            sentenceArray.forEach(function(sentence) {
+            //find degree
+            sentenceArray.forEach(function (sentence) {
                 //find degree
                 var degree = categoriseDegree(sentence.split(" "));
                 //update degree if it is larger
-                if (degree > result.degree) {
-                    result.degree = degree;
-                }
-                var tokens = nlp.spot(sentence);
-                //get keywords (for subject), push into keyword
-                tokens.forEach(
-                    function(token) {
-                        result.keywords.push(token.analysis.singularize());
-                    }
-                )
-                if (sentence.toLowerCase().indexOf("IT") >= 0) {
-                    results.push("IT");
+                if (degree > result) {
+                    result = degree;
                 }
             });
-
-
             return result;
         }
+
 
         //get keywords
         //returns the keywords with its corresponding number of occurrences

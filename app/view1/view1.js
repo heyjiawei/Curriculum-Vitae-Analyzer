@@ -69,7 +69,6 @@ angular.module('myApp.view1', ['ngRoute', 'ngFileUpload'])
 
       var tokens = cvTokenizer.tokenizeCv(result);
       console.log("cv tokens", tokens);
-
       // TODO: Factor into CV handler method
       var cvParsed = new CV();
       cvParsed.education = lemma.find_and_parse_education(tokens.education);
