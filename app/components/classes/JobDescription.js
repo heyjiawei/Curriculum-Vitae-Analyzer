@@ -15,6 +15,7 @@ function JobDescription() {
 
 //degree: 0 for undefined, 1 for diploma, 2 for bachelor, 3 for master, 4 for phd
 function JobDescriptionEducation() {
+    //array of keyword objects
     this.keywords = [];
     this.degree = 0;
 }

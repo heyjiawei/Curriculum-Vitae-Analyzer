@@ -6,7 +6,7 @@ function CV () {
     //returns an array of Keyword objects (see Constants.js)
     //from both sections work experience and projects
     this.experience = [];
-    //returns an array of Keyword objects (see Constants.js)
+    //returns an array of strings
     this.interest = [];
     //returns an array of string, splitted by spaces
     //TODO: split might be weird. e.g. English(proficiency: high) will become ["English(proficiency:", "high"]
