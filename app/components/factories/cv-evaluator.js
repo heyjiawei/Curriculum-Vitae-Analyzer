@@ -3,8 +3,6 @@
 angular.module('myApp.factories')
     .factory('cvEvaluator', function (stem, storageAccess) {
         var evaluateAllCv = function () {
-            // WEIGHTAGES
-            var EDU_WEIGHT = 1, ESS_SKILLS_WEIGHT = 1, PRE_SKILLS_WEIGHT = 1, LANG_WEIGHT = 1;
 
             var allCv = storageAccess.getAllCV();
             var jobDesc = storageAccess.getJobDescription();
@@ -13,46 +11,87 @@ angular.module('myApp.factories')
             var stemmedAllCv = allCv.map(function(cv) {return stemCv(cv);});
 
             var rankedCvs = [];
-            //to change to suit new structure of cv
-            //essential and preferredSkills is now an objets, where the key is the name of the skill, and value is the priority
-            //TODO: adapt this to new format
             stemmedAllCv.forEach(function (stemmedCv) {
-                var score = 0;
+                console.log("CV: ", stemmedCv.id);
 
-                // match education
-                var educationScore = findMatchingWords(stemmedCv.education, stemmedJobDescription.education);
+                var educationScore = calcEducationScore(stemmedCv.education, stemmedJobDescription.education);
+                console.log("education: ", educationScore);
 
-                // match skills
-                var essentialSkillsScore = 0;
-               /* stemmedJobDescription.essentialSkills.forEach(function (skill) {
-                    essentialSkillsScore += findMatchingWords(skill, stemmedCv.skill)
-                        + findMatchingWords(skill, stemmedCv.experience);
-                });*/
-                var essentialSkillsScore = findMatchingWords(stemmedJobDescription.essentialSkills, stemmedCv.skill)
-                    + findMatchingWords(stemmedJobDescription.essentialSkills, stemmedCv.experience);
-                console.log("cv essential skill match", essentialSkillsScore);
+                var skillsScore = calcSkillsScore(stemmedCv.skill, stemmedJobDescription.essentialSkills, stemmedJobDescription.preferredSkills);
+                console.log("skills: ", skillsScore);
 
-                var preferredSkillsScore = findMatchingWords(stemmedJobDescription.preferredSkills, stemmedCv.skill)
-                    + findMatchingWords(stemmedJobDescription.preferredSkills, stemmedCv.experience);
-                console.log("cv preferred skill match", preferredSkillsScore);
+                var expScore = calcExpScore(stemmedCv.experience, stemmedJobDescription.experience);
+                console.log("experience: ", expScore);
 
-                // match language
-                var languageScore = findMatchingWords(stemmedJobDescription.language, stemmedCv.language);
-                console.log("cv language match", languageScore);
+                /*var languageScore = findMatchingWords(stemmedJobDescription.language, stemmedCv.language);
+                console.log("language: ", languageScore);*/
 
+                // TODO include weightage calculations
                 var result = {
                     id: stemmedCv.id,
-                    score: educationScore * EDU_WEIGHT
-                        + essentialSkillsScore * ESS_SKILLS_WEIGHT
-                        + preferredSkillsScore * PRE_SKILLS_WEIGHT
-                        + languageScore * LANG_WEIGHT
+                    score: educationScore
+                        + skillsScore
                 };
+                console.log(result.score);
                 rankedCvs.push(result);
             });
 
             console.log("ranked CVS", rankedCvs);
             return rankedCvs;
         };
+
+        /* EDUCATION SCORING */
+        // Initial score based on number of matching keywords
+        // Then compare degree levels, if not matched, multiplier is 0, else difference is multiplier
+        function calcEducationScore(cvEdu, jdEdu) {
+            var score = findMatchingWords(cvEdu.keywords, jdEdu.keywords);
+
+            // if user has no degree level preference
+            if(jdEdu.degree == 0) {
+                if(cvEdu != 0)
+                    return score*cvEdu.degree;
+                else
+                    return score;
+            // if user has degree level preference
+            } else {
+                return score * (cvEdu.degree>=jdEdu.degree ? jdEdu.degree-cvEdu : 0);
+            }
+
+            return score;
+        }
+
+        /* SKILLS SCORING */
+        // For each cv skill that appears in and jd skills, value is summed
+        // Essential skills get multiplier of 1.5
+        function calcSkillsScore(cvSkills, jdEssSkills, jdPrefSkills) {
+            var ESS_SKILL_MULTIPLIER = 1, PREF_SKILL_MULTIPLIER = 1.5;
+
+            var score = 0;
+            cvSkills.forEach(function (skill) {
+                for(var i=0; i<jdEssSkills.length; i++) {
+                    if(skill.name === jdEssSkills[i].name) {
+                        score += skill.value * ESS_SKILL_MULTIPLIER;
+                        break;
+                    }
+                }
+                for(var i=0; i<jdPrefSkills.length; i++) {
+                    if(skill.name === jdPrefSkills[i].name) {
+                        score += skill.value * PREF_SKILL_MULTIPLIER;
+                        break;
+                    }
+                }
+            });
+        }
+
+        /* EXPERIENCE SCORING */
+        // Returns score based on percentage greater than requirement divided by 10 (to get single digit score)
+        // If experience lesser than requirement return 0
+        function calcExpScore(cvExp, jdExp) {
+            if(cvExp < jdExp)
+                return 0;
+            else
+                return (cvExp-jdExp)/jdExp*10;
+        }
 
         //returns number of matched words
         function findMatchingWords(source1, source2) {
