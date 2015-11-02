@@ -83,6 +83,7 @@ angular.module('myApp.factories')
             stemmedCv.interest = stem.stem(cv.interest);
             stemmedCv.skill = stem.stem(cv.skill);
             stemmedCv.experience = stem.stemKeyWords(cv.experience);
+            stemmedCv.workExperienceTime = cv.workExperienceTime;
             stemmedCv.id = cv.id;
             console.log("stemmed cv", stemmedCv);
             return stemmedCv;

@@ -35,27 +35,30 @@ angular.module('myApp.factories')
         }
 
         var findWorkTime = function (sentenceArray) {
-            var result = new JobDescriptionWorkExperienceTime();
+            var result = 0;
             sentenceArray.forEach(
                 function (sentence) {
                     var singularSentence = sentence.toLowerCase();
-                    durationKeyWords.forEach(
-                        function (keyWord) {
-                            var durationRegex = new RegExp("[\\d] " + keyWord + "[s]?", "g");
-                            if (singularSentence.match(durationRegex) &&
-                                workKeyWords.some(function (v) {
-                                    return singularSentence.match(new RegExp("\\b" + v + "\\b", "i"));
-                                })) {
-                                result.value = singularSentence.replace(/\D+$/g, "");
-                                result.duration = keyWord;
+                    for (var i = 0; i < durationKeyWords.length; i++) {
+                        var durationKeyWord = durationKeyWords[i];
+                        var isIdentifierPresent = durationKeyWord.identifiers.some(function (i) {
+                            return singularSentence.match(new RegExp("[\\d] " + i + "[s]?", "g"));
+                        });
+                        var isWorkKeyWordPresent = workKeyWords.some(function (v) {
+                            return singularSentence.match(new RegExp("\\b" + v + "\\b", "i"));
+                        });
+                        if (isIdentifierPresent && isWorkKeyWordPresent) {
+                            var duration = singularSentence.match(/[\d.]+/);
+                            if (duration != null) {
+                                result = duration * durationKeyWord.value;
+                                break;
                             }
                         }
-                    )
+                    }
                 }
             )
             return result;
         }
-
 
         var findLanguages = function (sentenceArray) {
             var result = [];

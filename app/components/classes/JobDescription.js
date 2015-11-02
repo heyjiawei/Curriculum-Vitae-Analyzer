@@ -7,8 +7,8 @@ function JobDescription() {
     this.essentialSkills = [];
     //TODO: not done
     this.location=[];
-    //returns JobDescriptionWorkExperienceTime obj
-    this.workExperienceTime = JobDescriptionWorkExperienceTime;
+    //returns min work experience time in milliseconds
+    this.workExperienceTime = 0;
     //TODO: not done
     this.languages = [];
 }
@@ -19,11 +19,3 @@ function JobDescriptionEducation() {
     this.keywords = [];
     this.degree = 0;
 }
-
-//TODO: parse this better
-function JobDescriptionWorkExperienceTime() {
-    //e.g. year, months
-    this.value = "";
-    //e.g. "at least 1.5"
-    this.duration = "";
-};

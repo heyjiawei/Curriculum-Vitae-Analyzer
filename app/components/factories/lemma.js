@@ -101,6 +101,46 @@ angular.module('myApp.factories')
             return results;
         }
 
+        var parseWorkTime = function (sentenceArray) {
+            var totalWorkExperience = 0;
+            //console.log("worktime", sentenceArray);
+            sentenceArray.forEach(
+                function (sentence) {
+                    //matches January 2000 - present or January 2000 - February 2002
+                    //note: first value is entire match, access from second onwards
+                    var durationTokens = sentence.match(/([A-z]\w+)\s*(\d+)\s*(?:-)\s*([A-z]\w+)\s*(\d*)/);
+                    //console.log("tokens", durationTokens);
+                    //parse first 2 dates first
+                    if (durationTokens != null && durationTokens.length >= 4) {
+                        var startMonth = durationTokens[1];
+                        var startYear = durationTokens[2];
+                        var startDate = new Date("1 " + startMonth + " " + startYear);
+                        var endDate;
+                        if (durationTokens[3].toLowerCase() === "present") {
+                                endDate = new Date();
+                        } else if (durationTokens.length >= 5) {
+                            //durationTokens >= 5
+                            var endMonth = durationTokens[3];
+                            var endYear = durationTokens[4];
+                            endDate = new Date("1 " + endMonth + " " + endYear);
+                        } else {
+                            //invalid date
+                            return;
+                        }
+                        //if either start or end date are invalid
+                        if(isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
+                            return;
+                        } else {
+                            var timeDiff = endDate.getTime() - startDate.getTime();
+                            totalWorkExperience += timeDiff;
+                        }
+                    }
+                }
+            )
+            return totalWorkExperience;
+
+        }
+
         //var test = ["National University of Singapore", "MSCS, IT, 2010 - 2012"];
         //console.log(parseEducationBackground(test));
         return {
@@ -108,8 +148,8 @@ angular.module('myApp.factories')
             parse_language: parseLanguages,
             parse_interest: parseInterestsAndSkills,
             parse_skills: parseInterestsAndSkills,
-            parse_work: getNamedEntities,
-            parse_research: getNamedEntities
+            parse_experience: getNamedEntities,
+            find_and_parse_work_time: parseWorkTime
         }
     }
 )

@@ -4,7 +4,7 @@ function findKeyWord(keyWordArray, nameToFind) {
    for (var i = 0; i < keyWordArray.length; i++) {
        var keyWord = keyWordArray[i];
        if (keyWord.name === nameToFind) {
-           return keyWordArray.splice(i, 1);
+           return keyWordArray.splice(i, 1)[0];
        }
    }
     //not found
