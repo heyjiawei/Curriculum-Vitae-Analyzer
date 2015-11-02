@@ -102,8 +102,17 @@ angular.module('myApp.factories')
         }
 
         var parseWorkTime = function (sentenceArray) {
-            //([A-z]\w+)\s+(\d+)\s*(?:-)\s+([A-z]\w+)\s*(\d*)
-            
+            //matches January 2000 - present or January 2000 - February 2002
+            var durationRegex = "/([A-z]\w+)\s+(\d+)\s*(?:-)\s+([A-z]\w+)\s*(\d*)";
+            sentenceArray.forEach(
+                function (sentence) {
+                    console.log("string", sentence);
+                    //note: first value is entire match, access from second onwards
+                    var durationTokens = sentence.match(/([A-z]\w+)\s+(\d+)\s*(?:-)\s+([A-z]\w+)\s*(\d*)/);
+                    console.log("tokens", durationTokens);
+                }
+            )
+
         }
 
         //var test = ["National University of Singapore", "MSCS, IT, 2010 - 2012"];
@@ -114,7 +123,8 @@ angular.module('myApp.factories')
             parse_interest: parseInterestsAndSkills,
             parse_skills: parseInterestsAndSkills,
             parse_work: getNamedEntities,
-            parse_research: getNamedEntities
+            parse_research: getNamedEntities,
+            find_and_parse_work_time: parseWorkTime
         }
     }
 )
