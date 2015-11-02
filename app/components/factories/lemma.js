@@ -102,16 +102,42 @@ angular.module('myApp.factories')
         }
 
         var parseWorkTime = function (sentenceArray) {
-            //matches January 2000 - present or January 2000 - February 2002
-            var durationRegex = "/([A-z]\w+)\s+(\d+)\s*(?:-)\s+([A-z]\w+)\s*(\d*)";
+            var totalWorkExperience = 0;
             sentenceArray.forEach(
                 function (sentence) {
-                    console.log("string", sentence);
+                    //matches January 2000 - present or January 2000 - February 2002
                     //note: first value is entire match, access from second onwards
-                    var durationTokens = sentence.match(/([A-z]\w+)\s+(\d+)\s*(?:-)\s+([A-z]\w+)\s*(\d*)/);
-                    console.log("tokens", durationTokens);
+                    var durationTokens = sentence.match(/([A-z]\w+)\s*(\d+)\s*(?:-)\s*([A-z]\w+)\s*(\d*)/);
+                    //console.log("tokens", durationTokens);
+                    //parse first 2 dates first
+                    if (durationTokens.length >= 4) {
+                        var startMonth = durationTokens[1];
+                        var startYear = durationTokens[2];
+                        var startDate = new Date("1 " + startMonth + " " + startYear);
+                        var endDate;
+                        if (durationTokens[3].toLowerCase() === "present") {
+                                endDate = new Date();
+                        } else if (durationTokens.length >= 5) {
+                            //durationTokens >= 5
+                            var endMonth = durationTokens[3];
+                            var endYear = durationTokens[4];
+                            endDate = new Date("1 " + endMonth + " " + endYear);
+                        } else {
+                            //invalid date
+                            return;
+                        }
+                        //if either start or end date are invalid
+                        if(isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
+                            return;
+                        } else {
+                            var timeDiff = endDate.getTime() - startDate.getTime();
+                            console.log(timeDiff);
+                            totalWorkExperience += timeDiff;
+                        }
+                    }
                 }
             )
+            return totalWorkExperience;
 
         }
 

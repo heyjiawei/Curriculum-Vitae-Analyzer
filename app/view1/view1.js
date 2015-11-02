@@ -18,9 +18,9 @@ angular.module('myApp.view1', ['ngRoute', 'ngFileUpload'])
     $scope.jobDescript = "";
 
     //// TODO: Remove testing code
-    //  var worktime = ["January 2000 - present"];
+    //  var worktime = ["i've worked from January 2000-present"];
     //  $scope.testWorkTime = lemma.find_and_parse_work_time(worktime);
-    //  console.log("worktime", worktime);
+    //  console.log("worktime", $scope.testWorkTime);
     //var education = ["(B.E.), Biomedical/Medical Engineering, 2006 - 2010 Activities and Societies: Student council, NGO-Third Vision Bishop Cotton's womens christian college 2004 - 2006 Activities and Societies: Modelling, Dancing"];
     //$scope.testEducation = lemma.find_and_parse_education(education);
     //  console.log("education", $scope.testEducation);
