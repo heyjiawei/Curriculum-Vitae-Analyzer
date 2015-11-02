@@ -8,9 +8,9 @@ angular.module('myApp.factories')
         var parseEducationBackground = function (sentenceArray) {
             var result = new CVEducation();
             result.degree = getDegree(sentenceArray);
-            console.log("degree parsed", result.degree);
+            //console.log("degree parsed", result.degree);
             result.keywords = getNamedEntities(sentenceArray);
-            console.log("keywords parsed", result.keywords);
+            //console.log("keywords parsed", result.keywords);
             return result;
         }
 
