@@ -14,21 +14,22 @@ angular.module('myApp.factories')
             return results;
         };
 
-        //given an array of objects
-        // where the key is the name of the term
-        //and value is the number of occurences of the term
-        //stem the key -> stem the name of the term
-        var stemKey = function (keyWordsArray) {
-            var results = [];
-            for (var keyWord in keyWordsArray) {
-                results[stemmer(keyWord)] = keyWordsArray[keyWord];
+        //stem the name of each keyword objects as defined in constant.js
+        var stemName = function (keyWordsArray) {
+            var result = [];
+            for (var i = 0; i < keyWordsArray.length; i++) {
+                var keyWord = keyWordsArray[i];
+                var stemmedKeyWord = new Keyword();
+                stemmedKeyWord.name = stemmer(keyWord.name);
+                stemmedKeyWord.value = keyWord.value;
+                result.push(stemmedKeyWord);
             }
-            return results;
+            return result;
         };
 
         return {
             stem: stemSentence,
-            stemKeyWords: stemKey
+            stemKeyWords: stemName
         }
     }
 )
