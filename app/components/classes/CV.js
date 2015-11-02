@@ -13,8 +13,8 @@ function CV () {
     this.language = [];
     //TODO: not done
     this.id = [];
-    //TODO: not done
-    this.workExperienceTime = [];
+    //time in milliseconds
+    this.workExperienceTime = 0;
 }
 
 //degree: 0 for undefined, 1 for diploma, 2 for bachelor, 3 for master, 4 for phd

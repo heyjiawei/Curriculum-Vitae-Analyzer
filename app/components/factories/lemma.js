@@ -103,6 +103,7 @@ angular.module('myApp.factories')
 
         var parseWorkTime = function (sentenceArray) {
             var totalWorkExperience = 0;
+            console.log("worktime", sentenceArray);
             sentenceArray.forEach(
                 function (sentence) {
                     //matches January 2000 - present or January 2000 - February 2002
@@ -110,7 +111,7 @@ angular.module('myApp.factories')
                     var durationTokens = sentence.match(/([A-z]\w+)\s*(\d+)\s*(?:-)\s*([A-z]\w+)\s*(\d*)/);
                     //console.log("tokens", durationTokens);
                     //parse first 2 dates first
-                    if (durationTokens.length >= 4) {
+                    if (durationTokens != null && durationTokens.length >= 4) {
                         var startMonth = durationTokens[1];
                         var startYear = durationTokens[2];
                         var startDate = new Date("1 " + startMonth + " " + startYear);
@@ -131,7 +132,6 @@ angular.module('myApp.factories')
                             return;
                         } else {
                             var timeDiff = endDate.getTime() - startDate.getTime();
-                            console.log(timeDiff);
                             totalWorkExperience += timeDiff;
                         }
                     }
