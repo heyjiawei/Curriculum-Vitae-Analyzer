@@ -101,6 +101,11 @@ angular.module('myApp.factories')
             return results;
         }
 
+        var parseWorkTime = function (sentenceArray) {
+            //([A-z]\w+)\s+(\d+)\s*(?:-)\s+([A-z]\w+)\s*(\d*)
+            
+        }
+
         //var test = ["National University of Singapore", "MSCS, IT, 2010 - 2012"];
         //console.log(parseEducationBackground(test));
         return {
