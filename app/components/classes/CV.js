@@ -1,7 +1,9 @@
 function CV () {
     this.education = [];
+    //array of keyword objects
     this.skill = [];
 //    this.project = [];
+    //array of keyword objects
     this.experience = [];
     this.interest = [];
     this.language = [];
@@ -9,6 +11,6 @@ function CV () {
 }
 
 function CVEducation() {
-    this.keywords = {};
+    this.keywords = [];
     this.degree = 0;
 }

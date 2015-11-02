@@ -48,27 +48,28 @@ angular.module('myApp.factories')
         //get keywords
         //returns the keywords with its corresponding number of occurrences
         var getNamedEntities = function(sentenceArray) {
-            var keyWords = [];
-            function Result() {
-
-            }
+            var keyWordNames = [];
             sentenceArray.forEach(
                 function (sentence) {
                     var tokens = nlp.spot(sentence);
                     var singularisedTokens = tokens.map(function(token) {
                         return token.analysis.singularize();
                     });
-                    Array.prototype.push.apply(keyWords,singularisedTokens);
+                    Array.prototype.push.apply(keyWordNames,singularisedTokens);
                     //because nlp library will not pick up the word research, which is quite important
                     if (sentence.toLowerCase().indexOf("research") >= 0) {
-                        keyWords.push("research");
+                        keyWordNames.push("research");
                     }
                 }
             )
-            //count number of each words
+            console.log("keywords parsed 1", keyWordNames);
+            //store an array of Keyword objects
             var results = [];
-            for (var i = 0; i < keyWords.length; i++) {
-                results[keyWords[i]] = (results[keyWords[i]] || 0) + 1;
+            for (var i = 0; i < keyWordNames.length; i++) {
+                var keyWord = findKeyWord(results, keyWordNames[i]);
+                keyWord.name = keyWordNames[i];
+                keyWord.value = keyWord.value + 1;
+                results.push(keyWord);
             }
             return results;
         }
