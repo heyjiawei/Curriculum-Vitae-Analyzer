@@ -2,7 +2,7 @@
  * Created by chongjiawei on 1/11/15.
  */
 cvMatch = { // TODO: Refactor GLOBAL
-  "count" : 3,
+  "count" : 8,
   "data" : [
   {
     "name" : "test dummy 1",
@@ -31,6 +31,51 @@ cvMatch = { // TODO: Refactor GLOBAL
     "location" : {"value" : 42.7},
     "workExp" : {"value" : 19.9},
     "languages" : {"value" : 10.0}
+  }, {
+    "name": "test dummy 4",
+    "match": {"value": 23.0},
+    "education": {"value": 12.7},
+    "preferredSkills": {"value": 93.3},
+    "essentialSkills": {"value": 4.6},
+    "location": {"value": 32.7},
+    "workExp": {"value": 99.9},
+    "languages": {"value": 16.0}
+  }, {
+    "name" : "test dummy 5",
+    "match" : { "value" : 83.0},
+    "education" : {"value" : 22.7},
+    "preferredSkills" : {"value" : 43.3},
+    "essentialSkills" : {"value" : 54.6},
+    "location" : {"value" : 12.7},
+    "workExp" : {"value" : 19.9},
+    "languages" : {"value" : 26.0}
+  }, {
+    "name" : "test dummy 6",
+    "match" : { "value" : 11.0},
+    "education" : {"value" : 22.7},
+    "preferredSkills" : {"value" : 33.3},
+    "essentialSkills" : {"value" : 44.6},
+    "location" : {"value" : 55.7},
+    "workExp" : {"value" : 66.9},
+    "languages" : {"value" : 77.0}
+  }, {
+    "name" : "test dummy 7",
+    "match" : { "value" : 55.0},
+    "education" : {"value" : 66.7},
+    "preferredSkills" : {"value" : 77.3},
+    "essentialSkills" : {"value" : 48.6},
+    "location" : {"value" : 88.7},
+    "workExp" : {"value" : 99.9},
+    "languages" : {"value" : 100.0}
+  }, {
+    "name" : "test dummy 8",
+    "match" : { "value" : 75.0},
+    "education" : {"value" : 22.7},
+    "preferredSkills" : {"value" : 63.3},
+    "essentialSkills" : {"value" : 44.6},
+    "location" : {"value" : 2.7},
+    "workExp" : {"value" : 9.9},
+    "languages" : {"value" : 1.0}
   }
 ]
 }

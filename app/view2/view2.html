@@ -13,18 +13,18 @@
                 name="{{column.name}}" ng-attr-descend-first="{{column.descendFirst}}"></th>
           </tr>
         </thead>
-        <tbody>
-          <tr md-auto-select data-ng-repeat="cv in cvMatch.data | orderBy: query.order | limitTo: query.limit : (query.page -1) * query.limit">
-            <td>{{cv.name}}</td>
-            <td show-unit>{{cv.match.value}}</td>
-            <td show-unit>{{cv.education.value}}</td>
-            <td show-unit>{{cv.preferredSkills.value}}</td>
-            <td show-unit>{{cv.essentialSkills.value}}</td>
-            <td show-unit>{{cv.location.value}}</td>
-            <td show-unit>{{cv.workExp.value}}</td>
-            <td show-unit>{{cv.languages.value}}</td>
-          </tr>
-        </tbody>
+          <tbody>
+            <tr md-auto-select data-ng-repeat="cv in cvMatch.data | orderBy: query.order | limitTo: query.limit : (query.page -1) * query.limit">
+              <td>{{cv.name}}</td>
+              <td show-unit>{{cv.match.value}}</td>
+              <td show-unit>{{cv.education.value}}</td>
+              <td show-unit>{{cv.preferredSkills.value}}</td>
+              <td show-unit>{{cv.essentialSkills.value}}</td>
+              <td show-unit>{{cv.location.value}}</td>
+              <td show-unit>{{cv.workExp.value}}</td>
+              <td show-unit>{{cv.languages.value}}</td>
+            </tr>
+          </tbody>
       </table>
     </md-data-table-container>
     <md-data-table-pagination
