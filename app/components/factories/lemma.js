@@ -148,8 +148,7 @@ angular.module('myApp.factories')
             parse_language: parseLanguages,
             parse_interest: parseInterestsAndSkills,
             parse_skills: parseInterestsAndSkills,
-            parse_work: getNamedEntities,
-            parse_research: getNamedEntities,
+            parse_experience: getNamedEntities,
             find_and_parse_work_time: parseWorkTime
         }
     }

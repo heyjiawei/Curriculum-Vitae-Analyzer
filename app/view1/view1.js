@@ -27,7 +27,7 @@ angular.module('myApp.view1', ['ngRoute', 'ngFileUpload'])
     //var languages = ["Chinese Tamil Japanese"];
     //$scope.testLanguages = lemma.parse_language(languages);
     //var workExperience = ["Technical papers /Projects First place in paper presentation organized by Anna university Second place in the paper presentation at the inter-collegiate symposium Designed a system to use brain signals to control motor functions. Created a motion capture system for upper limb movement analysis for stroke patients"];
-    //$scope.testWork = lemma.parse_work(workExperience);
+    //$scope.testWork = lemma.parse_experience(workExperience);
     //console.log("languages", $scope.testLanguages);
     //console.log("work", $scope.testWork);
     //  $scope.testJob = jobDescriptionParser.parse_min_req(["Considerable programming experience in Swift and Objective-C/C++. Deep technical knowledge of Cocoa touch ecosystem and iOS development paradigms such as MVC, VIPER etc. (http://www.objc.io/issue-13/viper.html). Experience writing unit and integration tests with Xcode. Knowledge of frameworks that can enhance user experience (such as Facebook's Pop (https://github.com/facebook/pop)) MVP application design and complex, reactive touch-based User Experience. Good Contribution to the open source community (Cocoa Control contributions would be interesting) Strong foundation in computer science, with competencies in data structures, algorithms and software design optimized for embedded systems. Strong experience with designing and architecting client-server based apps on iOS. Passion for healthcare and making the world a better place mvp application "]);
@@ -78,7 +78,7 @@ angular.module('myApp.view1', ['ngRoute', 'ngFileUpload'])
       cvParsed.language = lemma.parse_language(tokens.language);
       cvParsed.interest = lemma.parse_interest(tokens.interest);
       cvParsed.skill = lemma.parse_skills(tokens.skill);
-      cvParsed.experience = lemma.parse_work(tokens.experience).concat(lemma.parse_research(tokens.project));
+      cvParsed.experience = lemma.parse_experience(tokens.experience.concat(tokens.project));
         cvParsed.workExperienceTime = lemma.find_and_parse_work_time(tokens.experience);
 //      cvParsed.id = id;
       console.log("cv parsed", cvParsed);
@@ -93,10 +93,10 @@ angular.module('myApp.view1', ['ngRoute', 'ngFileUpload'])
     var deferred = $q.defer();
 
     var tokens = jobDescTokenizer.tokenizeJobDesc(jobDesc);
-    //console.log("job desc tokens", tokens);
+    console.log("job desc tokens", tokens);
 
     var jobDescParsed = new JobDescription();
-    jobDescParsed.essentialSkills = jobDescriptionParser.parse_min_req(tokens.minimumRequirement);
+    jobDescParsed.essentialSkills = jobDescriptionParser.parse_min_req(tokens.minimumRequirement.concat(tokens.responsibility));
     jobDescParsed.preferredSkills = jobDescriptionParser.parse_skills(tokens.preferredQualification); // TODO: parse from minreq as well
     jobDescParsed.location = jobDescriptionParser.parse_location(tokens.location);
     jobDescParsed.education = jobDescriptionParser.find_and_parse_education(tokens.minimumRequirement);
