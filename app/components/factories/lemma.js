@@ -6,21 +6,15 @@ angular.module('myApp.factories')
 
         //returns an array of result objects with institute, course, degree, date and grade fields
         var parseEducationBackground = function (sentenceArray) {
-            function Result() {
-                this.keywords = [];
-                this.degree = 0;
-            };
-            var result = new Result();
+            var result = new CVEducation();
             result.degree = getDegree(sentenceArray);
+            //console.log("degree parsed", result.degree);
             result.keywords = getNamedEntities(sentenceArray);
+            //console.log("keywords parsed", result.keywords);
             return result;
         }
 
         var getDegree = function(sentenceArray) {
-            var diplomaKeyWords = ["diploma"];
-            var bachelorKeyWords = ["bachelor's", "bachelor", "bsc", "be"];
-            var masterKeyWords = ["master", "master's", "mscs", "msc"];
-            var phdKeyWords = ["phd", "ph.d", "doctorate"];
             //for categorising degree
             var allDegreeKeyWordsArray = [phdKeyWords, masterKeyWords, bachelorKeyWords, diplomaKeyWords];
             var result = 0;
@@ -56,24 +50,28 @@ angular.module('myApp.factories')
         //get keywords
         //returns the keywords with its corresponding number of occurrences
         var getNamedEntities = function(sentenceArray) {
-            var keyWords = [];
+            var keyWordNames = [];
             sentenceArray.forEach(
                 function (sentence) {
                     var tokens = nlp.spot(sentence);
                     var singularisedTokens = tokens.map(function(token) {
                         return token.analysis.singularize();
                     });
-                    Array.prototype.push.apply(keyWords,singularisedTokens);
+                    Array.prototype.push.apply(keyWordNames,singularisedTokens);
                     //because nlp library will not pick up the word research, which is quite important
                     if (sentence.toLowerCase().indexOf("research") >= 0) {
-                        keyWords.push("research");
+                        keyWordNames.push("research");
                     }
                 }
             )
-            //count number of each words
-            var results = { };
-            for (var i = 0; i < keyWords.length; i++) {
-                results[keyWords[i]] = (results[keyWords[i]] || 0) + 1;
+            //console.log("keywords parsed 1", keyWordNames);
+            //store an array of Keyword objects
+            var results = [];
+            for (var i = 0; i < keyWordNames.length; i++) {
+                var keyWord = findKeyWord(results, keyWordNames[i]);
+                keyWord.name = keyWordNames[i];
+                keyWord.value = keyWord.value + 1;
+                results.push(keyWord);
             }
             return results;
         }

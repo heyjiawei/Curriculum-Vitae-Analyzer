@@ -27,8 +27,8 @@ angular.module('myApp.view1', ['ngRoute', 'ngFileUpload'])
     //$scope.testWork = lemma.parse_work(workExperience);
     //console.log("languages", $scope.testLanguages);
     //console.log("work", $scope.testWork);
-      $scope.testJob = jobDescriptionParser.parse_min_req(["Considerable programming experience in Swift and Objective-C/C++. Deep technical knowledge of Cocoa touch ecosystem and iOS development paradigms such as MVC, VIPER etc. (http://www.objc.io/issue-13/viper.html). Experience writing unit and integration tests with Xcode. Knowledge of frameworks that can enhance user experience (such as Facebook's Pop (https://github.com/facebook/pop)) MVP application design and complex, reactive touch-based User Experience. Good Contribution to the open source community (Cocoa Control contributions would be interesting) Strong foundation in computer science, with competencies in data structures, algorithms and software design optimized for embedded systems. Strong experience with designing and architecting client-server based apps on iOS. Passion for healthcare and making the world a better place mvp application "]);
-      console.log("job", $scope.testJob);
+    //  $scope.testJob = jobDescriptionParser.parse_min_req(["Considerable programming experience in Swift and Objective-C/C++. Deep technical knowledge of Cocoa touch ecosystem and iOS development paradigms such as MVC, VIPER etc. (http://www.objc.io/issue-13/viper.html). Experience writing unit and integration tests with Xcode. Knowledge of frameworks that can enhance user experience (such as Facebook's Pop (https://github.com/facebook/pop)) MVP application design and complex, reactive touch-based User Experience. Good Contribution to the open source community (Cocoa Control contributions would be interesting) Strong foundation in computer science, with competencies in data structures, algorithms and software design optimized for embedded systems. Strong experience with designing and architecting client-server based apps on iOS. Passion for healthcare and making the world a better place mvp application "]);
+    //  console.log("job", $scope.testJob);
 
   $scope.$watch('file', function () {
     if ($scope.file != null) {
@@ -75,7 +75,7 @@ angular.module('myApp.view1', ['ngRoute', 'ngFileUpload'])
       cvParsed.language = lemma.parse_language(tokens.language);
       cvParsed.interest = lemma.parse_interest(tokens.interest);
       cvParsed.skill = lemma.parse_skills(tokens.skill);
-      cvParsed.experience = lemma.parse_work(tokens.experience);
+      cvParsed.experience = lemma.parse_work(tokens.experience).concat(lemma.parse_research(tokens.project));
 //      cvParsed.id = id;
       console.log("cv parsed", cvParsed);
       storageAccess.storeParsedCV(cvParsed);
