@@ -5,24 +5,31 @@
     </md-data-table-toolbar>
 
     <md-data-table-container>
-      <table md-data-table md-row-select="selected" md-progress="deferred">
+      <table md-data-table md-row-select="selected" md-progress="deferred"> <!-- what is deferred? -->
         <thead md-order="query.order" md-trigger="onOrderChange">
           <tr>
-            <th name="Name" order-by="name"></th>
-            <th numeric name="Match" unit="%" order-by="calcium.value"></th>
+            <th ng-repeat="column in columns" ng-attr-order-by="{{column.orderBy}}"
+                ng-attr-numeric="{{column.numeric}}" ng-attr-unit="{{column.unit}}"
+                name="{{column.name}}" ng-attr-descend-first="{{column.descendFirst}}"></th>
           </tr>
         </thead>
         <tbody>
-          <tr md-auto-select ng-repeat="cv in cvList.data">
+          <tr md-auto-select data-ng-repeat="cv in cvMatch.data | orderBy: query.order | limitTo: query.limit : (query.page -1) * query.limit">
             <td>{{cv.name}}</td>
-            <td show-unit>{{cv.match}}</td>
+            <td show-unit>{{cv.match.value}}</td>
+            <td show-unit>{{cv.education.value}}</td>
+            <td show-unit>{{cv.preferredSkills.value}}</td>
+            <td show-unit>{{cv.essentialSkills.value}}</td>
+            <td show-unit>{{cv.location.value}}</td>
+            <td show-unit>{{cv.workExp.value}}</td>
+            <td show-unit>{{cv.languages.value}}</td>
           </tr>
         </tbody>
       </table>
     </md-data-table-container>
     <md-data-table-pagination
             md-limit="query.limit" md-page="query.page"
-            md-total="{{cvList.total}}"
+            md-total="{{cvMatch.count}}"
             md-trigger="onPaginationChange">
 
     </md-data-table-pagination>

@@ -1,19 +1,59 @@
 'use strict';
 
-angular.module('myApp.view2', ['md.data.table'])
+angular.module('myApp.view2', [])
 
-.controller('View2Ctrl', function($scope) {
-    $scope.selected = [];
+.controller('View2Ctrl', function($scope, $q, $timeout) {
+    $scope.selected = []; // selecting a row will bring us to the selected cv
     $scope.query = {
-      filter: '',
       order: 'name',
       limit: 5,
       page: 1
     };
 
-    $scope.cvList = cvList;
+    $scope.columns = [{
+      name: 'Name / filename',
+      orderBy: 'name'
+    }, {
+      name: 'Match',
+      numeric: true,
+      orderBy: 'match.value',
+      descendFirst: true,
+      unit: '%'
+    }, {
+      name: 'Education',
+      numeric: true,
+      orderBy: 'education.value',
+      unit: '%'
+    }, {
+      name: 'Preferred Skills',
+      numeric: true,
+      orderBy: 'preferredSkills.value',
+      unit: '%'
+    }, {
+      name: 'Essential Skills',
+      numeric: true,
+      orderBy: 'essentialSkills.value',
+      unit: '%'
+    }, {
+      name: 'Location',
+      numeric: true,
+      orderBy: 'location.value',
+      unit: '%'
+    }, {
+      name: 'Work Exp',
+      numeric: true,
+      orderBy: 'workExp.value',
+      unit: '%'
+    }, {
+      name: 'Languages',
+      numeric: true,
+      orderBy: 'languages.value',
+      unit: '%'
+    }];
 
-    $scope.onpagechange = function(page, limit) {
+    $scope.cvMatch = cvMatch;
+
+    $scope.onPaginationChange = function(page, limit) {
 
       console.log('Scope Page: ' + $scope.query.page + ' Scope Limit: ' + $scope.query.limit);
       console.log('Page: ' + page + ' Limit: ' + limit);
@@ -37,7 +77,7 @@ angular.module('myApp.view2', ['md.data.table'])
       $scope.deferred = deferred.promise;
     };
 
-    $scope.onorderchange = function(order) {
+    $scope.onOrderChange = function(order) {
 
       console.log('Scope Order: ' + $scope.query.order);
       console.log('Order: ' + order);
