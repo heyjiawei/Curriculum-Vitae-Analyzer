@@ -11,7 +11,7 @@ angular.module('myApp.factories')
 
             var rankedCvs = [];
             //to change to suit new structure of cv
-            //essential and preferredSkills is now an array of objects, where the key is the name of the skill, and value is the priority
+            //essential and preferredSkills is now an objets, where the key is the name of the skill, and value is the priority
             //TODO: adapt this to new format
             //stemmedAllCv.forEach(function (stemmedCv) {
             //    // evaluate minimum requirements

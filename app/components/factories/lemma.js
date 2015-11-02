@@ -6,21 +6,13 @@ angular.module('myApp.factories')
 
         //returns an array of result objects with institute, course, degree, date and grade fields
         var parseEducationBackground = function (sentenceArray) {
-            function Result() {
-                this.keywords = [];
-                this.degree = 0;
-            };
-            var result = new Result();
+            var result = new CVEducation();
             result.degree = getDegree(sentenceArray);
             result.keywords = getNamedEntities(sentenceArray);
             return result;
         }
 
         var getDegree = function(sentenceArray) {
-            var diplomaKeyWords = ["diploma"];
-            var bachelorKeyWords = ["bachelor's", "bachelor", "bsc", "be"];
-            var masterKeyWords = ["master", "master's", "mscs", "msc"];
-            var phdKeyWords = ["phd", "ph.d", "doctorate"];
             //for categorising degree
             var allDegreeKeyWordsArray = [phdKeyWords, masterKeyWords, bachelorKeyWords, diplomaKeyWords];
             var result = 0;
@@ -57,6 +49,9 @@ angular.module('myApp.factories')
         //returns the keywords with its corresponding number of occurrences
         var getNamedEntities = function(sentenceArray) {
             var keyWords = [];
+            function Result() {
+
+            }
             sentenceArray.forEach(
                 function (sentence) {
                     var tokens = nlp.spot(sentence);
@@ -71,7 +66,7 @@ angular.module('myApp.factories')
                 }
             )
             //count number of each words
-            var results = { };
+            var results = [];
             for (var i = 0; i < keyWords.length; i++) {
                 results[keyWords[i]] = (results[keyWords[i]] || 0) + 1;
             }

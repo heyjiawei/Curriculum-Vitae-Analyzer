@@ -7,3 +7,8 @@ function CV () {
     this.language = [];
     this.id = [];
 }
+
+function CVEducation() {
+    this.keywords = {};
+    this.degree = 0;
+}
