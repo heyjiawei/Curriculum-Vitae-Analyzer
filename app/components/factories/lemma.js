@@ -8,7 +8,9 @@ angular.module('myApp.factories')
         var parseEducationBackground = function (sentenceArray) {
             var result = new CVEducation();
             result.degree = getDegree(sentenceArray);
+            console.log("degree parsed", result.degree);
             result.keywords = getNamedEntities(sentenceArray);
+            console.log("keywords parsed", result.keywords);
             return result;
         }
 
@@ -62,7 +64,7 @@ angular.module('myApp.factories')
                     }
                 }
             )
-            console.log("keywords parsed 1", keyWordNames);
+            //console.log("keywords parsed 1", keyWordNames);
             //store an array of Keyword objects
             var results = [];
             for (var i = 0; i < keyWordNames.length; i++) {
