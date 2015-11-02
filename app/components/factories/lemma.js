@@ -103,7 +103,7 @@ angular.module('myApp.factories')
 
         var parseWorkTime = function (sentenceArray) {
             var totalWorkExperience = 0;
-            console.log("worktime", sentenceArray);
+            //console.log("worktime", sentenceArray);
             sentenceArray.forEach(
                 function (sentence) {
                     //matches January 2000 - present or January 2000 - February 2002
