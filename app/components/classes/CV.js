@@ -10,7 +10,7 @@ function CV () {
     this.interest = [];
     //returns an array of string, splitted by spaces
     //TODO: split might be weird. e.g. English(proficiency: high) will become ["English(proficiency:", "high"]
-    this.language = [];
+    this.languages = [];
     //TODO: not done
     this.id = [];
     //time in milliseconds
