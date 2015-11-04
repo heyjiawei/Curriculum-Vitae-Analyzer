@@ -2,7 +2,7 @@
 
 angular.module('myApp.view2', [])
 
-.controller('View2Ctrl', function($scope, $q, $timeout) {
+.controller('View2Ctrl', function($scope, $q, $timeout, storageAccess) {
     $scope.selected = []; // selecting a row will bring us to the selected cv
     $scope.query = {
       order: 'name',
@@ -12,46 +12,41 @@ angular.module('myApp.view2', [])
 
     $scope.columns = [{
       name: 'Name / filename',
-      orderBy: 'name'
+      orderBy: 'id'
     }, {
       name: 'Match',
       numeric: true,
-      orderBy: 'match.value',
+      orderBy: 'score',
       descendFirst: true,
       unit: '%'
     }, {
       name: 'Education',
       numeric: true,
-      orderBy: 'education.value',
-      unit: '%'
-    }, {
-      name: 'Preferred Skills',
-      numeric: true,
-      orderBy: 'preferredSkills.value',
+      orderBy: 'education',
       unit: '%'
     }, {
       name: 'Essential Skills',
       numeric: true,
-      orderBy: 'essentialSkills.value',
+      orderBy: 'essSkills',
       unit: '%'
     }, {
-      name: 'Location',
+      name: 'Preferred Skills',
       numeric: true,
-      orderBy: 'location.value',
+      orderBy: 'prefSkills',
       unit: '%'
     }, {
       name: 'Work Exp',
       numeric: true,
-      orderBy: 'workExp.value',
+      orderBy: 'experience',
       unit: '%'
     }, {
       name: 'Languages',
       numeric: true,
-      orderBy: 'languages.value',
+      orderBy: 'languages',
       unit: '%'
     }];
 
-    $scope.cvMatch = cvMatch;
+    $scope.cvMatch = storageAccess.getAllResults();
 
     $scope.onPaginationChange = function(page, limit) {
 

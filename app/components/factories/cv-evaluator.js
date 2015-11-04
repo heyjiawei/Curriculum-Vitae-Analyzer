@@ -123,11 +123,13 @@ angular.module('myApp.factories')
         // If experience lesser than requirement return 0
         function calcExpScore(cvExp, jdExp) {
             var EXP_NORMAL = 100;
-
-            if(cvExp < jdExp)
-                return 0;
-            else
-                return EDU_NORMAL;
+            console.log("cvExp: " + cvExp);
+            console.log("jdExp: " + jdExp);
+            if(cvExp < jdExp) {
+              return 0;
+            } else {
+              return EDU_NORMAL;
+            }
         }
 
         /* LANGUAGE SCORING */
