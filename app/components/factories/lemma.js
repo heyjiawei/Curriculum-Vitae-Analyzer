@@ -6,21 +6,15 @@ angular.module('myApp.factories')
 
         //returns an array of result objects with institute, course, degree, date and grade fields
         var parseEducationBackground = function (sentenceArray) {
-            function Result() {
-                this.keywords = [];
-                this.degree = 0;
-            };
-            var result = new Result();
+            var result = new CVEducation();
             result.degree = getDegree(sentenceArray);
+            //console.log("degree parsed", result.degree);
             result.keywords = getNamedEntities(sentenceArray);
+            //console.log("keywords parsed", result.keywords);
             return result;
         }
 
         var getDegree = function(sentenceArray) {
-            var diplomaKeyWords = ["diploma"];
-            var bachelorKeyWords = ["bachelor's", "bachelor", "bsc", "be"];
-            var masterKeyWords = ["master", "master's", "mscs", "msc"];
-            var phdKeyWords = ["phd", "ph.d", "doctorate"];
             //for categorising degree
             var allDegreeKeyWordsArray = [phdKeyWords, masterKeyWords, bachelorKeyWords, diplomaKeyWords];
             var result = 0;
@@ -56,24 +50,28 @@ angular.module('myApp.factories')
         //get keywords
         //returns the keywords with its corresponding number of occurrences
         var getNamedEntities = function(sentenceArray) {
-            var keyWords = [];
+            var keyWordNames = [];
             sentenceArray.forEach(
                 function (sentence) {
                     var tokens = nlp.spot(sentence);
                     var singularisedTokens = tokens.map(function(token) {
                         return token.analysis.singularize();
                     });
-                    Array.prototype.push.apply(keyWords,singularisedTokens);
+                    Array.prototype.push.apply(keyWordNames,singularisedTokens);
                     //because nlp library will not pick up the word research, which is quite important
                     if (sentence.toLowerCase().indexOf("research") >= 0) {
-                        keyWords.push("research");
+                        keyWordNames.push("research");
                     }
                 }
             )
-            //count number of each words
-            var results = { };
-            for (var i = 0; i < keyWords.length; i++) {
-                results[keyWords[i]] = (results[keyWords[i]] || 0) + 1;
+            //console.log("keywords parsed 1", keyWordNames);
+            //store an array of Keyword objects
+            var results = [];
+            for (var i = 0; i < keyWordNames.length; i++) {
+                var keyWord = findKeyWord(results, keyWordNames[i]);
+                keyWord.name = keyWordNames[i];
+                keyWord.value = keyWord.value + 1;
+                results.push(keyWord);
             }
             return results;
         }
@@ -103,6 +101,46 @@ angular.module('myApp.factories')
             return results;
         }
 
+        var parseWorkTime = function (sentenceArray) {
+            var totalWorkExperience = 0;
+            //console.log("worktime", sentenceArray);
+            sentenceArray.forEach(
+                function (sentence) {
+                    //matches January 2000 - present or January 2000 - February 2002
+                    //note: first value is entire match, access from second onwards
+                    var durationTokens = sentence.match(/([A-z]\w+)\s*(\d+)\s*(?:-)\s*([A-z]\w+)\s*(\d*)/);
+                    //console.log("tokens", durationTokens);
+                    //parse first 2 dates first
+                    if (durationTokens != null && durationTokens.length >= 4) {
+                        var startMonth = durationTokens[1];
+                        var startYear = durationTokens[2];
+                        var startDate = new Date("1 " + startMonth + " " + startYear);
+                        var endDate;
+                        if (durationTokens[3].toLowerCase() === "present") {
+                                endDate = new Date();
+                        } else if (durationTokens.length >= 5) {
+                            //durationTokens >= 5
+                            var endMonth = durationTokens[3];
+                            var endYear = durationTokens[4];
+                            endDate = new Date("1 " + endMonth + " " + endYear);
+                        } else {
+                            //invalid date
+                            return;
+                        }
+                        //if either start or end date are invalid
+                        if(isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
+                            return;
+                        } else {
+                            var timeDiff = endDate.getTime() - startDate.getTime();
+                            totalWorkExperience += timeDiff;
+                        }
+                    }
+                }
+            )
+            return totalWorkExperience;
+
+        }
+
         //var test = ["National University of Singapore", "MSCS, IT, 2010 - 2012"];
         //console.log(parseEducationBackground(test));
         return {
@@ -110,8 +148,8 @@ angular.module('myApp.factories')
             parse_language: parseLanguages,
             parse_interest: parseInterestsAndSkills,
             parse_skills: parseInterestsAndSkills,
-            parse_work: getNamedEntities,
-            parse_research: getNamedEntities
+            parse_experience: getNamedEntities,
+            find_and_parse_work_time: parseWorkTime
         }
     }
 )
