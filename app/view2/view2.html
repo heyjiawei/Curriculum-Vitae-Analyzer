@@ -3,6 +3,52 @@
     <md-data-table-toolbar>
       <h3 class="md-headline">CV Matches</h3>
     </md-data-table-toolbar>
+
+    <div>
+      <h4>To narrow your search, try adjusting the weightage of the header that is closest to your
+      needs</h4>
+      <div layout>
+        <div flex="10" layout layout-align="center center">
+          <span class="md-body-1">Education</span>
+        </div>
+        <md-slider flex class="md-accent md-hue-1" md-discrete ng-model="rating1"
+                   step="1" min="1" max="10" aria-label="rating">
+        </md-slider>
+      </div>
+      <div layout>
+        <div flex="10" layout layout-align="center center">
+          <span class="md-body-1">Essential Skill</span>
+        </div>
+        <md-slider flex md-discrete ng-model="rating2"
+                   step="1" min="1" max="10" aria-label="rating">
+        </md-slider>
+      </div>
+      <div layout>
+        <div flex="10" layout layout-align="center center">
+          <span class="md-body-1">Preferred Skill</span>
+        </div>
+        <md-slider flex class="md-warn" md-discrete ng-model="rating3"
+                   step="1" min="1" max="10" aria-label="rating">
+        </md-slider>
+      </div>
+      <div layout>
+        <div flex="10" layout layout-align="center center">
+          <span class="md-body-1">Work Exp</span>
+        </div>
+        <md-slider flex class="md-primary md-hue-1" md-discrete ng-model="rating4"
+                   step="1" min="1" max="10" aria-label="rating">
+        </md-slider>
+      </div>
+      <div layout>
+        <div flex="10" layout layout-align="center center">
+          <span class="md-body-1">Language</span>
+        </div>
+        <md-slider flex class="md-primary" md-discrete ng-model="rating5"
+                   step="1" min="1" max="10" aria-label="rating">
+        </md-slider>
+      </div>
+    </div>
+
     <div>
       {{cvMatch}}
     </div>
