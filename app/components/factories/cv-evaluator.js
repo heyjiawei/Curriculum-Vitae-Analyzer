@@ -80,18 +80,22 @@ angular.module('myApp.factories')
         /* SKILLS SCORING */
         // The score is the percentage number of skill keywords matched with weightage of each category matching
         function calcSkillsScore(cv, jdSkills) {
+            console.log("doggie cv: ", cv);
+            console.log("doggie jdSkills", jdSkills);
             var SKILLS_WEIGHT = 3, EXP_WEIGHT = 1.5, INTEREST_WEIGHT = 0.5;
             var WEIGHT_NORM = SKILLS_WEIGHT + EXP_WEIGHT + INTEREST_WEIGHT;
 
             var skillCount = 0;
             cv.skill.forEach(function (skill) {
                 for(var i=0; i<jdSkills.length; i++) {
+                    //console.log("I went into the loop!");
                     if(skill.name === jdSkills[i].name) {
                         skillCount++;
                         break;
                     }
                 }
             });
+            //console.log("out of loop");
 
             var expCount = 0;
             cv.experience.forEach(function (exp) {
@@ -113,7 +117,7 @@ angular.module('myApp.factories')
                 }
             });
 
-
+            // divide by zero error here
             return (skillCount*SKILLS_WEIGHT + expCount*EXP_WEIGHT + interestCount*INTEREST_WEIGHT)/
                     (jdSkills.length*WEIGHT_NORM) * 100;
         }
@@ -126,9 +130,11 @@ angular.module('myApp.factories')
             console.log("cvExp: " + cvExp);
             console.log("jdExp: " + jdExp);
             if(cvExp < jdExp) {
+              console.log("I CAME HERE");
               return 0;
             } else {
-              return EDU_NORMAL;
+              console.log("I went HERE");
+              return EXP_NORMAL;
             }
         }
 
@@ -136,16 +142,22 @@ angular.module('myApp.factories')
         // The score is the percentage number of language keywords matched
         function calcLanguageScore(cvLang, jdLang) {
             var count = 0;
-            cvLang.forEach(function (lang) {
-                for(var i=0; i<jdLang.length; i++) {
-                    if(lang.name === jdLang[i].name) {
-                        count++;
-                        break;
-                    }
-                }
-            });
+            if (jdLang.length == 0 ||
+                cvLang.length == 0) {
+              return 0;
 
-            return count/jdLang.length * 100;
+            } else {
+              cvLang.forEach(function (lang) {
+                for (var i = 0; i < jdLang.length; i++) {
+                  if (lang.name === jdLang[i].name) {
+                    count++;
+                    break;
+                  }
+                }
+              });
+
+              return count / jdLang.length * 100;
+            }
         }
 
         //returns number of matched words

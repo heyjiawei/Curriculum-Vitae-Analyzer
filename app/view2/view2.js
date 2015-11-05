@@ -48,6 +48,32 @@ angular.module('myApp.view2', [])
 
     $scope.cvMatch = storageAccess.getAllResults();
 
+    $scope.weight = {eduWeight : 1,
+                    essSkillsWeight : 1,
+                    prefSkillsWeight : 1,
+                    workExpWeight : 1,
+                    languageWeight : 1};
+
+    $scope.$watch('weight', function(newWeight, oldWeight) {
+      var totalWeight = newWeight.eduWeight +
+        newWeight.essSkillsWeight +
+        newWeight.prefSkillsWeight +
+        newWeight.workExpWeight +
+        newWeight.languageWeight;
+      console.log('cv', $scope.cvMatch);
+
+      $scope.cvMatch.forEach(function(cv) {
+        var eduScore = (newWeight.eduWeight / totalWeight) * cv.education;
+        var essSkillScore = (newWeight.essSkillsWeight / totalWeight) * cv.essSkills;
+        var prefSkillScore = (newWeight.prefSkillsWeight / totalWeight) * cv.prefSkills;
+        var workExpScore = (newWeight.workExpWeight / totalWeight) * cv.experience;
+        var languageScore = (newWeight.languageWeight / totalWeight) * cv.language;
+        var matchScore = eduScore + essSkillScore + prefSkillScore + workExpScore + languageScore;
+        cv.score = matchScore;
+        console.log("matchScore = " + matchScore);
+      });
+    }, true);
+
     $scope.onPaginationChange = function(page, limit) {
 
       console.log('Scope Page: ' + $scope.query.page + ' Scope Limit: ' + $scope.query.limit);

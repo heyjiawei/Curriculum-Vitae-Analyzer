@@ -11,7 +11,7 @@
         <div flex="10" layout layout-align="center center">
           <span class="md-body-1">Education</span>
         </div>
-        <md-slider flex class="md-accent md-hue-1" md-discrete ng-model="rating1"
+        <md-slider flex class="md-accent md-hue-1" md-discrete ng-model="weight.eduWeight"
                    step="1" min="1" max="10" aria-label="rating">
         </md-slider>
       </div>
@@ -19,7 +19,7 @@
         <div flex="10" layout layout-align="center center">
           <span class="md-body-1">Essential Skill</span>
         </div>
-        <md-slider flex md-discrete ng-model="rating2"
+        <md-slider flex md-discrete ng-model="weight.essSkillsWeight"
                    step="1" min="1" max="10" aria-label="rating">
         </md-slider>
       </div>
@@ -27,7 +27,7 @@
         <div flex="10" layout layout-align="center center">
           <span class="md-body-1">Preferred Skill</span>
         </div>
-        <md-slider flex class="md-warn" md-discrete ng-model="rating3"
+        <md-slider flex class="md-warn" md-discrete ng-model="weight.prefSkillsWeight"
                    step="1" min="1" max="10" aria-label="rating">
         </md-slider>
       </div>
@@ -35,7 +35,7 @@
         <div flex="10" layout layout-align="center center">
           <span class="md-body-1">Work Exp</span>
         </div>
-        <md-slider flex class="md-primary md-hue-1" md-discrete ng-model="rating4"
+        <md-slider flex class="md-primary md-hue-1" md-discrete ng-model="weight.workExpWeight"
                    step="1" min="1" max="10" aria-label="rating">
         </md-slider>
       </div>
@@ -43,7 +43,7 @@
         <div flex="10" layout layout-align="center center">
           <span class="md-body-1">Language</span>
         </div>
-        <md-slider flex class="md-primary" md-discrete ng-model="rating5"
+        <md-slider flex class="md-primary" md-discrete ng-model="weight.languageWeight"
                    step="1" min="1" max="10" aria-label="rating">
         </md-slider>
       </div>
@@ -62,7 +62,7 @@
           </tr>
         </thead>
           <tbody>
-            <tr md-auto-select data-ng-repeat="cv in cvMatch.data | orderBy: query.order | limitTo: query.limit : (query.page -1) * query.limit">
+            <tr md-auto-select data-ng-repeat="cv in cvMatch | orderBy: query.order | limitTo: query.limit : (query.page -1) * query.limit">
               <td>{{cv.id}}</td>
               <td show-unit>{{cv.score}}</td>
               <td show-unit>{{cv.education}}</td>
