@@ -2,9 +2,9 @@
 
 angular.module('myApp.factories')
     .factory('cvEvaluator', function (stem, storageAccess) {
-        var evaluateAllCv = function () {
-            var EDU_WEIGHT = 0.20, ESS_SKILL_WEIGHT = 0.20, PREF_SKILL_WEIGHT = 0.20,
-                EXP_WEIGHT = 0.20, LANG_WEIGHT = 0.20;
+        var evaluateAllCv = function (edu_w, essSkill_w, pref_skill_w, exp_w, lang_w) {
+            var EDU_WEIGHT = edu_w, ESS_SKILL_WEIGHT = essSkill_w, PREF_SKILL_WEIGHT = pref_skill_w,
+                EXP_WEIGHT = exp_w, LANG_WEIGHT = lang_w;
 
             var allCv = storageAccess.getAllCV();
             var jobDesc = storageAccess.getJobDescription();
@@ -41,12 +41,12 @@ angular.module('myApp.factories')
 
                 var result = {
                     id: stemmedCv.id,
-                    score: totalScore,
-                    education: educationScore,
-                    essSkills: essSkillsScore,
-                    prefSkills: prefSkillsScore,
-                    experience: expScore,
-                    language: languageScore
+                    score: totalScore.toFixed(2),
+                    education: educationScore.toFixed(2),
+                    essSkills: essSkillsScore.toFixed(2),
+                    prefSkills: prefSkillsScore.toFixed(2),
+                    experience: expScore.toFixed(2),
+                    language: languageScore.toFixed(2)
                 };
                 console.log(result);
                 rankedCvs.push(result);
