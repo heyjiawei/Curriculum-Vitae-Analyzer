@@ -2,10 +2,10 @@
 
 angular.module('myApp.factories')
     .factory('cvEvaluator', function (stem, storageAccess) {
-        var evaluateAllCv = function () {
-            var EDU_WEIGHT = 0.20, ESS_SKILL_WEIGHT = 0.20, PREF_SKILL_WEIGHT = 0.20,
-                EXP_WEIGHT = 0.20, LANG_WEIGHT = 0.20;
+        var EDU_WEIGHT = 0.20, ESS_SKILL_WEIGHT = 0.20, PREF_SKILL_WEIGHT = 0.20,
+            EXP_WEIGHT = 0.20, LANG_WEIGHT = 0.20;
 
+        var evaluateAllCv = function () {
             var allCv = storageAccess.getAllCV();
             var jobDesc = storageAccess.getJobDescription();
 
@@ -41,12 +41,12 @@ angular.module('myApp.factories')
 
                 var result = {
                     id: stemmedCv.id,
-                    score: totalScore,
-                    education: educationScore,
-                    essSkills: essSkillsScore,
-                    prefSkills: prefSkillsScore,
-                    experience: expScore,
-                    language: languageScore
+                    score: totalScore.toFixed(2),
+                    education: educationScore.toFixed(2),
+                    essSkills: essSkillsScore.toFixed(2),
+                    prefSkills: prefSkillsScore.toFixed(2),
+                    experience: expScore.toFixed(2),
+                    language: languageScore.toFixed(2)
                 };
                 console.log(result);
                 rankedCvs.push(result);
@@ -153,6 +153,19 @@ angular.module('myApp.factories')
             return count/jdLang.length * 100;
         }
 
+        // update weights
+        function updateWeights(edu, essSkill, prefSkill, expe, lang) {
+            var total = edu + essSkill + prefSkill + expe + lang;
+
+            EDU_WEIGHT = edu/total;
+            ESS_SKILL_WEIGHT = essSkill/total;
+            PREF_SKILL_WEIGHT = prefSkill/total;
+            EXP_WEIGHT = expe/total;
+            LANG_WEIGHT = lang/total;
+
+            evaluateAllCv();
+        }
+
         //returns number of matched words
         function findMatchingWords(source1, source2) {
             var wordsOfSource1 = source1.join(" ").split(" ");
@@ -201,6 +214,7 @@ angular.module('myApp.factories')
         }
 
         return {
-            evaluateCV: evaluateAllCv
+            evaluateCV: evaluateAllCv,
+            update: updateWeights
         }
     });
