@@ -80,13 +80,17 @@ angular.module('myApp.factories')
         /* SKILLS SCORING */
         // The score is the percentage number of skill keywords matched with weightage of each category matching
         function calcSkillsScore(cv, jdSkills) {
+            if (jdSkills.length == 0) {
+                return 100;
+            }
+
             var SKILLS_WEIGHT = 3, EXP_WEIGHT = 1.5, INTEREST_WEIGHT = 0.5;
             var WEIGHT_NORM = SKILLS_WEIGHT + EXP_WEIGHT + INTEREST_WEIGHT;
 
             var skillCount = 0;
             cv.skill.forEach(function (skill) {
-                for(var i=0; i<jdSkills.length; i++) {
-                    if(skill.name === jdSkills[i].name) {
+                for (var i = 0; i < jdSkills.length; i++) {
+                    if (skill.name === jdSkills[i].name) {
                         skillCount++;
                         break;
                     }
@@ -95,27 +99,26 @@ angular.module('myApp.factories')
 
             var expCount = 0;
             cv.experience.forEach(function (exp) {
-               for(var i=0; i<jdSkills.length; i++) {
-                   if(exp.name === jdSkills[i].name) {
-                       expCount++;
-                       break;
-                   }
-               }
+                for (var i = 0; i < jdSkills.length; i++) {
+                    if (exp.name === jdSkills[i].name) {
+                        expCount++;
+                        break;
+                    }
+                }
             });
 
             var interestCount = 0;
             cv.interest.forEach(function (interest) {
-                for(var i=0; i<jdSkills.length; i++) {
-                    if(interest === jdSkills[i].name) {
+                for (var i = 0; i < jdSkills.length; i++) {
+                    if (interest === jdSkills[i].name) {
                         interestCount++;
                         break;
                     }
                 }
             });
 
-
-            return (skillCount*SKILLS_WEIGHT + expCount*EXP_WEIGHT + interestCount*INTEREST_WEIGHT)/
-                    (jdSkills.length*WEIGHT_NORM) * 100;
+            return (skillCount * SKILLS_WEIGHT + expCount * EXP_WEIGHT + interestCount * INTEREST_WEIGHT) /
+                (jdSkills.length * WEIGHT_NORM) * 100;
         }
 
         /* EXPERIENCE SCORING */
@@ -127,12 +130,16 @@ angular.module('myApp.factories')
             if(cvExp < jdExp)
                 return 0;
             else
-                return EDU_NORMAL;
+                return EXP_NORMAL;
         }
 
         /* LANGUAGE SCORING */
         // The score is the percentage number of language keywords matched
         function calcLanguageScore(cvLang, jdLang) {
+            if(jdLang.length == 0) {
+                return 100;
+            }
+
             var count = 0;
             cvLang.forEach(function (lang) {
                 for(var i=0; i<jdLang.length; i++) {
