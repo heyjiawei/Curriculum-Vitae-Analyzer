@@ -2,7 +2,7 @@
 
 angular.module('myApp.view2', [])
 
-.controller('View2Ctrl', function($scope, $q, $timeout, storageAccess) {
+.controller('View2Ctrl', function($scope, $q, $timeout, storageAccess, cvEvaluator) {
     $scope.selected = []; // selecting a row will bring us to the selected cv
     $scope.query = {
       order: 'name',
@@ -47,6 +47,7 @@ angular.module('myApp.view2', [])
     }];
 
     $scope.cvMatch = storageAccess.getAllResults();
+    console.log("to be displayed:",$scope.cvMatch);
 
     $scope.weight = {eduWeight : 1,
                     essSkillsWeight : 1,
@@ -60,8 +61,16 @@ angular.module('myApp.view2', [])
         newWeight.prefSkillsWeight +
         newWeight.workExpWeight +
         newWeight.languageWeight;
+
+      cvEvaluator.update(newWeight.eduWeight,
+                        newWeight.essSkillsWeight,
+                        newWeight.prefSkillsWeight,
+                        newWeight.workExpWeight,
+                        newWeight.languageWeight);
+      $scope.cvMatch = storageAccess.getAllResults();
       console.log('cv', $scope.cvMatch);
 
+      /*
       $scope.cvMatch.forEach(function(cv) {
         var eduScore = (newWeight.eduWeight / totalWeight) * cv.education;
         var essSkillScore = (newWeight.essSkillsWeight / totalWeight) * cv.essSkills;
@@ -72,6 +81,7 @@ angular.module('myApp.view2', [])
         cv.score = matchScore;
         console.log("matchScore = " + matchScore);
       });
+      */
     }, true);
 
     $scope.onPaginationChange = function(page, limit) {
