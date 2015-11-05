@@ -10,6 +10,7 @@ angular.module('myApp.view2', [])
       page: 1
     };
 
+    // table column
     $scope.columns = [{
       name: 'Name / filename',
       orderBy: 'id'
@@ -49,6 +50,7 @@ angular.module('myApp.view2', [])
     $scope.cvMatch = storageAccess.getAllResults();
     console.log("to be displayed:",$scope.cvMatch);
 
+    // default position of slider
     $scope.weight = {eduWeight : 1,
                     essSkillsWeight : 1,
                     prefSkillsWeight : 1,
