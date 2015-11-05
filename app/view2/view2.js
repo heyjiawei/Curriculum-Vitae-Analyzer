@@ -56,32 +56,21 @@ angular.module('myApp.view2', [])
                     languageWeight : 1};
 
     $scope.$watch('weight', function(newWeight, oldWeight) {
-      var totalWeight = newWeight.eduWeight +
-        newWeight.essSkillsWeight +
-        newWeight.prefSkillsWeight +
-        newWeight.workExpWeight +
-        newWeight.languageWeight;
-
       cvEvaluator.update(newWeight.eduWeight,
                         newWeight.essSkillsWeight,
                         newWeight.prefSkillsWeight,
                         newWeight.workExpWeight,
                         newWeight.languageWeight);
-      $scope.cvMatch = storageAccess.getAllResults();
+
+      var result = storageAccess.getAllResults();
+
+      // update score of each cv
+      for (var i = 0; i < result.length; i++) {
+        $scope.cvMatch[i]["score"] = result[i]["score"];
+      }
+
       console.log('cv', $scope.cvMatch);
 
-      /*
-      $scope.cvMatch.forEach(function(cv) {
-        var eduScore = (newWeight.eduWeight / totalWeight) * cv.education;
-        var essSkillScore = (newWeight.essSkillsWeight / totalWeight) * cv.essSkills;
-        var prefSkillScore = (newWeight.prefSkillsWeight / totalWeight) * cv.prefSkills;
-        var workExpScore = (newWeight.workExpWeight / totalWeight) * cv.experience;
-        var languageScore = (newWeight.languageWeight / totalWeight) * cv.language;
-        var matchScore = eduScore + essSkillScore + prefSkillScore + workExpScore + languageScore;
-        cv.score = matchScore;
-        console.log("matchScore = " + matchScore);
-      });
-      */
     }, true);
 
     $scope.onPaginationChange = function(page, limit) {
