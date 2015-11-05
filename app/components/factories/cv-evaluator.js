@@ -75,6 +75,8 @@ angular.module('myApp.factories')
                 return 100;
             } else if(jdEdu.degree == 0) {
                 return eduCount/jdEdu.keywords.length * 100;
+            } else if(jdEdu.keywords.length == 0) {
+                return cvEdu.degree >= jdEdu.degree ? 100 : 0;
             } else {
                 return ((cvEdu.degree >= jdEdu.degree ? 100 : 0) + eduCount/jdEdu.keywords.length*100) / 2;
             }
