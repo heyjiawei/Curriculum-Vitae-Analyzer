@@ -60,21 +60,24 @@ angular.module('myApp.factories')
         // Initial score based on number of matching keywords
         // Then compare, if degree less than minimum, return 0, else 100
         function calcEducationScore(cvEdu, jdEdu) {
-            var EDU_NORMAL = 100;
-            var score = findMatchingWords(cvEdu.keywords, jdEdu.keywords);
+            var eduCount = 0;
+            cvEdu.keywords.forEach(function (key) {
+                for (var i=0; i < jdEdu.keywords.length; i++) {
+                    if (key.name === jdEdu.keywords[i].name) {
+                        eduCount++;
+                        break;
+                    }
+                }
+            });
 
-            // if user has no degree level preference
-            if(jdEdu.degree == 0) {
-                if(cvEdu != 0)
-                    return score*cvEdu.degree;
-                else
-                    return score;
-            // if user has degree level preference
+            // if user has no degree level or course preference
+            if(jdEdu.degree == 0 && jdEdu.keywords.length == 0) {
+                return 100;
+            } else if(jdEdu.degree == 0) {
+                return eduCount/jdEdu.keywords.length * 100;
             } else {
-                return score * (cvEdu.degree>=jdEdu.degree ? EDU_NORMAL : 0);
+                return ((cvEdu.degree >= jdEdu.degree ? 100 : 0) + eduCount/jdEdu.keywords.length*100) / 2;
             }
-
-            return score;
         }
 
         /* SKILLS SCORING */
