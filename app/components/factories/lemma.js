@@ -86,7 +86,9 @@ angular.module('myApp.factories')
                     keyWords = keyWords.concat(tokens.map(Function.prototype.call, String.prototype.trim));
                 }
             )
-            return keyWords;
+            return keyWords.map(function(keyword) {
+                return keyword.toLowerCase();
+            });
         }
 
         //returns all the sentence splitted up by " "
