@@ -2,7 +2,7 @@
 
 angular.module('myApp.factories')
 
-    .factory('lemma', function (nlp) {
+    .factory('lemma', function (nlp, parserUtils) {
 
         //returns an array of result objects with institute, course, degree, date and grade fields
         var parseEducationBackground = function (sentenceArray) {
@@ -91,27 +91,7 @@ angular.module('myApp.factories')
 
         //returns all the sentence splitted up by " "
         var parseLanguages = function (sentenceArray) {
-            var results = [];
-            sentenceArray.forEach(
-                function (sentence) {
-                    for (var key in languages) {
-                        var languageNames = languages[key].name.split(/,|;/).map(
-                            function (languageName) {
-                                return languageName.toLowerCase().trim();
-                            }
-                        );
-                        for (var i = 0; i < languageNames.length; i++) {
-                            var language = languageNames[i];
-                            if (sentence.toLowerCase().contains(language.toLowerCase())) {
-                                results.push(key);
-                                return;
-                            }
-                        }
-
-                    }
-                }
-            )
-            return results;
+            return parserUtils.parse_language(sentenceArray);
         }
 
         var parseWorkTime = function (sentenceArray) {

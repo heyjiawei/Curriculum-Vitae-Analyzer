@@ -8,8 +8,7 @@ function CV () {
     this.experience = [];
     //returns an array of strings
     this.interest = [];
-    //returns an array of string, splitted by spaces
-    //TODO: split might be weird. e.g. English(proficiency: high) will become ["English(proficiency:", "high"]
+    //array of ISO 639-1 codes i.e. keys of languages json in Constants
     this.languages = [];
     //TODO: not done
     this.id = [];

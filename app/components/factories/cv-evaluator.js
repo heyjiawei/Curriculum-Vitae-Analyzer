@@ -196,7 +196,7 @@ angular.module('myApp.factories')
             //need to stem keys only if needed
             stemmedCv.education = cv.education;
             stemmedCv.education.keywords = stem.stemKeyWords(stemmedCv.education.keywords);
-            stemmedCv.language = stem.stem(cv.language);
+            stemmedCv.language = cv.language;
             stemmedCv.interest = stem.stem(cv.interest);
             stemmedCv.skill = stem.stem(cv.skill);
             stemmedCv.experience = stem.stemKeyWords(cv.experience);
@@ -214,6 +214,7 @@ angular.module('myApp.factories')
             stemmedJobDescription.education = jobDesc.education;
             stemmedJobDescription.education.keywords = stem.stemKeyWords(stemmedJobDescription.education.keywords);
             stemmedJobDescription.workExperienceTime = jobDesc.workExperienceTime;
+            stemmedJobDescription.languages = jobDesc.languages;
             console.log("stemmed job desc", stemmedJobDescription);
             return stemmedJobDescription;
         }

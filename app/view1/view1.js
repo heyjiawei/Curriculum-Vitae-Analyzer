@@ -101,7 +101,7 @@ angular.module('myApp.view1', ['ngRoute', 'ngFileUpload'])
     jobDescParsed.location = jobDescriptionParser.parse_location(tokens.location);
     jobDescParsed.education = jobDescriptionParser.find_and_parse_education(tokens.minimumRequirement);
     jobDescParsed.workExperienceTime = jobDescriptionParser.find_and_parse_work_time(tokens.minimumRequirement);
-    // TODO: languages
+    jobDescParsed.languages = jobDescriptionParser.parse_languages(tokens.minimumRequirement.concat(tokens.preferredQualification));
     //console.log("job desc parsed", jobDescParsed);
     storageAccess.setJobDescription(jobDescParsed);
     console.log("job desc", jobDescParsed);

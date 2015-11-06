@@ -2,7 +2,7 @@
 
 angular.module('myApp.factories')
 
-    .factory('jobDescriptionParser', function (nlp) {
+    .factory('jobDescriptionParser', function (nlp, parserUtils) {
 
         var findAndParseLocation = function (sentenceArray) {
             var results = [];
@@ -61,16 +61,7 @@ angular.module('myApp.factories')
         }
 
         var findLanguages = function (sentenceArray) {
-            var result = [];
-            sentenceArray.forEach(
-                function (sentence) {
-                    var singularSentence = sentence.toLowerCase();
-                    if (singularSentence.match(new RegExp("\\blanguage[s]?", "g"))) {
-                        result = result.concat(singularSentence.split(" "));
-                    }
-                }
-            )
-            return result;
+            return parserUtils.parse_language(sentenceArray);
         }
 
         //TODO: REUSED METHOD from lemma.js

@@ -9,7 +9,7 @@ function JobDescription() {
     this.location=[];
     //returns min work experience time in milliseconds
     this.workExperienceTime = 0;
-    //TODO: not done
+    //array of ISO 639-1 codes i.e. keys of languages json in Constants
     this.languages = [];
 }
 
