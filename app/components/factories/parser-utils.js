@@ -16,7 +16,7 @@ angular.module('myApp.factories')
                         );
                         for (var i = 0; i < languageNames.length; i++) {
                             var language = languageNames[i];
-                            if (sentence.toLowerCase().contains(language.toLowerCase())) {
+                            if (sentence.toLowerCase().includes(language.toLowerCase())) {
                                 results.push(key);
                                 return;
                             }
