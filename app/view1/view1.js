@@ -75,7 +75,7 @@ angular.module('myApp.view1', ['ngRoute', 'ngFileUpload'])
       // TODO: Factor into CV handler method
       var cvParsed = new CV();
       cvParsed.education = lemma.find_and_parse_education(tokens.education);
-      cvParsed.language = lemma.parse_language(tokens.language);
+      cvParsed.languages = lemma.parse_language(tokens.language);
       cvParsed.interest = lemma.parse_interest(tokens.interest);
       cvParsed.skill = lemma.parse_skills(tokens.skill);
       cvParsed.experience = lemma.parse_experience(tokens.experience.concat(tokens.project));
