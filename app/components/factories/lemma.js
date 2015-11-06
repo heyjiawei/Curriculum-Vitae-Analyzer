@@ -94,8 +94,21 @@ angular.module('myApp.factories')
             var results = [];
             sentenceArray.forEach(
                 function (sentence) {
-                    var tokens = sentence.split(" ");
-                    results = results.concat(tokens);
+                    for (var key in languages) {
+                        var languageNames = languages[key].name.split(/,|;/).map(
+                            function (languageName) {
+                                return languageName.toLowerCase().trim();
+                            }
+                        );
+                        for (var i = 0; i < languageNames.length; i++) {
+                            var language = languageNames[i];
+                            if (sentence.toLowerCase().contains(language.toLowerCase())) {
+                                results.push(key);
+                                return;
+                            }
+                        }
+
+                    }
                 }
             )
             return results;
