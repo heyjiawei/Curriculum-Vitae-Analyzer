@@ -8,6 +8,7 @@ angular.module('myApp.factories')
 .factory('storageAccess', function() {
 	var jobDescription = "";
 	var parsedCVs = [];
+	var evaluationResults = [];
 
 	/** ----- STORAGE WRITING ----- **/
 
@@ -15,10 +16,13 @@ angular.module('myApp.factories')
 		jobDescription = input;
 	};
 
-	// storing one by one or all at once?
 	var storeParsedCV = function(parsedCV) {
-//		var cv = JSON.parse(parsedCV);
+		//var cv = JSON.parse(parsedCV);
 		parsedCVs.push(parsedCV);
+	};
+
+	var storeResults = function(results) {
+		evaluationResults = results;
 	};
 
 
@@ -36,11 +40,17 @@ angular.module('myApp.factories')
 		return parsedCVs[name];
 	};
 
+	var getAllResults = function() {
+		return evaluationResults;
+	};
+
 	return {
 		setJobDescription: setJobDescription,
 		storeParsedCV: storeParsedCV,
+		storeResults: storeResults,
 		getJobDescription: getJobDescription,
 		getAllCV: getAllCV,
-		getCV: getCV
+		getCV: getCV,
+		getAllResults: getAllResults
 	};
 });

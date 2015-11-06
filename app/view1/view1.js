@@ -13,7 +13,7 @@ angular.module('myApp.view1', ['ngRoute', 'ngFileUpload'])
   }])
 
 .controller('View1Ctrl', function($scope, $q, fileReader, pdfReader, lemma, cvTokenizer,
-                                  jobDescTokenizer, jobDescriptionParser, cvEvaluator, storageAccess) {
+                                  jobDescTokenizer, jobDescriptionParser, cvEvaluator, storageAccess, $location) {
     $scope.fileNames = "";
     $scope.jobDescript = "";
 
@@ -115,7 +115,8 @@ angular.module('myApp.view1', ['ngRoute', 'ngFileUpload'])
     $q.all([processJobDescPromise, processFilesPromise]).then(function(jobDescAndFiles) {
       console.log("THS IS THE END", jobDescAndFiles);
       var allParsedCvs = jobDescAndFiles[1];
-      cvEvaluator.evaluateCV(allParsedCvs);
+      cvEvaluator.evaluateCV();
+      $location.url("/view2");
     });
   };
 });
