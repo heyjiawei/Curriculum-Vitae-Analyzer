@@ -63,13 +63,7 @@
         </thead>
           <tbody>
             <tr md-auto-select data-ng-repeat="cv in cvMatch | orderBy: query.order | limitTo: query.limit : (query.page -1) * query.limit">
-              <td>{{cv.id}}</td>
-              <td show-unit>{{cv.score}}</td>
-              <td show-unit>{{cv.education}}</td>
-              <td show-unit>{{cv.essSkills}}</td>
-              <td show-unit>{{cv.prefSkills}}</td>
-              <td show-unit>{{cv.experience}}</td>
-              <td show-unit>{{cv.language}}</td>
+              <td data-ng-repeat="(key, value) in cv">{{key}} {{value}}</td>
             </tr>
           </tbody>
       </table>
