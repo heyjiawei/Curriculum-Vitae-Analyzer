@@ -195,11 +195,11 @@ angular.module('myApp.factories')
             var stemmedCv = new CV();
             //need to stem keys only if needed
             stemmedCv.education = cv.education;
-            stemmedCv.education.keywords = stem.stemKeyWords(stemmedCv.education.keywords);
+            stemmedCv.education.keywords = stemmedCv.education.keywords;
             stemmedCv.languages = cv.languages;
-            stemmedCv.interest = stem.stem(cv.interest);
-            stemmedCv.skill = stem.stem(cv.skill);
-            stemmedCv.experience = stem.stemKeyWords(cv.experience);
+            stemmedCv.interest = cv.interest;
+            stemmedCv.skill = cv.skill;
+            stemmedCv.experience = cv.experience;
             stemmedCv.workExperienceTime = cv.workExperienceTime;
             stemmedCv.id = cv.id;
             console.log("stemmed cv", stemmedCv);
@@ -208,11 +208,11 @@ angular.module('myApp.factories')
 
         function stemJobDesc(jobDesc) {
             var stemmedJobDescription = new JobDescription();
-            stemmedJobDescription.essentialSkills = stem.stemKeyWords(jobDesc.essentialSkills);
-            stemmedJobDescription.preferredSkills = stem.stemKeyWords(jobDesc.preferredSkills);
+            stemmedJobDescription.essentialSkills = jobDesc.essentialSkills;
+            stemmedJobDescription.preferredSkills = jobDesc.preferredSkills;
             stemmedJobDescription.location = jobDesc.location;
             stemmedJobDescription.education = jobDesc.education;
-            stemmedJobDescription.education.keywords = stem.stemKeyWords(stemmedJobDescription.education.keywords);
+            stemmedJobDescription.education.keywords = stemmedJobDescription.education.keywords;
             stemmedJobDescription.workExperienceTime = jobDesc.workExperienceTime;
             stemmedJobDescription.languages = jobDesc.languages;
             console.log("stemmed job desc", stemmedJobDescription);
