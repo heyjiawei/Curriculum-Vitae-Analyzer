@@ -41,12 +41,12 @@ angular.module('myApp.factories')
 
                 var result = {
                     id: stemmedCv.id,
-                    score: totalScore.toFixed(2),
-                    education: educationScore.toFixed(2),
-                    essSkills: essSkillsScore.toFixed(2),
-                    prefSkills: prefSkillsScore.toFixed(2),
-                    experience: expScore.toFixed(2),
-                    language: languageScore.toFixed(2)
+                    score: totalScore,
+                    education: educationScore,
+                    essSkills: essSkillsScore,
+                    prefSkills: prefSkillsScore,
+                    experience: expScore,
+                    language: languageScore
                 };
                 console.log(result);
                 rankedCvs.push(result);
@@ -156,19 +156,6 @@ angular.module('myApp.factories')
             });
 
             return count/jdLang.length * 100;
-        }
-
-        // update weights
-        function updateWeights(edu, essSkill, prefSkill, expe, lang) {
-            var total = edu + essSkill + prefSkill + expe + lang;
-
-            EDU_WEIGHT = edu/total;
-            ESS_SKILL_WEIGHT = essSkill/total;
-            PREF_SKILL_WEIGHT = prefSkill/total;
-            EXP_WEIGHT = expe/total;
-            LANG_WEIGHT = lang/total;
-
-            evaluateAllCv();
         }
 
         //returns number of matched words
