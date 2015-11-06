@@ -52,8 +52,8 @@ angular.module('myApp.factories')
                 rankedCvs.push(result);
             });
 
-            storageAccess.storeResults(rankedCvs);
             console.log("ranked CVS", rankedCvs);
+            return rankedCvs;
         };
 
         /* EDUCATION SCORING */
