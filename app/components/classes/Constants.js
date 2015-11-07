@@ -15,6 +15,8 @@ var workKeyWords = ["work", "experience"];
 
 var excludedKeyWords = ["and", "&"];
 
+var excludedEducationKeyWords = diplomaKeyWords.concat(bachelorKeyWords, masterKeyWords, phdKeyWords, ["degree"]);
+
 //retrieved from http://pastebin.com/raw.php?i=ppdMS687
 var languages = {
         "ab": {

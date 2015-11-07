@@ -31,6 +31,7 @@ angular.module('myApp.factories')
                     }
                 }
             )
+            result.keywords = parserUtils.filter_education_keywords(result.keywords);
             return result;
         }
 

@@ -9,7 +9,9 @@ angular.module('myApp.factories')
             var result = new CVEducation();
             result.degree = getDegree(sentenceArray);
             //console.log("degree parsed", result.degree);
-            result.keywords = getKeywords(sentenceArray);
+            //to remove words such as degree, bachelor, from keywords.
+            //because such words are already encapsulated in degree
+            result.keywords = parserUtils.filter_education_keywords(getKeywords(sentenceArray));
             //console.log("keywords parsed", result.keywords);
             return result;
         }

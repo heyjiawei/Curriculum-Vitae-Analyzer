@@ -68,6 +68,14 @@ angular.module('myApp.factories')
             });
         }
 
+        //remove words like degree, bachelor from the keywords array
+        var filterEducationKeywords = function(keywords) {
+            console.log("1", excludedEducationKeyWords);
+            return keywords.filter(function(name) {
+                return excludedEducationKeyWords.indexOf(name) < 0;
+            });
+        }
+
 
         //var test = ["National University of Singapore", "MSCS, IT, 2010 - 2012"];
         //console.log(parseEducationBackground(test));
@@ -76,7 +84,8 @@ angular.module('myApp.factories')
             get_named_entities: getNamedEntities,
             get_named_entities_with_existing_results: getNamedEntitiesWithExistingResults,
             remove_redundant_keywords: removeRedundantKeywords,
-            remove_duplicate_keywords: removeDuplicateKeywords
+            remove_duplicate_keywords: removeDuplicateKeywords,
+            filter_education_keywords: filterEducationKeywords
         }
     }
 )
