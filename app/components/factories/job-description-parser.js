@@ -28,7 +28,7 @@ angular.module('myApp.factories')
                     }
                 }
             )
-            return keywords;
+            return parserUtils.filter_education_keywords(keywords);
         }
 
         var parseEducationDegree = function (sentenceArray) {
