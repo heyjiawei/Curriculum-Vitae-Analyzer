@@ -64,16 +64,10 @@ angular.module('myApp.factories')
                     }
                 }
             )
-            //console.log("keywords parsed 1", keyWordNames);
-            //store an array of Keyword objects
-            var results = [];
-            for (var i = 0; i < keyWordNames.length; i++) {
-                var keyWord = findKeyWord(results, keyWordNames[i]);
-                keyWord.name = keyWordNames[i];
-                keyWord.value = keyWord.value + 1;
-                results.push(keyWord);
-            }
-            return results;
+            keyWordNames = keyWordNames.join(" ").split(/\/|\s/);
+            return keyWordNames.filter(function(name) {
+                return excludedKeyWords.indexOf(name) < 0;
+            });
         }
 
         //split by sentences, then commas within each sentence

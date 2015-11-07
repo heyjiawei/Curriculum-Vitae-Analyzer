@@ -82,15 +82,10 @@ angular.module('myApp.factories')
                     }
                 }
             );
-            //console.log("keywords parsed 1", keyWordNames);
-            //store an array of Keyword objects
-            for (var i = 0; i < keyWordNames.length; i++) {
-                var keyWord = findKeyWord(existingResult, keyWordNames[i]);
-                keyWord.name = keyWordNames[i];
-                keyWord.value = keyWord.value + 1;
-                existingResult.push(keyWord);
-            }
-            return existingResult;
+            keyWordNames = keyWordNames.join(" ").split(/\/|\s/);
+            return keyWordNames.filter(function(name) {
+                return excludedKeyWords.indexOf(name) < 0;
+            });
         }
 
         var getNamedEntities = function(sentenceArray) {

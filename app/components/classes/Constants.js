@@ -13,6 +13,8 @@ var durationKeyWords = [
     }];
 var workKeyWords = ["work", "experience"];
 
+var excludedKeyWords = ["and"];
+
 //retrieved from http://pastebin.com/raw.php?i=ppdMS687
 var languages = {
         "ab": {
@@ -744,10 +746,4 @@ var languages = {
             "nativeName": "Sa? cue??, Saw cuengh"
         }
     };
-
-function Keyword() {
-    this.name = "";
-    this.value = 0;
-}
-
 
