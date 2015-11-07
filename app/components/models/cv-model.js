@@ -25,7 +25,7 @@ angular.module('myApp.models', ['myApp.factories'])
             this.workExperienceTime = 0;
         };
 
-        function saveCV(result) {
+        function save(result) {
             var tokens = cvTokenizer.tokenizeCv(result);
             console.log("cv tokens", tokens);
             var cvParsed = new CV();
@@ -40,6 +40,6 @@ angular.module('myApp.models', ['myApp.factories'])
         };
 
         return {
-            save: saveCV
+            save: save
         };
     });

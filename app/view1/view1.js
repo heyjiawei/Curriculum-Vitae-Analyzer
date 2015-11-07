@@ -12,7 +12,7 @@ angular.module('myApp.view1', ['ngRoute', 'ngFileUpload'])
     });
   }])
 
-.controller('View1Ctrl', function($scope, $q, fileReader, pdfReader, cvModel,
+.controller('View1Ctrl', function($scope, $q, fileReader, pdfReader, cvModel, jobDescriptionModel,
                                   jobDescTokenizer, jobDescriptionParser, cvEvaluator, storageAccess, $location) {
     $scope.fileNames = "";
     $scope.jobDescript = "";
@@ -58,21 +58,21 @@ angular.module('myApp.view1', ['ngRoute', 'ngFileUpload'])
 
   var processJobDesc = function(jobDesc) {
     var deferred = $q.defer();
-
-    var tokens = jobDescTokenizer.tokenizeJobDesc(jobDesc);
-    console.log("job desc tokens", tokens);
-
-    var jobDescParsed = new JobDescription();
-    jobDescParsed.essentialSkills = jobDescriptionParser.parse_min_req(tokens.minimumRequirement.concat(tokens.responsibility));
-    jobDescParsed.preferredSkills = jobDescriptionParser.parse_skills(tokens.preferredQualification); // TODO: parse from minreq as well
-    jobDescParsed.location = jobDescriptionParser.parse_location(tokens.location);
-    jobDescParsed.education = jobDescriptionParser.parse_education_keywords(tokens.minimumRequirement);
-    jobDescParsed.workExperienceTime = jobDescriptionParser.find_and_parse_work_time(tokens.minimumRequirement);
-    jobDescParsed.languages = jobDescriptionParser.parse_languages(tokens.minimumRequirement.concat(tokens.preferredQualification));
-    //console.log("job desc parsed", jobDescParsed);
-    storageAccess.setJobDescription(jobDescParsed);
-    console.log("job desc", jobDescParsed);
-    deferred.resolve(jobDescParsed);
+    jobDescriptionModel.save(jobDesc);
+    //var tokens = jobDescTokenizer.tokenizeJobDesc(jobDesc);
+    //console.log("job desc tokens", tokens);
+    //
+    //var jobDescParsed = new JobDescription();
+    //jobDescParsed.essentialSkills = jobDescriptionParser.parse_min_req(tokens.minimumRequirement.concat(tokens.responsibility));
+    //jobDescParsed.preferredSkills = jobDescriptionParser.parse_skills(tokens.preferredQualification); // TODO: parse from minreq as well
+    //jobDescParsed.location = jobDescriptionParser.parse_location(tokens.location);
+    //jobDescParsed.education = jobDescriptionParser.parse_education_keywords(tokens.minimumRequirement);
+    //jobDescParsed.workExperienceTime = jobDescriptionParser.find_and_parse_work_time(tokens.minimumRequirement);
+    //jobDescParsed.languages = jobDescriptionParser.parse_languages(tokens.minimumRequirement.concat(tokens.preferredQualification));
+    ////console.log("job desc parsed", jobDescParsed);
+    //storageAccess.setJobDescription(jobDescParsed);
+    //console.log("job desc", jobDescParsed);
+    //deferred.resolve();
     return deferred.promise;
   };
 
