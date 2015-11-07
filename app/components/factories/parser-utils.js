@@ -44,14 +44,25 @@ angular.module('myApp.factories')
                 }
             );
             keyWordNames = keyWordNames.join(" ").split(/\/|\s/);
-            return keyWordNames.filter(function(name) {
-                return excludedKeyWords.indexOf(name) < 0;
-            });
+            var removeRedundantKeywords = function(keywords){
+                return keywords.filter(function(name) {
+                    return excludedKeyWords.indexOf(name) < 0;
+                });
+            }
+            var removeDuplicateKeywords = function(keywords) {
+                var seen = {};
+                return keywords.filter(function(keyword) {
+                    return seen.hasOwnProperty(keyword) ? false : (seen[keyword] = true);
+                });
+            }
+            var finalKeyWords = removeDuplicateKeywords(removeRedundantKeywords(keyWordNames));
+            return finalKeyWords;
         }
 
         var getNamedEntities = function(sentenceArray) {
             return getNamedEntitiesWithExistingResults(sentenceArray, []);
         }
+
 
         //var test = ["National University of Singapore", "MSCS, IT, 2010 - 2012"];
         //console.log(parseEducationBackground(test));
