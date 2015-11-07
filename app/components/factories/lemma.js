@@ -59,13 +59,16 @@ angular.module('myApp.factories')
             var keyWords = [];
             sentenceArray.forEach(
                 function (sentence) {
-                    var tokens = sentence.split(",");
+                    var tokens = sentence.split(/\/|\s|,/);
                     keyWords = keyWords.concat(tokens.map(Function.prototype.call, String.prototype.trim));
                 }
             )
-            return keyWords.map(function(keyword) {
-                return keyword.toLowerCase();
+            var lowerCaseKeyWords = keyWords.map(function(keyword) {
+                return keyword.toLowerCase()
             });
+            //console.log("lower case", lowerCaseKeyWords);
+            return parserUtils.remove_duplicate_keywords(parserUtils.remove_redundant_keywords(lowerCaseKeyWords));
+
         }
 
         //returns all the sentence splitted up by " "

@@ -43,18 +43,7 @@ angular.module('myApp.factories')
                     }
                 }
             );
-            keyWordNames = keyWordNames.join(" ").split(/\/|\s/);
-            var removeRedundantKeywords = function(keywords){
-                return keywords.filter(function(name) {
-                    return excludedKeyWords.indexOf(name) < 0;
-                });
-            }
-            var removeDuplicateKeywords = function(keywords) {
-                var seen = {};
-                return keywords.filter(function(keyword) {
-                    return seen.hasOwnProperty(keyword) ? false : (seen[keyword] = true);
-                });
-            }
+            keyWordNames = splitKeywords(keyWordNames);
             var finalKeyWords = removeDuplicateKeywords(removeRedundantKeywords(keyWordNames));
             return finalKeyWords;
         }
@@ -63,13 +52,31 @@ angular.module('myApp.factories')
             return getNamedEntitiesWithExistingResults(sentenceArray, []);
         }
 
+        var splitKeywords = function(keywords) {
+             return keywords.join(" ").split(/\/|\s/);
+        }
+        var removeRedundantKeywords = function(keywords){
+            return keywords.filter(function(name) {
+                return excludedKeyWords.indexOf(name) < 0;
+            });
+        }
+
+        var removeDuplicateKeywords = function(keywords) {
+            var seen = {};
+            return keywords.filter(function(keyword) {
+                return seen.hasOwnProperty(keyword) ? false : (seen[keyword] = true);
+            });
+        }
+
 
         //var test = ["National University of Singapore", "MSCS, IT, 2010 - 2012"];
         //console.log(parseEducationBackground(test));
         return {
             parse_language: parseLanguages,
             get_named_entities: getNamedEntities,
-            get_named_entities_with_existing_results: getNamedEntitiesWithExistingResults
+            get_named_entities_with_existing_results: getNamedEntitiesWithExistingResults,
+            remove_redundant_keywords: removeRedundantKeywords,
+            remove_duplicate_keywords: removeDuplicateKeywords
         }
     }
 )

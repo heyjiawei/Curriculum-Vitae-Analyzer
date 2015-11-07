@@ -86,8 +86,9 @@ angular.module('myApp.factories')
 
             var interestCount = findMatchingWords(cv.interest, jdSkills);
 
-            return (skillCount * SKILLS_WEIGHT + expCount * EXP_WEIGHT + interestCount * INTEREST_WEIGHT) /
+            var totalScore = (skillCount * SKILLS_WEIGHT + expCount * EXP_WEIGHT + interestCount * INTEREST_WEIGHT) /
                 (jdSkills.length * WEIGHT_NORM) * 100;
+            return totalScore > 100 ? 100 : totalScore;
         }
 
         /* EXPERIENCE SCORING */

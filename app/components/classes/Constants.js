@@ -13,7 +13,7 @@ var durationKeyWords = [
     }];
 var workKeyWords = ["work", "experience"];
 
-var excludedKeyWords = ["and"];
+var excludedKeyWords = ["and", "&"];
 
 //retrieved from http://pastebin.com/raw.php?i=ppdMS687
 var languages = {
