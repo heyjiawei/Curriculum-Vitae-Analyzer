@@ -5,18 +5,14 @@ angular.module('myApp.factories')
     .factory('lemma', function (nlp, parserUtils) {
 
         //returns an array of result objects with institute, course, degree, date and grade fields
-        var parseEducationBackground = function (sentenceArray) {
-            var result = new CVEducation();
-            result.degree = getDegree(sentenceArray);
-            //console.log("degree parsed", result.degree);
+        var parseEducationKeywords = function (sentenceArray) {
             //to remove words such as degree, bachelor, from keywords.
             //because such words are already encapsulated in degree
-            result.keywords = parserUtils.filter_education_keywords(getKeywords(sentenceArray));
-            //console.log("keywords parsed", result.keywords);
-            return result;
+
+            return parserUtils.filter_education_keywords(getKeywords(sentenceArray));
         }
 
-        var getDegree = function(sentenceArray) {
+        var parseEducationDegree = function (sentenceArray) {
             //for categorising degree
             var allDegreeKeyWordsArray = [phdKeyWords, masterKeyWords, bachelorKeyWords, diplomaKeyWords];
             var result = 0;
@@ -47,7 +43,6 @@ angular.module('myApp.factories')
             });
             return result;
         }
-
 
         //get keywords
         //returns the keywords with its corresponding number of occurrences
@@ -121,7 +116,8 @@ angular.module('myApp.factories')
         //var test = ["National University of Singapore", "MSCS, IT, 2010 - 2012"];
         //console.log(parseEducationBackground(test));
         return {
-            find_and_parse_education: parseEducationBackground,
+            parse_education_keywords: parseEducationKeywords,
+            parse_education_degree: parseEducationDegree,
             parse_language: parseLanguages,
             parse_interest: parseInterestsAndSkills,
             parse_skills: parseInterestsAndSkills,

@@ -70,7 +70,6 @@ angular.module('myApp.factories')
 
         //remove words like degree, bachelor from the keywords array
         var filterEducationKeywords = function(keywords) {
-            console.log("1", excludedEducationKeyWords);
             return keywords.filter(function(name) {
                 return excludedEducationKeyWords.indexOf(name) < 0;
             });

@@ -16,23 +16,6 @@ angular.module('myApp.view1', ['ngRoute', 'ngFileUpload'])
                                   jobDescTokenizer, jobDescriptionParser, cvEvaluator, storageAccess, $location) {
     $scope.fileNames = "";
     $scope.jobDescript = "";
-
-    //// TODO: Remove testing code
-    //  var worktime = ["i've worked from January 2000-present"];
-    //  $scope.testWorkTime = lemma.find_and_parse_work_time(worktime);
-    //  console.log("worktime", $scope.testWorkTime);
-    //var education = ["(B.E.), Biomedical/Medical Engineering, 2006 - 2010 Activities and Societies: Student council, NGO-Third Vision Bishop Cotton's womens christian college 2004 - 2006 Activities and Societies: Modelling, Dancing"];
-    //$scope.testEducation = lemma.find_and_parse_education(education);
-    //  console.log("education", $scope.testEducation);
-    //var languages = ["Chinese Tamil Japanese"];
-    //$scope.testLanguages = lemma.parse_language(languages);
-    //var workExperience = ["Technical papers /Projects First place in paper presentation organized by Anna university Second place in the paper presentation at the inter-collegiate symposium Designed a system to use brain signals to control motor functions. Created a motion capture system for upper limb movement analysis for stroke patients"];
-    //$scope.testWork = lemma.parse_experience(workExperience);
-    //console.log("languages", $scope.testLanguages);
-    //console.log("work", $scope.testWork);
-    //  $scope.testJob = jobDescriptionParser.parse_min_req(["Considerable programming experience in Swift and Objective-C/C++. Deep technical knowledge of Cocoa touch ecosystem and iOS development paradigms such as MVC, VIPER etc. (http://www.objc.io/issue-13/viper.html). Experience writing unit and integration tests with Xcode. Knowledge of frameworks that can enhance user experience (such as Facebook's Pop (https://github.com/facebook/pop)) MVP application design and complex, reactive touch-based User Experience. Good Contribution to the open source community (Cocoa Control contributions would be interesting) Strong foundation in computer science, with competencies in data structures, algorithms and software design optimized for embedded systems. Strong experience with designing and architecting client-server based apps on iOS. Passion for healthcare and making the world a better place mvp application "]);
-    //  console.log("job", $scope.testJob);
-
   $scope.$watch('file', function () {
     if ($scope.file != null) {
       $scope.files = [$scope.file];
@@ -83,7 +66,7 @@ angular.module('myApp.view1', ['ngRoute', 'ngFileUpload'])
     jobDescParsed.essentialSkills = jobDescriptionParser.parse_min_req(tokens.minimumRequirement.concat(tokens.responsibility));
     jobDescParsed.preferredSkills = jobDescriptionParser.parse_skills(tokens.preferredQualification); // TODO: parse from minreq as well
     jobDescParsed.location = jobDescriptionParser.parse_location(tokens.location);
-    jobDescParsed.education = jobDescriptionParser.find_and_parse_education(tokens.minimumRequirement);
+    jobDescParsed.education = jobDescriptionParser.parse_education_keywords(tokens.minimumRequirement);
     jobDescParsed.workExperienceTime = jobDescriptionParser.find_and_parse_work_time(tokens.minimumRequirement);
     jobDescParsed.languages = jobDescriptionParser.parse_languages(tokens.minimumRequirement.concat(tokens.preferredQualification));
     //console.log("job desc parsed", jobDescParsed);

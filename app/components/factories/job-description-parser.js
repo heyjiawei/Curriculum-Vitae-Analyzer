@@ -97,7 +97,7 @@ angular.module('myApp.factories')
             parse_skills: getKeywords,
             parse_location: getKeywords,
             find_and_parse_location: findAndParseLocation,
-            find_and_parse_education: findAndParseEducation,
+            parse_education_keywords: findAndParseEducation,
             find_and_parse_work_time: findWorkTime,
             parse_languages: findLanguages
 
