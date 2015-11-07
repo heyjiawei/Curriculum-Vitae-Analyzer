@@ -18,20 +18,32 @@ angular.module('myApp.factories')
         }
 
 
-        var findAndParseEducation = function (sentenceArray) {
+        var parseEducationKeywords = function (sentenceArray) {
             //sentenceArray -> each line is one element in the array
-            var result = new JobDescriptionEducation();
+            var keywords = [];
+            sentenceArray.forEach(
+                function (sentence) {
+                    if (sentence.toLowerCase().indexOf("university") >= 0 || sentence.toLowerCase().indexOf("degree") >= 0 || sentence.toLowerCase().indexOf("diploma") >= 0) {
+                        keywords = parserUtils.get_named_entities_with_existing_results([sentence], keywords);
+                    }
+                }
+            )
+            return parserUtils.filter_education_keywords(keywords);
+        }
+
+        var parseEducationDegree = function (sentenceArray) {
+            //sentenceArray -> each line is one element in the array
+            var degree = 0;
             sentenceArray.forEach(
                 function (sentence) {
                     if (sentence.toLowerCase().indexOf("university") >= 0 || sentence.toLowerCase().indexOf("degree") >= 0 || sentence.toLowerCase().indexOf("diploma") >= 0) {
                         var expectedDegree = categoriseDegree(sentence);
                         //take the min for now
-                        result.degree = (expectedDegree != 0 && (result.degree === 0 || expectedDegree < result.degree)) ? expectedDegree : result.degree;
-                        result.keywords = getNamedEntitiesWithExistingResults([sentence], result.keywords);
+                        degree = (expectedDegree != 0 && (degree === 0 || expectedDegree < degree)) ? expectedDegree : degree;
                     }
                 }
             )
-            return result;
+            return degree;
         }
 
         var findWorkTime = function (sentenceArray) {
@@ -64,37 +76,9 @@ angular.module('myApp.factories')
             return parserUtils.parse_language(sentenceArray);
         }
 
-        //TODO: REUSED METHOD from lemma.js
-        //get keywords
-        //returns the keywords with its corresponding number of occurrences
-        var getNamedEntitiesWithExistingResults = function(sentenceArray, existingResult) {
-            var keyWordNames = [];
-            sentenceArray.forEach(
-                function (sentence) {
-                    var tokens = nlp.spot(sentence);
-                    var singularisedTokens = tokens.map(function(token) {
-                        return token.analysis.singularize();
-                    });
-                    Array.prototype.push.apply(keyWordNames,singularisedTokens);
-                    //because nlp library will not pick up the word research, which is quite important
-                    if (sentence.toLowerCase().indexOf("research") >= 0) {
-                        keyWordNames.push("research");
-                    }
-                }
-            );
-            //console.log("keywords parsed 1", keyWordNames);
-            //store an array of Keyword objects
-            for (var i = 0; i < keyWordNames.length; i++) {
-                var keyWord = findKeyWord(existingResult, keyWordNames[i]);
-                keyWord.name = keyWordNames[i];
-                keyWord.value = keyWord.value + 1;
-                existingResult.push(keyWord);
-            }
-            return existingResult;
-        }
 
-        var getNamedEntities = function(sentenceArray) {
-            return getNamedEntitiesWithExistingResults(sentenceArray, []);
+        var getKeywords = function(sentenceArray) {
+            return parserUtils.get_named_entities(sentenceArray);
         }
 
         //for categorising degree in education
@@ -120,11 +104,12 @@ angular.module('myApp.factories')
 
         return {
             //use if there is no need to find the word in the phrase
-            parse_min_req: getNamedEntities,
-            parse_skills: getNamedEntities,
-            parse_location: getNamedEntities,
+            parse_min_req: getKeywords,
+            parse_skills: getKeywords,
+            parse_location: getKeywords,
             find_and_parse_location: findAndParseLocation,
-            find_and_parse_education: findAndParseEducation,
+            parse_education_keywords: parseEducationKeywords,
+            parse_education_degree : parseEducationDegree,
             find_and_parse_work_time: findWorkTime,
             parse_languages: findLanguages
 

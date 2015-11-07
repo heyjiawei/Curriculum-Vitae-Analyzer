@@ -1,34 +1,31 @@
 'use strict';
 
 angular.module('myApp.factories')
-    .factory('cvEvaluator', function (stem, storageAccess) {
+    .factory('cvEvaluator', function (cvModel, jobDescriptionModel) {
         var EDU_WEIGHT = 0.20, ESS_SKILL_WEIGHT = 0.20, PREF_SKILL_WEIGHT = 0.20,
             EXP_WEIGHT = 0.20, LANG_WEIGHT = 0.20;
 
         var evaluateAllCv = function () {
-            var allCv = storageAccess.getAllCV();
-            var jobDesc = storageAccess.getJobDescription();
-
-            var stemmedJobDescription = stemJobDesc(jobDesc);
-            var stemmedAllCv = allCv.map(function(cv) {return stemCv(cv);});
+            var allCv = cvModel.get_all_stemmed();
+            var jobDesc = jobDescriptionModel.get_stemmed();
 
             var rankedCvs = [];
-            stemmedAllCv.forEach(function (stemmedCv) {
-                console.log("CV: ", stemmedCv.id);
+            allCv.forEach(function (cv) {
+                console.log("CV: ", cv.id);
 
-                var educationScore = calcEducationScore(stemmedCv.education, stemmedJobDescription.education);
+                var educationScore = calcEducationScore(cv.education, jobDesc.education);
                 console.log("education: ", educationScore);
 
-                var essSkillsScore = calcSkillsScore(stemmedCv, stemmedJobDescription.essentialSkills);
+                var essSkillsScore = calcSkillsScore(cv, jobDesc.essentialSkills);
                 console.log("essential skills: ", essSkillsScore);
 
-                var prefSkillsScore = calcSkillsScore(stemmedCv, stemmedJobDescription.preferredSkills);
+                var prefSkillsScore = calcSkillsScore(cv, jobDesc.preferredSkills);
                 console.log("preferred skills: ", prefSkillsScore);
 
-                var expScore = calcExpScore(stemmedCv.experience, stemmedJobDescription.experience);
+                var expScore = calcExpScore(cv.experience, jobDesc.experience);
                 console.log("experience: ", expScore);
 
-                var languageScore = calcLanguageScore(stemmedCv.languages, stemmedJobDescription.languages);
+                var languageScore = calcLanguageScore(cv.languages, jobDesc.languages);
                 console.log("language: ", languageScore);
 
                 // compute total score
@@ -40,7 +37,7 @@ angular.module('myApp.factories')
                 console.log("totalScore: ", totalScore);
 
                 var result = {
-                    id: stemmedCv.id,
+                    id: cv.id,
                     score: totalScore,
                     education: educationScore,
                     essSkills: essSkillsScore,
@@ -52,6 +49,8 @@ angular.module('myApp.factories')
                 rankedCvs.push(result);
             });
 
+            //TODO: to not store results into storage access, return to filter
+//            storageAccess.storeResults(rankedCvs);
             console.log("ranked CVS", rankedCvs);
             return rankedCvs;
         };
@@ -60,15 +59,7 @@ angular.module('myApp.factories')
         // Initial score based on number of matching keywords
         // Then compare, if degree less than minimum, return 0, else 100
         function calcEducationScore(cvEdu, jdEdu) {
-            var eduCount = 0;
-            cvEdu.keywords.forEach(function (key) {
-                for (var i=0; i < jdEdu.keywords.length; i++) {
-                    if (key.name === jdEdu.keywords[i].name) {
-                        eduCount++;
-                        break;
-                    }
-                }
-            });
+            var eduCount = findMatchingWords(cvEdu.keywords, jdEdu.keywords);
 
             // if user has no degree level or course preference
             if(jdEdu.degree == 0 && jdEdu.keywords.length == 0) {
@@ -88,42 +79,18 @@ angular.module('myApp.factories')
             if (jdSkills.length == 0) {
                 return 100;
             }
-
             var SKILLS_WEIGHT = 3, EXP_WEIGHT = 1.5, INTEREST_WEIGHT = 0.5;
             var WEIGHT_NORM = SKILLS_WEIGHT + EXP_WEIGHT + INTEREST_WEIGHT;
 
-            var skillCount = 0;
-            cv.skill.forEach(function (skill) {
-                for (var i = 0; i < jdSkills.length; i++) {
-                    if (skill.name === jdSkills[i].name) {
-                        skillCount++;
-                        break;
-                    }
-                }
-            });
+            var skillCount = findMatchingWords(cv.skill, jdSkills);
 
-            var expCount = 0;
-            cv.experience.forEach(function (exp) {
-                for (var i = 0; i < jdSkills.length; i++) {
-                    if (exp.name === jdSkills[i].name) {
-                        expCount++;
-                        break;
-                    }
-                }
-            });
+            var expCount = findMatchingWords(cv.experience, jdSkills);
 
-            var interestCount = 0;
-            cv.interest.forEach(function (interest) {
-                for (var i = 0; i < jdSkills.length; i++) {
-                    if (interest === jdSkills[i].name) {
-                        interestCount++;
-                        break;
-                    }
-                }
-            });
+            var interestCount = findMatchingWords(cv.interest, jdSkills);
 
-            return (skillCount * SKILLS_WEIGHT + expCount * EXP_WEIGHT + interestCount * INTEREST_WEIGHT) /
+            var totalScore = (skillCount * SKILLS_WEIGHT + expCount * EXP_WEIGHT + interestCount * INTEREST_WEIGHT) /
                 (jdSkills.length * WEIGHT_NORM) * 100;
+            return totalScore > 100 ? 100 : totalScore;
         }
 
         /* EXPERIENCE SCORING */
@@ -160,50 +127,23 @@ angular.module('myApp.factories')
 
         //returns number of matched words
         function findMatchingWords(source1, source2) {
-            var wordsOfSource1 = source1.join(" ").split(" ");
-            var wordsOfSource2 = source2.join(" ").split(" ");
-            console.log("1", wordsOfSource1, "2", wordsOfSource2);
-            //results will contain all of the matched words between word source 1 and word source 2
             var results = [];
 
-            for (var i = 0; i < wordsOfSource1.length; i++) {
+            for (var i = 0; i < source1.length; i++) {
                 //for each word, check the entire wordsOfSource2?
                 var hasKeyWord = function (keyWord) {
-                    return wordsOfSource1[i].toLowerCase().indexOf(keyWord.toLowerCase()) >= 0;
+                    return source1[i].toLowerCase().indexOf(keyWord.toLowerCase()) >= 0;
                 };
-                var matchedWords = wordsOfSource2.filter(hasKeyWord);
-                console.log("match?", matchedWords);
+                var matchedWords = source2.filter(hasKeyWord);
                 results = results.concat(matchedWords);
             }
+            /**
+             * uniqueArray = a.filter(function(item, pos) {
+                    return a.indexOf(item) == pos;
+                })
+             */
+            console.log("matched results", results);
             return results.length;
-        }
-
-        function stemCv(cv) {
-            var stemmedCv = new CV();
-            //need to stem keys only if needed
-            stemmedCv.education = cv.education;
-            stemmedCv.education.keywords = stemmedCv.education.keywords;
-            stemmedCv.languages = cv.languages;
-            stemmedCv.interest = cv.interest;
-            stemmedCv.skill = cv.skill;
-            stemmedCv.experience = cv.experience;
-            stemmedCv.workExperienceTime = cv.workExperienceTime;
-            stemmedCv.id = cv.id;
-            console.log("stemmed cv", stemmedCv);
-            return stemmedCv;
-        }
-
-        function stemJobDesc(jobDesc) {
-            var stemmedJobDescription = new JobDescription();
-            stemmedJobDescription.essentialSkills = jobDesc.essentialSkills;
-            stemmedJobDescription.preferredSkills = jobDesc.preferredSkills;
-            stemmedJobDescription.location = jobDesc.location;
-            stemmedJobDescription.education = jobDesc.education;
-            stemmedJobDescription.education.keywords = stemmedJobDescription.education.keywords;
-            stemmedJobDescription.workExperienceTime = jobDesc.workExperienceTime;
-            stemmedJobDescription.languages = jobDesc.languages;
-            console.log("stemmed job desc", stemmedJobDescription);
-            return stemmedJobDescription;
         }
 
         return {

@@ -2,19 +2,17 @@
 
 angular.module('myApp.factories')
 
-    .factory('lemma', function (nlp, parserUtils) {
+    .factory('cvParser', function (nlp, parserUtils) {
 
         //returns an array of result objects with institute, course, degree, date and grade fields
-        var parseEducationBackground = function (sentenceArray) {
-            var result = new CVEducation();
-            result.degree = getDegree(sentenceArray);
-            //console.log("degree parsed", result.degree);
-            result.keywords = getNamedEntities(sentenceArray);
-            //console.log("keywords parsed", result.keywords);
-            return result;
+        var parseEducationKeywords = function (sentenceArray) {
+            //to remove words such as degree, bachelor, from keywords.
+            //because such words are already encapsulated in degree
+
+            return parserUtils.filter_education_keywords(getKeywords(sentenceArray));
         }
 
-        var getDegree = function(sentenceArray) {
+        var parseEducationDegree = function (sentenceArray) {
             //for categorising degree
             var allDegreeKeyWordsArray = [phdKeyWords, masterKeyWords, bachelorKeyWords, diplomaKeyWords];
             var result = 0;
@@ -46,34 +44,10 @@ angular.module('myApp.factories')
             return result;
         }
 
-
         //get keywords
         //returns the keywords with its corresponding number of occurrences
-        var getNamedEntities = function(sentenceArray) {
-            var keyWordNames = [];
-            sentenceArray.forEach(
-                function (sentence) {
-                    var tokens = nlp.spot(sentence);
-                    var singularisedTokens = tokens.map(function(token) {
-                        return token.analysis.singularize();
-                    });
-                    Array.prototype.push.apply(keyWordNames,singularisedTokens);
-                    //because nlp library will not pick up the word research, which is quite important
-                    if (sentence.toLowerCase().indexOf("research") >= 0) {
-                        keyWordNames.push("research");
-                    }
-                }
-            )
-            //console.log("keywords parsed 1", keyWordNames);
-            //store an array of Keyword objects
-            var results = [];
-            for (var i = 0; i < keyWordNames.length; i++) {
-                var keyWord = findKeyWord(results, keyWordNames[i]);
-                keyWord.name = keyWordNames[i];
-                keyWord.value = keyWord.value + 1;
-                results.push(keyWord);
-            }
-            return results;
+        var getKeywords = function(sentenceArray) {
+            return parserUtils.get_named_entities(sentenceArray);
         }
 
         //split by sentences, then commas within each sentence
@@ -82,13 +56,16 @@ angular.module('myApp.factories')
             var keyWords = [];
             sentenceArray.forEach(
                 function (sentence) {
-                    var tokens = sentence.split(",");
+                    var tokens = sentence.split(/\/|\s|,/);
                     keyWords = keyWords.concat(tokens.map(Function.prototype.call, String.prototype.trim));
                 }
             )
-            return keyWords.map(function(keyword) {
-                return keyword.toLowerCase();
+            var lowerCaseKeyWords = keyWords.map(function(keyword) {
+                return keyword.toLowerCase()
             });
+            //console.log("lower case", lowerCaseKeyWords);
+            return parserUtils.remove_duplicate_keywords(parserUtils.remove_redundant_keywords(lowerCaseKeyWords));
+
         }
 
         //returns all the sentence splitted up by " "
@@ -139,11 +116,12 @@ angular.module('myApp.factories')
         //var test = ["National University of Singapore", "MSCS, IT, 2010 - 2012"];
         //console.log(parseEducationBackground(test));
         return {
-            find_and_parse_education: parseEducationBackground,
+            parse_education_keywords: parseEducationKeywords,
+            parse_education_degree: parseEducationDegree,
             parse_language: parseLanguages,
             parse_interest: parseInterestsAndSkills,
             parse_skills: parseInterestsAndSkills,
-            parse_experience: getNamedEntities,
+            parse_experience: getKeywords,
             find_and_parse_work_time: parseWorkTime
         }
     }
