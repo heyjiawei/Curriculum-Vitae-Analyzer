@@ -39,7 +39,22 @@ angular.module('myApp.models', ['myApp.factories'])
             console.log("job desc", jobDescParsed);
         };
 
+        function get() {
+
+        }
+
         return {
-            save: save
+            /**
+             * Converts the string into a job description object, and saves it into storage
+             * @param: string representing the job description
+             * @return: void
+             */
+            save: save,
+            /**
+             * Retrieves the job description object from storage
+             * @param void
+             * @return job description from storage
+             */
+            get: get
         };
     });

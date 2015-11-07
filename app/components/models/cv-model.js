@@ -39,7 +39,22 @@ angular.module('myApp.models', ['myApp.factories'])
             storageAccess.storeParsedCV(cvParsed);
         };
 
+        function getAll() {
+
+        };
+
         return {
-            save: save
+            /**
+             * Converts the string into a CV object, and saves it into storage
+             * @param: string representing the CV
+             * @return: void
+             */
+            save: save,
+            /**
+             * Retrieves all the CVs from storage
+             * @param void
+             * @return an array of cv objects from the storage
+             */
+            getAll: getAll
         };
     });
