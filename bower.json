@@ -14,7 +14,6 @@
     "html5-boilerplate": "~5.2.0",
     "ng-file-upload": "~9.0.6",
     "pdfjs-dist": "~1.1.507",
-    "stemmer": "~0.1.4",
     "angular-material-data-table": "~0.8.14"
   }
 }
