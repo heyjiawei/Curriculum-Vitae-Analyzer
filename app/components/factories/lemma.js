@@ -9,7 +9,7 @@ angular.module('myApp.factories')
             var result = new CVEducation();
             result.degree = getDegree(sentenceArray);
             //console.log("degree parsed", result.degree);
-            result.keywords = getNamedEntities(sentenceArray);
+            result.keywords = getKeywords(sentenceArray);
             //console.log("keywords parsed", result.keywords);
             return result;
         }
@@ -49,25 +49,8 @@ angular.module('myApp.factories')
 
         //get keywords
         //returns the keywords with its corresponding number of occurrences
-        var getNamedEntities = function(sentenceArray) {
-            var keyWordNames = [];
-            sentenceArray.forEach(
-                function (sentence) {
-                    var tokens = nlp.spot(sentence);
-                    var singularisedTokens = tokens.map(function(token) {
-                        return token.analysis.singularize();
-                    });
-                    Array.prototype.push.apply(keyWordNames,singularisedTokens);
-                    //because nlp library will not pick up the word research, which is quite important
-                    if (sentence.toLowerCase().indexOf("research") >= 0) {
-                        keyWordNames.push("research");
-                    }
-                }
-            )
-            keyWordNames = keyWordNames.join(" ").split(/\/|\s/);
-            return keyWordNames.filter(function(name) {
-                return excludedKeyWords.indexOf(name) < 0;
-            });
+        var getKeywords = function(sentenceArray) {
+            return parserUtils.get_named_entities(sentenceArray);
         }
 
         //split by sentences, then commas within each sentence
@@ -137,7 +120,7 @@ angular.module('myApp.factories')
             parse_language: parseLanguages,
             parse_interest: parseInterestsAndSkills,
             parse_skills: parseInterestsAndSkills,
-            parse_experience: getNamedEntities,
+            parse_experience: getKeywords,
             find_and_parse_work_time: parseWorkTime
         }
     }

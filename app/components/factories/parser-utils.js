@@ -28,10 +28,37 @@ angular.module('myApp.factories')
             return results;
         }
 
+        var getNamedEntitiesWithExistingResults = function(sentenceArray, existingResult) {
+            var keyWordNames = [];
+            sentenceArray.forEach(
+                function (sentence) {
+                    var tokens = nlp.spot(sentence);
+                    var singularisedTokens = tokens.map(function(token) {
+                        return token.analysis.singularize();
+                    });
+                    Array.prototype.push.apply(keyWordNames,singularisedTokens);
+                    //because nlp library will not pick up the word research, which is quite important
+                    if (sentence.toLowerCase().indexOf("research") >= 0) {
+                        keyWordNames.push("research");
+                    }
+                }
+            );
+            keyWordNames = keyWordNames.join(" ").split(/\/|\s/);
+            return keyWordNames.filter(function(name) {
+                return excludedKeyWords.indexOf(name) < 0;
+            });
+        }
+
+        var getNamedEntities = function(sentenceArray) {
+            return getNamedEntitiesWithExistingResults(sentenceArray, []);
+        }
+
         //var test = ["National University of Singapore", "MSCS, IT, 2010 - 2012"];
         //console.log(parseEducationBackground(test));
         return {
             parse_language: parseLanguages,
+            get_named_entities: getNamedEntities,
+            get_named_entities_with_existing_results: getNamedEntitiesWithExistingResults
         }
     }
 )
