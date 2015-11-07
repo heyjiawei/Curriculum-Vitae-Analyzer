@@ -12,8 +12,7 @@ angular.module('myApp.view1', ['ngRoute', 'ngFileUpload'])
     });
   }])
 
-.controller('View1Ctrl', function($scope, $q, fileReader, pdfReader, cvModel, jobDescriptionModel,
-                                  jobDescTokenizer, jobDescriptionParser, cvEvaluator, storageAccess, $location) {
+.controller('View1Ctrl', function($scope, $q, fileReader, pdfReader, cvModel, jobDescriptionModel, cvEvaluator, $location) {
     $scope.fileNames = "";
     $scope.jobDescript = "";
   $scope.$watch('file', function () {
