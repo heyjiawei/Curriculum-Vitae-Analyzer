@@ -6,8 +6,8 @@ angular.module('myApp.factories')
             EXP_WEIGHT = 0.20, LANG_WEIGHT = 0.20;
 
         var evaluateAllCv = function () {
-            var allCv = cvModel.get_all();
-            var jobDesc = jobDescriptionModel.get();
+            var allCv = cvModel.get_all_stemmed();
+            var jobDesc = jobDescriptionModel.get_stemmed();
 
             var rankedCvs = [];
             allCv.forEach(function (cv) {

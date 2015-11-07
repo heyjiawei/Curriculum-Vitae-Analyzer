@@ -1,5 +1,5 @@
 angular.module('myApp.models')
-    .factory( 'jobDescriptionModel', function (jobDescriptionParser, jobDescriptionTokenizer, storageAccess) {
+    .factory( 'jobDescriptionModel', function (stem, jobDescriptionParser, jobDescriptionTokenizer, storageAccess) {
 
         //degree: 0 for undefined, 1 for diploma, 2 for bachelor, 3 for master, 4 for phd
         function JobDescriptionEducation() {
@@ -44,6 +44,20 @@ angular.module('myApp.models')
             return storageAccess.getJobDescription();
         }
 
+        function getStemmed() {
+            var jobDescription = storageAccess.getJobDescription();
+            var stemmedJobDescription = new JobDescription();
+            stemmedJobDescription.education.keywords = stem.stem_array(jobDescription.education.keywords);
+            stemmedJobDescription.education.degree = jobDescription.education.degree;
+            stemmedJobDescription.essentialSkills = stem.stem_array(jobDescription.essentialSkills);
+            stemmedJobDescription.preferredSkills = stem.stem_array(jobDescription.preferredSkills);
+            stemmedJobDescription.location = jobDescription.location;
+            stemmedJobDescription.workExperienceTime = jobDescription.workExperienceTime;
+            stemmedJobDescription.languages = jobDescription.languages;
+            console.log("stemmed job desc", stemmedJobDescription);
+            return stemmedJobDescription;
+        };
+
         return {
             /**
              * Converts the string into a job description object, and saves it into storage
@@ -56,6 +70,13 @@ angular.module('myApp.models')
              * @param void
              * @return job description from storage
              */
-            get: get
+            get: get,
+            /**
+             * Retrieves and stems the job description object from storage
+             * @param void
+             * @return stemmmedjob description from storage
+             */
+            get_stemmed: getStemmed
+
         };
     });

@@ -1,5 +1,5 @@
 angular.module('myApp.models', ['myApp.factories'])
-    .factory( 'cvModel', function (cvParser, cvTokenizer, storageAccess) {
+    .factory( 'cvModel', function (stem, cvParser, cvTokenizer, storageAccess) {
 
         //degree: 0 for undefined, 1 for diploma, 2 for bachelor, 3 for master, 4 for phd
         function CVEducation() {
@@ -43,6 +43,22 @@ angular.module('myApp.models', ['myApp.factories'])
             return storageAccess.getAllCV();
         };
 
+        function getAllStemmed() {
+            var allCvs = storageAccess.getAllCV();
+            allCvs.map(function(cv) {
+                var stemmedCv = new CV();
+                stemmedCv.education.keywords = stem.stem_array(cv.education.keywords);
+                stemmedCv.education.degree = cv.education.degree;
+                stemmedCv.languages = cv.languages;
+                stemmedCv.interest = stem.stem_array(cv.interest);
+                stemmedCv.skill = stem.stem_array(cv.skill);
+                stemmedCv.experience = stem.stem_array(cv.experience);
+                return stemmedCv;
+            })
+            console.log("all stemmed cvs", allCvs);
+            return allCvs;
+        };
+
         return {
             /**
              * Converts the string into a CV object, and saves it into storage
@@ -55,6 +71,12 @@ angular.module('myApp.models', ['myApp.factories'])
              * @param void
              * @return an array of cv objects from the storage
              */
-            get_all: getAll
+            get_all: getAll,
+            /**
+             * Retrieves and stems all the CVs from storage
+             * @param void
+             * @return an array of stemmed cv objects from the storage
+             */
+            get_all_stemmed: getAllStemmed
         };
     });
