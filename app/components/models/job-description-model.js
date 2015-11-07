@@ -41,7 +41,7 @@ angular.module('myApp.models')
         };
 
         function get() {
-
+            return storageAccess.getJobDescription();
         }
 
         return {

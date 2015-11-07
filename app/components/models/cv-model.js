@@ -40,7 +40,7 @@ angular.module('myApp.models', ['myApp.factories'])
         };
 
         function getAll() {
-
+            return storageAccess.getAllCV();
         };
 
         return {
@@ -55,6 +55,6 @@ angular.module('myApp.models', ['myApp.factories'])
              * @param void
              * @return an array of cv objects from the storage
              */
-            getAll: getAll
+            get_all: getAll
         };
     });

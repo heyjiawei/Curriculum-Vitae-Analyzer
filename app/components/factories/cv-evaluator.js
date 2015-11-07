@@ -1,13 +1,13 @@
 'use strict';
 
 angular.module('myApp.factories')
-    .factory('cvEvaluator', function (storageAccess) {
+    .factory('cvEvaluator', function (storageAccess, cvModel, jobDescriptionModel) {
         var EDU_WEIGHT = 0.20, ESS_SKILL_WEIGHT = 0.20, PREF_SKILL_WEIGHT = 0.20,
             EXP_WEIGHT = 0.20, LANG_WEIGHT = 0.20;
 
         var evaluateAllCv = function () {
-            var allCv = storageAccess.getAllCV();
-            var jobDesc = storageAccess.getJobDescription();
+            var allCv = cvModel.get_all();
+            var jobDesc = jobDescriptionModel.get();
 
             var rankedCvs = [];
             allCv.forEach(function (cv) {
@@ -48,7 +48,7 @@ angular.module('myApp.factories')
                 console.log(result);
                 rankedCvs.push(result);
             });
-
+            //TODO: to not store results into storage access, return to filter
             storageAccess.storeResults(rankedCvs);
             console.log("ranked CVS", rankedCvs);
         };
