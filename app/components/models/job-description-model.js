@@ -1,4 +1,4 @@
-angular.module('myApp.models', ['myApp.factories'])
+angular.module('myApp.models')
     .factory( 'jobDescriptionModel', function (jobDescriptionParser, jobDescTokenizer, storageAccess) {
 
         //degree: 0 for undefined, 1 for diploma, 2 for bachelor, 3 for master, 4 for phd
@@ -23,7 +23,7 @@ angular.module('myApp.models', ['myApp.factories'])
             this.languages = [];
         }
 
-        function save(result) {
+        function save(jobDesc) {
             var tokens = jobDescTokenizer.tokenizeJobDesc(jobDesc);
             console.log("job desc tokens", tokens);
 
