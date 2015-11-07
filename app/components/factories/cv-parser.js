@@ -2,7 +2,7 @@
 
 angular.module('myApp.factories')
 
-    .factory('lemma', function (nlp, parserUtils) {
+    .factory('cvParser', function (nlp, parserUtils) {
 
         //returns an array of result objects with institute, course, degree, date and grade fields
         var parseEducationKeywords = function (sentenceArray) {

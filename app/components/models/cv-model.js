@@ -1,5 +1,5 @@
 angular.module('myApp.models', ['myApp.factories'])
-    .factory( 'cvModel', function (lemma, cvTokenizer, storageAccess) {
+    .factory( 'cvModel', function (cvParser, cvTokenizer, storageAccess) {
 
         //degree: 0 for undefined, 1 for diploma, 2 for bachelor, 3 for master, 4 for phd
         function CVEducation() {
@@ -29,12 +29,12 @@ angular.module('myApp.models', ['myApp.factories'])
             var tokens = cvTokenizer.tokenizeCv(result);
             console.log("cv tokens", tokens);
             var cvParsed = new CV();
-            cvParsed.education.keywords = lemma.parse_education_keywords(tokens.education);
-            cvParsed.education.degree = lemma.parse_education_degree(tokens.education);
-            cvParsed.languages = lemma.parse_language(tokens.language);
-            cvParsed.interest = lemma.parse_interest(tokens.interest);
-            cvParsed.skill = lemma.parse_skills(tokens.skill);
-            cvParsed.experience = lemma.parse_experience(tokens.experience.concat(tokens.project));
+            cvParsed.education.keywords = cvParser.parse_education_keywords(tokens.education);
+            cvParsed.education.degree = cvParser.parse_education_degree(tokens.education);
+            cvParsed.languages = cvParser.parse_language(tokens.language);
+            cvParsed.interest = cvParser.parse_interest(tokens.interest);
+            cvParsed.skill = cvParser.parse_skills(tokens.skill);
+            cvParsed.experience = cvParser.parse_experience(tokens.experience.concat(tokens.project));
             console.log("cv parsed", cvParsed);
             storageAccess.storeParsedCV(cvParsed);
         };
