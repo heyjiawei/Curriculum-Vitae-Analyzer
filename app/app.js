@@ -3,10 +3,11 @@
 // Declare app level module which depends on views, and components
 angular.module('myApp', [
   'ngRoute',
-  'ngMaterial', 'nlpCompromise', 'ngFileUpload',
+  'ngMaterial', 'nlpCompromise', 'ngFileUpload', 'md.data.table',
   'myApp.factories',
+  'myApp.models',
   'myApp.view1',
-  'myApp.view2', 'md.data.table',
+  'myApp.view2',
   'myApp.version'
 ]).
 config(['$routeProvider', function($routeProvider) {
