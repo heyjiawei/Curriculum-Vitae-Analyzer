@@ -18,21 +18,32 @@ angular.module('myApp.factories')
         }
 
 
-        var findAndParseEducation = function (sentenceArray) {
+        var parseEducationKeywords = function (sentenceArray) {
             //sentenceArray -> each line is one element in the array
-            var result = new JobDescriptionEducation();
+            var keywords = [];
+            sentenceArray.forEach(
+                function (sentence) {
+                    if (sentence.toLowerCase().indexOf("university") >= 0 || sentence.toLowerCase().indexOf("degree") >= 0 || sentence.toLowerCase().indexOf("diploma") >= 0) {
+                        keywords = parserUtils.get_named_entities_with_existing_results([sentence], keywords);
+                    }
+                }
+            )
+            return keywords;
+        }
+
+        var parseEducationDegree = function (sentenceArray) {
+            //sentenceArray -> each line is one element in the array
+            var degree = 0;
             sentenceArray.forEach(
                 function (sentence) {
                     if (sentence.toLowerCase().indexOf("university") >= 0 || sentence.toLowerCase().indexOf("degree") >= 0 || sentence.toLowerCase().indexOf("diploma") >= 0) {
                         var expectedDegree = categoriseDegree(sentence);
                         //take the min for now
-                        result.degree = (expectedDegree != 0 && (result.degree === 0 || expectedDegree < result.degree)) ? expectedDegree : result.degree;
-                        result.keywords = parserUtils.get_named_entities_with_existing_results([sentence], result.keywords);
+                        degree = (expectedDegree != 0 && (degree === 0 || expectedDegree < degree)) ? expectedDegree : degree;
                     }
                 }
             )
-            result.keywords = parserUtils.filter_education_keywords(result.keywords);
-            return result;
+            return degree;
         }
 
         var findWorkTime = function (sentenceArray) {
@@ -97,7 +108,8 @@ angular.module('myApp.factories')
             parse_skills: getKeywords,
             parse_location: getKeywords,
             find_and_parse_location: findAndParseLocation,
-            parse_education_keywords: findAndParseEducation,
+            parse_education_keywords: parseEducationKeywords,
+            parse_education_degree : parseEducationDegree,
             find_and_parse_work_time: findWorkTime,
             parse_languages: findLanguages
 
