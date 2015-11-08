@@ -3,7 +3,33 @@
 angular.module('myApp.view2', [])
 
 .controller('View2Ctrl', function($scope, $q, $timeout, storageAccess, results) {
-    var evaluatedCvs = results.getResultsFromEvaluation();
+    var evaluatedResults = results.getResultsFromEvaluation();
+
+    var columns = [{
+      name: 'Name / filename',
+      orderBy: 'id'
+    }, {
+      name: 'Match',
+      numeric: true,
+      orderBy: 'score',
+      descendFirst: true,
+      unit: '%'
+    }];
+    evaluatedResults.forEach(function(result) {
+      for (var key in result) {
+        if(result.hasOwnProperty(key)) {
+          console.log("Key is " + key + ", value is", result[key]);
+          var column = {
+            name: result.name,
+            numeric: true,
+            orderBy: key,
+            descendFirst: true,
+            unit: '%'
+          };
+          columns.push(column);
+        }
+      }
+    });
 
     $scope.selected = []; // selecting a row will bring us to the selected cv
     $scope.query = {
@@ -49,7 +75,7 @@ angular.module('myApp.view2', [])
       unit: '%'
     }];
 
-    $scope.cvMatch = evaluatedCvs;
+    $scope.cvMatch = evaluatedResults;
     console.log("to be displayed:",$scope.cvMatch);
 
     // default position of slider
