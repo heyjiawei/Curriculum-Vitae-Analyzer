@@ -7,18 +7,35 @@ angular.module('myApp.factories')
 
     var evaluatedCvs = cvEvaluator.evaluateCV();
 
+    function Result() {
+      this.id = {name: "Name", value: "Placeholder Name"};
+      this.finalScore = {name: "Score", value: 0};
+      this.education = {name: "Education", value: 0};
+      this.essSkills = {name: "Essential Skills", value: 0};
+      this.prefSkills = {name: "Preferred Skills", value: 0};
+      this.experience = {name: "Work Experience", value: 0};
+      this.language = {name: "Languages", value: 0};
+    }
+
     function getResultsFromEvaluation() {
       // return names, score
-      var weightedCvs = [];
+      var results = [];
       evaluatedCvs.forEach(function(evaluatedCv) {
-        var totalScore = evaluatedCv.education * EDU_WEIGHT
+        var evaluatedResult = new Result();
+        evaluatedResult.finalScore.value = evaluatedCv.education * EDU_WEIGHT
           + evaluatedCv.essSkills * ESS_SKILL_WEIGHT
           + evaluatedCv.prefSkills * PREF_SKILL_WEIGHT
           + evaluatedCv.experience * EXP_WEIGHT
           + evaluatedCv.language * LANG_WEIGHT;
-        evaluatedCv.score = totalScore;
+        evaluatedResult.education.value = evaluatedCv.education;
+        evaluatedResult.essSkills.value = evaluatedCv.essSkills;
+        evaluatedResult.prefSkills.value = evaluatedCv.prefSkills;
+        evaluatedResult.experience.value = evaluatedCv.experience;
+        evaluatedResult.language.value = evaluatedCv.language;
+        results.push(evaluatedResult);
       });
-      return evaluatedCvs;
+      console.log("results", results);
+      return results;
     }
 
     // update weights
