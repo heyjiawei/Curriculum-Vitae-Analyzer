@@ -4,25 +4,7 @@ angular.module('myApp.factories')
 
 .factory('pdfReader', function($q) {
     var getAllTextFromPdf = function(pdfDataUrl) {
-
-// http://stackoverflow.com/questions/12092633/pdf-js-rendering-a-pdf-file-using-a-base64-file-source-instead-of-url
-      var BASE64_MARKER = ';base64,';
-      function convertDataURIToBinary(dataURI) {
-        var base64Index = dataURI.indexOf(BASE64_MARKER) + BASE64_MARKER.length;
-        var base64 = dataURI.substring(base64Index);
-        var raw = window.atob(base64);
-        var rawLength = raw.length;
-        var array = new Uint8Array(new ArrayBuffer(rawLength));
-
-        for(var i = 0; i < rawLength; i++) {
-          array[i] = raw.charCodeAt(i);
-        }
-        return array;
-      }
-      var pdfAsArray = convertDataURIToBinary(pdfDataUrl);
-
-
-      return PDFJS.getDocument(pdfAsArray).then(function(pdf) {
+      return PDFJS.getDocument(pdfDataUrl).then(function(pdf) {
         var allTextFromPdf = [];
         var numPages = pdf.pdfInfo.numPages;
         var promises = [];
