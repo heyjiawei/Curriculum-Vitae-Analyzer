@@ -1,11 +1,11 @@
 'use strict';
 
 angular.module('myApp.factories')
-  .factory('results', function (cvEvaluator) {
+  .factory('results', function (cvModel, jobDescriptionModel, cvEvaluator, storageAccess) {
     var EDU_WEIGHT = 0.20, ESS_SKILL_WEIGHT = 0.20, PREF_SKILL_WEIGHT = 0.20,
       EXP_WEIGHT = 0.20, LANG_WEIGHT = 0.20;
 
-    var evaluatedCvs = cvEvaluator.evaluateCV();
+    save();
 
     function Result() {
       this.id = {name: "Name", value: "Placeholder Name"};
@@ -19,41 +19,68 @@ angular.module('myApp.factories')
       };
     }
 
-    function getResultsFromEvaluation() {
-      // return names, score
-      var results = [];
-      evaluatedCvs.forEach(function(evaluatedCv) {
+    function save() {
+      var allCv = cvModel.get_all_stemmed();
+      var jobDesc = jobDescriptionModel.get_stemmed();
+
+      var scoredCvs = [];
+      allCv.forEach(function (evaluatedCv) {
         var evaluatedResult = new Result();
-        evaluatedResult.finalScore.value = evaluatedCv.education * EDU_WEIGHT
-          + evaluatedCv.essSkills * ESS_SKILL_WEIGHT
-          + evaluatedCv.prefSkills * PREF_SKILL_WEIGHT
-          + evaluatedCv.experience * EXP_WEIGHT
-          + evaluatedCv.language * LANG_WEIGHT;
-        evaluatedResult.scoringCriteria.education.value = evaluatedCv.education;
-        evaluatedResult.scoringCriteria.essSkills.value = evaluatedCv.essSkills;
-        evaluatedResult.scoringCriteria.prefSkills.value = evaluatedCv.prefSkills;
-        evaluatedResult.scoringCriteria.experience.value = evaluatedCv.experience;
-        evaluatedResult.scoringCriteria.language.value = evaluatedCv.language;
-        results.push(evaluatedResult);
+
+        var educationScore = cvEvaluator.calcEducationScore(evaluatedCv.education, jobDesc.education);
+        var essSkillsScore = cvEvaluator.calcSkillsScore(evaluatedCv, jobDesc.essentialSkills);
+        var prefSkillsScore = cvEvaluator.calcSkillsScore(evaluatedCv, jobDesc.preferredSkills);
+        var expScore = cvEvaluator.calcExpScore(evaluatedCv.experience, jobDesc.experience);
+        var languageScore = cvEvaluator.calcLanguageScore(evaluatedCv.languages, jobDesc.languages);
+
+        evaluatedResult.id.value = evaluatedCv.id;
+        evaluatedResult.finalScore.value = educationScore * EDU_WEIGHT
+          + essSkillsScore * ESS_SKILL_WEIGHT
+          + prefSkillsScore * PREF_SKILL_WEIGHT
+          + expScore * EXP_WEIGHT
+          + languageScore * LANG_WEIGHT; // initialise with default score
+        evaluatedResult.scoringCriteria.education.value = educationScore;
+        evaluatedResult.scoringCriteria.essSkills.value = essSkillsScore;
+        evaluatedResult.scoringCriteria.prefSkills.value = prefSkillsScore;
+        evaluatedResult.scoringCriteria.experience.value = expScore;
+        evaluatedResult.scoringCriteria.language.value = languageScore;
+
+        scoredCvs.push(evaluatedResult);
       });
-      console.log("results", results);
-      return results;
+      storageAccess.storeResults(scoredCvs);
+      console.log("scored CVS", scoredCvs);
+    }
+
+    function get() {
+      return storageAccess.getAllResults();
     }
 
     // update weights
-    function updateWeights(edu, essSkill, prefSkill, expe, lang) {
-      var total = edu + essSkill + prefSkill + expe + lang;
-
-      EDU_WEIGHT = edu/total;
-      ESS_SKILL_WEIGHT = essSkill/total;
-      PREF_SKILL_WEIGHT = prefSkill/total;
-      EXP_WEIGHT = expe/total;
-      LANG_WEIGHT = lang/total;
+    function updateWeights(weights) {
+      // check if weights.length == no of keys
+      // total = accumulate all values in array
+      var allResults = get();
+      allResults.forEach(function(result) {
+        var totalScore = 0;
+        for (var key in result.scoringCriteria) {
+          if(result.scoringCriteria.hasOwnProperty(key)) {
+            totalScore += result.scoringCriteria[key].value * weights[key]/total;
+          }
+        }
+        result.finalScore = totalScore;
+      });
+//      var total = edu + essSkill + prefSkill + expe + lang;
+//
+//      EDU_WEIGHT = edu/total;
+//      ESS_SKILL_WEIGHT = essSkill/total;
+//      PREF_SKILL_WEIGHT = prefSkill/total;
+//      EXP_WEIGHT = expe/total;
+//      LANG_WEIGHT = lang/total;
     }
 
     return {
       Result: Result,
-      getResultsFromEvaluation: getResultsFromEvaluation,
+      get: get,
       updateWeights: updateWeights
     }
   });

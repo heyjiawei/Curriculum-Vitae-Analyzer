@@ -3,7 +3,7 @@
 angular.module('myApp.view2', [])
 
 .controller('View2Ctrl', function($scope, $q, $timeout, storageAccess, results) {
-    var evaluatedResults = results.getResultsFromEvaluation();
+    var evaluatedResults = results.get();
 
     $scope.columns = [{
       name: 'Name / filename',
