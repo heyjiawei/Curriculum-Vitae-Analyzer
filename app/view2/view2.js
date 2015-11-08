@@ -11,7 +11,7 @@ angular.module('myApp.view2', [])
     }, {
       name: 'Match',
       numeric: true,
-      orderBy: 'score',
+      orderBy: 'finalScore',
       descendFirst: true,
       unit: '%'
     }];
