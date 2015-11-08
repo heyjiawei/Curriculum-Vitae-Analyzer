@@ -7,9 +7,9 @@
     <div>
       <h4>To narrow your search, try adjusting the weightage of the header that is closest to your
       needs</h4>
-      <div layout ng-repeat="(key, value) in emptyResultForHeaders.scoringCriteria">
+      <div layout ng-repeat="(criteria, properties) in emptyResultForHeaders.scoringCriteria">
         <div flex="10" layout layout-align="center center">
-          <span class="md-body-1">{{value.name}}</span>
+          <span class="md-body-1">{{properties.name}}</span>
         </div>
         <md-slider flex class="md-accent md-hue-1" md-discrete ng-model="weights[$index]"
                    step="1" min="1" max="10" aria-label="rating">
@@ -33,7 +33,7 @@
             <tr md-auto-select data-ng-repeat="cv in cvMatch | orderBy: query.order | limitTo: query.limit : (query.page -1) * query.limit">
               <td>{{cv.id.value}}</td>
               <td>{{cv.finalScore.value}}</td>
-              <td data-ng-repeat="(key, value) in cv.scoringCriteria">{{key}} {{value.value}}</td>
+              <td data-ng-repeat="(criteria, properties) in cv.scoringCriteria">{{criteria}} {{properties.value}}</td>
             </tr>
           </tbody>
       </table>
