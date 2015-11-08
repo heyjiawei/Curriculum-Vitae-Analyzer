@@ -29,16 +29,16 @@ angular.module('myApp.factories')
                 console.log("language: ", languageScore);
 
                 // compute total score
-                var totalScore = educationScore * EDU_WEIGHT
-                                + essSkillsScore * ESS_SKILL_WEIGHT
-                                + prefSkillsScore * PREF_SKILL_WEIGHT
-                                + expScore * EXP_WEIGHT
-                                + languageScore * LANG_WEIGHT;
-                console.log("totalScore: ", totalScore);
+//                var totalScore = educationScore * EDU_WEIGHT
+//                                + essSkillsScore * ESS_SKILL_WEIGHT
+//                                + prefSkillsScore * PREF_SKILL_WEIGHT
+//                                + expScore * EXP_WEIGHT
+//                                + languageScore * LANG_WEIGHT;
+//                console.log("totalScore: ", totalScore);
 
                 var result = {
                     id: cv.id,
-                    score: totalScore,
+//                    score: totalScore,
                     education: educationScore,
                     essSkills: essSkillsScore,
                     prefSkills: prefSkillsScore,

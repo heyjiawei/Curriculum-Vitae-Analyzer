@@ -5,13 +5,20 @@ angular.module('myApp.factories')
     var EDU_WEIGHT = 0.20, ESS_SKILL_WEIGHT = 0.20, PREF_SKILL_WEIGHT = 0.20,
       EXP_WEIGHT = 0.20, LANG_WEIGHT = 0.20;
 
+    var evaluatedCvs = cvEvaluator.evaluateCV();
+
     function getResultsFromEvaluation() {
       // return names, score
-      var evaluatedCvs = cvEvaluator.evaluateCV();
-      return evaluatedCvs;
+      var weightedCvs = [];
       evaluatedCvs.forEach(function(evaluatedCv) {
-
+        var totalScore = evaluatedCv.education * EDU_WEIGHT
+          + evaluatedCv.essSkills * ESS_SKILL_WEIGHT
+          + evaluatedCv.prefSkills * PREF_SKILL_WEIGHT
+          + evaluatedCv.experience * EXP_WEIGHT
+          + evaluatedCv.language * LANG_WEIGHT;
+        evaluatedCv.score = totalScore;
       });
+      return evaluatedCvs;
     }
 
     // update weights
