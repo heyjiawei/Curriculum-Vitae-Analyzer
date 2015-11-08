@@ -1,50 +1,7 @@
 'use strict';
 
 angular.module('myApp.factories')
-    .factory('cvEvaluator', function (cvModel, jobDescriptionModel) {
-        var EDU_WEIGHT = 0.20, ESS_SKILL_WEIGHT = 0.20, PREF_SKILL_WEIGHT = 0.20,
-            EXP_WEIGHT = 0.20, LANG_WEIGHT = 0.20;
-
-        var evaluateAllCv = function () {
-            var allCv = cvModel.get_all_stemmed();
-            var jobDesc = jobDescriptionModel.get_stemmed();
-
-            var rankedCvs = [];
-            allCv.forEach(function (cv) {
-                console.log("CV: ", cv.id);
-
-                var educationScore = calcEducationScore(cv.education, jobDesc.education);
-                console.log("education: ", educationScore);
-
-                var essSkillsScore = calcSkillsScore(cv, jobDesc.essentialSkills);
-                console.log("essential skills: ", essSkillsScore);
-
-                var prefSkillsScore = calcSkillsScore(cv, jobDesc.preferredSkills);
-                console.log("preferred skills: ", prefSkillsScore);
-
-                var expScore = calcExpScore(cv.experience, jobDesc.experience);
-                console.log("experience: ", expScore);
-
-                var languageScore = calcLanguageScore(cv.languages, jobDesc.languages);
-                console.log("language: ", languageScore);
-
-                var result = {
-                    id: cv.id,
-                    education: educationScore,
-                    essSkills: essSkillsScore,
-                    prefSkills: prefSkillsScore,
-                    experience: expScore,
-                    language: languageScore
-                };
-                console.log(result);
-                rankedCvs.push(result);
-            });
-
-            //TODO: to not store results into storage access, return to filter
-//            storageAccess.storeResults(rankedCvs);
-            console.log("ranked CVS", rankedCvs);
-            return rankedCvs;
-        };
+    .factory('cvEvaluator', function () {
 
         /* EDUCATION SCORING */
         // Initial score based on number of matching keywords
@@ -141,6 +98,6 @@ angular.module('myApp.factories')
             calcEducationScore: calcEducationScore,
             calcSkillsScore: calcSkillsScore,
             calcExpScore: calcExpScore,
-            calcLanguageScore: calcLanguageScore,
+            calcLanguageScore: calcLanguageScore
         }
     });
