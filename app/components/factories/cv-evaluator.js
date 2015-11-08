@@ -28,17 +28,8 @@ angular.module('myApp.factories')
                 var languageScore = calcLanguageScore(cv.languages, jobDesc.languages);
                 console.log("language: ", languageScore);
 
-                // compute total score
-//                var totalScore = educationScore * EDU_WEIGHT
-//                                + essSkillsScore * ESS_SKILL_WEIGHT
-//                                + prefSkillsScore * PREF_SKILL_WEIGHT
-//                                + expScore * EXP_WEIGHT
-//                                + languageScore * LANG_WEIGHT;
-//                console.log("totalScore: ", totalScore);
-
                 var result = {
                     id: cv.id,
-//                    score: totalScore,
                     education: educationScore,
                     essSkills: essSkillsScore,
                     prefSkills: prefSkillsScore,
@@ -147,6 +138,9 @@ angular.module('myApp.factories')
         }
 
         return {
-            evaluateCV: evaluateAllCv
+            calcEducationScore: calcEducationScore,
+            calcSkillsScore: calcSkillsScore,
+            calcExpScore: calcExpScore,
+            calcLanguageScore: calcLanguageScore,
         }
     });
