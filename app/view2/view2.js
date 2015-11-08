@@ -15,23 +15,25 @@ angular.module('myApp.view2', [])
       descendFirst: true,
       unit: '%'
     }];
-//    evaluatedResults.forEach(function(result) {
-    var emptyResultForHeaders = new results.Result();
-      for (var key in emptyResultForHeaders.scoringCriteria) {
-        if(emptyResultForHeaders.scoringCriteria.hasOwnProperty(key)) {
-          var criteriaName = emptyResultForHeaders.scoringCriteria[key].name;
-          console.log("Key is " + key + ", value is", emptyResultForHeaders.scoringCriteria[key]);
-          var column = {
-            name: criteriaName,
-            numeric: true,
-            orderBy: key,
-            descendFirst: true,
-            unit: '%'
-          };
-          $scope.columns.push(column);
-        }
+
+    $scope.weights = [];
+
+    $scope.emptyResultForHeaders = new results.Result();
+    for (var key in $scope.emptyResultForHeaders.scoringCriteria) {
+      if($scope.emptyResultForHeaders.scoringCriteria.hasOwnProperty(key)) {
+        var criteriaName = $scope.emptyResultForHeaders.scoringCriteria[key].name;
+        console.log("Key is " + key + ", value is", $scope.emptyResultForHeaders.scoringCriteria[key]);
+        var column = {
+          name: criteriaName,
+          numeric: true,
+          orderBy: key,
+          descendFirst: true,
+          unit: '%'
+        };
+        $scope.columns.push(column);
+        $scope.weights.push(1);
       }
-//    });
+    }
 
     $scope.selected = []; // selecting a row will bring us to the selected cv
     $scope.query = {

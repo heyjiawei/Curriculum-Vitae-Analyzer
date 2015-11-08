@@ -7,43 +7,11 @@
     <div>
       <h4>To narrow your search, try adjusting the weightage of the header that is closest to your
       needs</h4>
-      <div layout>
+      <div layout ng-repeat="(key, value) in emptyResultForHeaders.scoringCriteria">
         <div flex="10" layout layout-align="center center">
-          <span class="md-body-1">Education</span>
+          <span class="md-body-1">{{value.name}}</span>
         </div>
-        <md-slider flex class="md-accent md-hue-1" md-discrete ng-model="weight.eduWeight"
-                   step="1" min="1" max="10" aria-label="rating">
-        </md-slider>
-      </div>
-      <div layout>
-        <div flex="10" layout layout-align="center center">
-          <span class="md-body-1">Essential Skill</span>
-        </div>
-        <md-slider flex md-discrete ng-model="weight.essSkillsWeight"
-                   step="1" min="1" max="10" aria-label="rating">
-        </md-slider>
-      </div>
-      <div layout>
-        <div flex="10" layout layout-align="center center">
-          <span class="md-body-1">Preferred Skill</span>
-        </div>
-        <md-slider flex class="md-warn" md-discrete ng-model="weight.prefSkillsWeight"
-                   step="1" min="1" max="10" aria-label="rating">
-        </md-slider>
-      </div>
-      <div layout>
-        <div flex="10" layout layout-align="center center">
-          <span class="md-body-1">Work Exp</span>
-        </div>
-        <md-slider flex class="md-primary md-hue-1" md-discrete ng-model="weight.workExpWeight"
-                   step="1" min="1" max="10" aria-label="rating">
-        </md-slider>
-      </div>
-      <div layout>
-        <div flex="10" layout layout-align="center center">
-          <span class="md-body-1">Language</span>
-        </div>
-        <md-slider flex class="md-primary" md-discrete ng-model="weight.languageWeight"
+        <md-slider flex class="md-accent md-hue-1" md-discrete ng-model="weights[$index]"
                    step="1" min="1" max="10" aria-label="rating">
         </md-slider>
       </div>
