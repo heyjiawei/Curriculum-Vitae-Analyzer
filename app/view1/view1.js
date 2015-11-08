@@ -26,9 +26,7 @@ angular.module('myApp.view1', ['ngRoute', 'ngFileUpload'])
 
         var readPdf = fileReader.readAsDataUrl(files[i], $scope)
           .then(function(pdf) {
-            return getAllTextFromPdf(pdf).then(function(allTextFromPdf) {
-              return allTextFromPdf;
-            });
+            return getAllTextFromPdf(pdf);
           });
         promises.push(readPdf);
       }
@@ -58,7 +56,6 @@ angular.module('myApp.view1', ['ngRoute', 'ngFileUpload'])
     var processFilesPromise = processFiles($scope.files);
     $q.all([processJobDescPromise, processFilesPromise]).then(function(jobDescAndFiles) {
       console.log("THS IS THE END", jobDescAndFiles);
-      var allParsedCvs = jobDescAndFiles[1];
       $location.url("/view2");
     });
   };

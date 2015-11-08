@@ -2,9 +2,9 @@
 
 angular.module('myApp.view2', [])
 
-.controller('View2Ctrl', function($scope, $q, $timeout, storageAccess, cvEvaluator) {
-    cvEvaluator.evaluateCV();
-    
+.controller('View2Ctrl', function($scope, $q, $timeout, storageAccess, results) {
+    var evaluatedCvs = results.getResultsFromEvaluation();
+
     $scope.selected = []; // selecting a row will bring us to the selected cv
     $scope.query = {
       order: 'name',
@@ -49,7 +49,7 @@ angular.module('myApp.view2', [])
       unit: '%'
     }];
 
-    $scope.cvMatch = storageAccess.getAllResults();
+    $scope.cvMatch = evaluatedCvs;
     console.log("to be displayed:",$scope.cvMatch);
 
     // default position of slider
@@ -60,20 +60,20 @@ angular.module('myApp.view2', [])
                     languageWeight : 1};
 
     $scope.$watch('weight', function(newWeight, oldWeight) {
-      cvEvaluator.update(newWeight.eduWeight,
-                        newWeight.essSkillsWeight,
-                        newWeight.prefSkillsWeight,
-                        newWeight.workExpWeight,
-                        newWeight.languageWeight);
-
-      var result = storageAccess.getAllResults();
-
-      // update score of each cv
-      for (var i = 0; i < result.length; i++) {
-        $scope.cvMatch[i]["score"] = result[i]["score"];
-      }
-
-      console.log('cv', $scope.cvMatch);
+//      cvEvaluator.update(newWeight.eduWeight,
+//                        newWeight.essSkillsWeight,
+//                        newWeight.prefSkillsWeight,
+//                        newWeight.workExpWeight,
+//                        newWeight.languageWeight);
+//
+//      var result = storageAccess.getAllResults();
+//
+//      // update score of each cv
+//      for (var i = 0; i < result.length; i++) {
+//        $scope.cvMatch[i]["score"] = result[i]["score"];
+//      }
+//
+//      console.log('cv', $scope.cvMatch);
 
     }, true);
 

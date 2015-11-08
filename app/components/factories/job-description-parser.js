@@ -115,5 +115,4 @@ angular.module('myApp.factories')
 
         }
     }
-)
-;
+);

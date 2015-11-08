@@ -147,7 +147,6 @@ angular.module('myApp.factories')
         }
 
         return {
-            evaluateCV: evaluateAllCv,
-            update: updateWeights
+            evaluateCV: evaluateAllCv
         }
     });
