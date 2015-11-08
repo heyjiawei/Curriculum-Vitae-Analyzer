@@ -3,6 +3,8 @@
 angular.module('myApp.view2', [])
 
 .controller('View2Ctrl', function($scope, $q, $timeout, storageAccess, cvEvaluator) {
+    cvEvaluator.evaluateCV();
+    
     $scope.selected = []; // selecting a row will bring us to the selected cv
     $scope.query = {
       order: 'name',
