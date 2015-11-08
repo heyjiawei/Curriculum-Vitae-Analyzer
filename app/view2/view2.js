@@ -16,11 +16,12 @@ angular.module('myApp.view2', [])
       unit: '%'
     }];
     evaluatedResults.forEach(function(result) {
-      for (var key in result) {
-        if(result.hasOwnProperty(key)) {
-          console.log("Key is " + key + ", value is", result[key]);
+      for (var key in result.scoringCriteria) {
+        if(result.scoringCriteria.hasOwnProperty(key)) {
+          var criteriaName = result.scoringCriteria[key].name;
+          console.log("Key is " + key + ", value is", result.scoringCriteria[key]);
           var column = {
-            name: result.name,
+            name: criteriaName,
             numeric: true,
             orderBy: key,
             descendFirst: true,
@@ -30,6 +31,7 @@ angular.module('myApp.view2', [])
         }
       }
     });
+    console.log("columns", columns);
 
     $scope.selected = []; // selecting a row will bring us to the selected cv
     $scope.query = {

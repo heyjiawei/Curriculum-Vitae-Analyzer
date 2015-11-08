@@ -10,11 +10,13 @@ angular.module('myApp.factories')
     function Result() {
       this.id = {name: "Name", value: "Placeholder Name"};
       this.finalScore = {name: "Score", value: 0};
-      this.education = {name: "Education", value: 0};
-      this.essSkills = {name: "Essential Skills", value: 0};
-      this.prefSkills = {name: "Preferred Skills", value: 0};
-      this.experience = {name: "Work Experience", value: 0};
-      this.language = {name: "Languages", value: 0};
+      this.scoringCriteria = {
+        education: {name: "Education", value: 0},
+        essSkills: {name: "Essential Skills", value: 0},
+        prefSkills: {name: "Preferred Skills", value: 0},
+        experience: {name: "Work Experience", value: 0},
+        language: {name: "Languages", value: 0}
+      };
     }
 
     function getResultsFromEvaluation() {
@@ -27,11 +29,11 @@ angular.module('myApp.factories')
           + evaluatedCv.prefSkills * PREF_SKILL_WEIGHT
           + evaluatedCv.experience * EXP_WEIGHT
           + evaluatedCv.language * LANG_WEIGHT;
-        evaluatedResult.education.value = evaluatedCv.education;
-        evaluatedResult.essSkills.value = evaluatedCv.essSkills;
-        evaluatedResult.prefSkills.value = evaluatedCv.prefSkills;
-        evaluatedResult.experience.value = evaluatedCv.experience;
-        evaluatedResult.language.value = evaluatedCv.language;
+        evaluatedResult.scoringCriteria.education.value = evaluatedCv.education;
+        evaluatedResult.scoringCriteria.essSkills.value = evaluatedCv.essSkills;
+        evaluatedResult.scoringCriteria.prefSkills.value = evaluatedCv.prefSkills;
+        evaluatedResult.scoringCriteria.experience.value = evaluatedCv.experience;
+        evaluatedResult.scoringCriteria.language.value = evaluatedCv.language;
         results.push(evaluatedResult);
       });
       console.log("results", results);
