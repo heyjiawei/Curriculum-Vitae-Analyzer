@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('myApp.factories')
-    .factory('cvFilter', function () {
+    .factory('results', function () {
         var EDU_WEIGHT = 0.20, ESS_SKILL_WEIGHT = 0.20, PREF_SKILL_WEIGHT = 0.20,
             EXP_WEIGHT = 0.20, LANG_WEIGHT = 0.20;
 
