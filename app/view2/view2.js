@@ -5,42 +5,6 @@ angular.module('myApp.view2', [])
 .controller('View2Ctrl', function($scope, $q, $timeout, storageAccess, results) {
     var evaluatedResults = results.getResultsFromEvaluation();
 
-    var columns = [{
-      name: 'Name / filename',
-      orderBy: 'id'
-    }, {
-      name: 'Match',
-      numeric: true,
-      orderBy: 'score',
-      descendFirst: true,
-      unit: '%'
-    }];
-    evaluatedResults.forEach(function(result) {
-      for (var key in result.scoringCriteria) {
-        if(result.scoringCriteria.hasOwnProperty(key)) {
-          var criteriaName = result.scoringCriteria[key].name;
-          console.log("Key is " + key + ", value is", result.scoringCriteria[key]);
-          var column = {
-            name: criteriaName,
-            numeric: true,
-            orderBy: key,
-            descendFirst: true,
-            unit: '%'
-          };
-          columns.push(column);
-        }
-      }
-    });
-    console.log("columns", columns);
-
-    $scope.selected = []; // selecting a row will bring us to the selected cv
-    $scope.query = {
-      order: 'name',
-      limit: 5,
-      page: 1
-    };
-
-    // table column
     $scope.columns = [{
       name: 'Name / filename',
       orderBy: 'id'
@@ -50,32 +14,31 @@ angular.module('myApp.view2', [])
       orderBy: 'score',
       descendFirst: true,
       unit: '%'
-    }, {
-      name: 'Education',
-      numeric: true,
-      orderBy: 'education',
-      unit: '%'
-    }, {
-      name: 'Essential Skills',
-      numeric: true,
-      orderBy: 'essSkills',
-      unit: '%'
-    }, {
-      name: 'Preferred Skills',
-      numeric: true,
-      orderBy: 'prefSkills',
-      unit: '%'
-    }, {
-      name: 'Work Exp',
-      numeric: true,
-      orderBy: 'experience',
-      unit: '%'
-    }, {
-      name: 'Languages',
-      numeric: true,
-      orderBy: 'languages',
-      unit: '%'
     }];
+//    evaluatedResults.forEach(function(result) {
+    var emptyResultForHeaders = new results.Result();
+      for (var key in emptyResultForHeaders.scoringCriteria) {
+        if(emptyResultForHeaders.scoringCriteria.hasOwnProperty(key)) {
+          var criteriaName = emptyResultForHeaders.scoringCriteria[key].name;
+          console.log("Key is " + key + ", value is", emptyResultForHeaders.scoringCriteria[key]);
+          var column = {
+            name: criteriaName,
+            numeric: true,
+            orderBy: key,
+            descendFirst: true,
+            unit: '%'
+          };
+          $scope.columns.push(column);
+        }
+      }
+//    });
+
+    $scope.selected = []; // selecting a row will bring us to the selected cv
+    $scope.query = {
+      order: 'name',
+      limit: 5,
+      page: 1
+    };
 
     $scope.cvMatch = evaluatedResults;
     console.log("to be displayed:",$scope.cvMatch);

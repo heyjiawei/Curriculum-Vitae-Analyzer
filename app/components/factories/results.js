@@ -52,6 +52,7 @@ angular.module('myApp.factories')
     }
 
     return {
+      Result: Result,
       getResultsFromEvaluation: getResultsFromEvaluation,
       updateWeights: updateWeights
     }
