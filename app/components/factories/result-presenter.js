@@ -87,15 +87,30 @@ angular.module('myApp.factories')
         }
 
         return {
+            /**
+             * Returns the definitions of the headers for view2.js
+             * @param: void
+             * @return: Result object
+             */
             getHeaderDefinitions: getHeaderDefinitions,
+            /**
+             * Retrieves the raw results and format them into the content needed for display
+             * @param: void
+             * @return: array of Result object
+             */
             formatRawResultsForPresentation: formatRawResultsForPresentation,
             /**
-             * Accepts array of weights, with the keys being the scoring criteria (e.g. education, essSkills)
+             * Accepts a Weight object
              * Calculates and updates scoredByCriteriaCvs with the new totalScore.
-             * @param: Array[String] representing weights of each scoring criteria
+             * @param: Weight object
              * @return: void
              */
             updateWeights: updateWeights,
+            /**
+             * Returns the current weights used by the presenter
+             * @param: void
+             * @return: Weight object
+             */
             getWeights: getWeights
         }
     });

@@ -95,6 +95,9 @@ angular.module('myApp.factories')
         }
 
         return {
+            /**
+             *
+             */
             calcEducationScore: calcEducationScore,
             calcSkillsScore: calcSkillsScore,
             calcExpScore: calcExpScore,

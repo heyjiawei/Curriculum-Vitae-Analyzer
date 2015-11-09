@@ -48,7 +48,11 @@ angular.module('myApp.models')
     }
 
     return {
-//      calculateResultsAndSave: calculateResultsAndSave,
+      /**
+       * Retrieves raw results from storage, otherwise calculate result
+       * @param: void
+       * @return array of RawResult objects
+       */
       get: get
     }
   });
