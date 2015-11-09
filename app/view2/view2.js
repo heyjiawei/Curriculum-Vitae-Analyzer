@@ -38,7 +38,8 @@ angular.module('myApp.view2', [])
 
     $scope.selected = []; // selecting a row will bring us to the selected cv
     $scope.query = {
-      order: 'name',
+      order: 'finalScore.value',
+      descendFirst: true,
       limit: 5,
       page: 1
     };
