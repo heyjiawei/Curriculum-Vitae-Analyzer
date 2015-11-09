@@ -3,20 +3,6 @@
     <md-data-table-toolbar>
       <h3 class="md-headline">CV Matches</h3>
     </md-data-table-toolbar>
-
-    <div>
-      <h4>To narrow your search, try adjusting the weightage of the header that is closest to your
-      needs</h4>
-      <div layout ng-repeat="(criteria, properties) in emptyResultForHeaders.scoringCriteria">
-        <div flex="10" layout layout-align="center center">
-          <span class="md-body-1">{{properties.name}}</span>
-        </div>
-        <md-slider flex class="md-accent md-hue-1" md-discrete ng-model="weights[criteria]"
-                   step="1" min="1" max="10" aria-label="rating">
-        </md-slider>
-      </div>
-    </div>
-
     <md-data-table-container>
       <table md-data-table md-row-select="selected" md-progress="deferred"> <!-- what is deferred? -->
         <thead md-order="query.order" md-trigger="onOrderChange">
@@ -40,6 +26,20 @@
             md-total="{{cvMatch.length}}"
             md-trigger="onPaginationChange">
     </md-data-table-pagination>
+    <md-card-content>
+      <div>
+        <h3 class="md-headline">Weight Adjustment for Scoring Criteria</h3>
+        <p class="md-body-1">To narrow your search, try adjusting the weightage of the criteria to fit yourneeds</p>
+        <div layout ng-repeat="(criteria, properties) in emptyResultForHeaders.scoringCriteria">
+          <div flex="10" layout layout-align="center center">
+            <span class="md-body-1">{{properties.name}}</span>
+          </div>
+          <md-slider flex class="md-accent md-hue-1" md-discrete ng-model="weights[criteria]"
+                     step="1" min="1" max="10" aria-label="rating">
+          </md-slider>
+        </div>
+      </div>
+    </md-card-content>
   </md-card>
 </div>
 
