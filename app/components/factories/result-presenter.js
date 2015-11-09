@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('myApp.factories')
-    .factory('results', function (rawResultModel) {
+    .factory('resultPresenter', function (rawResultModel) {
 
         function DefaultWeight() {
             this.education = 1,

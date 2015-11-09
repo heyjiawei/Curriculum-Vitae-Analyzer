@@ -2,15 +2,15 @@
 
 angular.module('myApp.view2', [])
 
-.controller('View2Ctrl', function($scope, $q, $timeout, storageAccess, results) {
-        $scope.cvMatch  = results.formatRawResultsForPresentation();
+.controller('View2Ctrl', function($scope, $q, $timeout, storageAccess, resultPresenter) {
+        $scope.cvMatch  = resultPresenter.formatRawResultsForPresentation();
     console.log("evaresult",  $scope.cvMatch);
 
     //get initial weights
-    $scope.weights = results.getWeights();
+    $scope.weights = resultPresenter.getWeights();
 
    //get definition of columns
-    $scope.emptyResultForHeaders = results.getHeaderDefinitions();
+    $scope.emptyResultForHeaders = resultPresenter.getHeaderDefinitions();
 
         //set names and scores
     $scope.columns = [{
@@ -47,7 +47,7 @@ angular.module('myApp.view2', [])
     };
 
     $scope.$watch('weights', function(newWeight, oldWeight) {
-        results.updateWeights(newWeight);
+        resultPresenter.updateWeights(newWeight);
     }, true);
 
     $scope.onPaginationChange = function(page, limit) {
