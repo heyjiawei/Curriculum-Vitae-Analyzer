@@ -85,12 +85,6 @@ angular.module('myApp.factories')
                 var matchedWords = source2.filter(hasKeyWord);
                 results = results.concat(matchedWords);
             }
-            /**
-             * uniqueArray = a.filter(function(item, pos) {
-                    return a.indexOf(item) == pos;
-                })
-             */
-            console.log("matched results", results);
             return results.length;
         }
 

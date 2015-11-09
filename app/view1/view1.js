@@ -31,7 +31,6 @@ angular.module('myApp.view1', ['ngRoute', 'ngFileUpload'])
         promises.push(readPdf);
       }
       return $q.all(promises).then(function(allCvParsed) {
-        console.log("all cv parsed promise", allCvParsed);
         return allCvParsed;
       });
     }
@@ -39,10 +38,9 @@ angular.module('myApp.view1', ['ngRoute', 'ngFileUpload'])
 
   function getAllTextFromPdf(pdf) {
     return pdfReader.getAllTextFromPdf(pdf).then(function(result) {
-      console.log("final array of string", result);
-     cvModel.save(result);
+      cvModel.save(result);
     });
-  };
+  }
 
   var processJobDesc = function(jobDesc) {
     var deferred = $q.defer();
@@ -55,7 +53,6 @@ angular.module('myApp.view1', ['ngRoute', 'ngFileUpload'])
     var processJobDescPromise = processJobDesc($scope.jobDescript);
     var processFilesPromise = processFiles($scope.files);
     $q.all([processJobDescPromise, processFilesPromise]).then(function(jobDescAndFiles) {
-      console.log("THS IS THE END", jobDescAndFiles);
       $location.url("/view2");
     });
   };

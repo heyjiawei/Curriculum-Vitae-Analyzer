@@ -89,20 +89,15 @@ angular.module('myApp.factories')
 
         if(keywords.some(hasKeyWord)) {
           potentialHeadingsIndexes.push(i);
-          console.log("findtoken:", sourceText[i], potentialHeadingsIndexes);
         }
       }
 
       var headingIndex = guessHeadingIndex(potentialHeadingsIndexes, sourceText, keywords);
-      console.log("headingindex", sourceText[headingIndex], headingIndex);
 
       if(headingIndex < 0){return token;}
 
       for(var j = headingIndex+1; j < sourceText.length; j++) {
         var line = sourceText[j];
-        console.log("finding next heading", line, j);
-        console.log("is heading?", line, isHeading(line, allHeadingKeywords));
-//        if(!isHeading(line)) {
         if(isHeading(line, allHeadingKeywords) < 0.5) {
           token.push(sourceText[j]);
         } else { // found next heading, end of this token
@@ -122,7 +117,6 @@ angular.module('myApp.factories')
 
       var highestScore = {potentialHeadingIndex: Number.NEGATIVE_INFINITY, score: 0};
       headingScores.forEach(function(headingScore) {
-        console.log("headingscore: ", headingScore);
         if(headingScore.score > highestScore.score) {
           highestScore.potentialHeadingIndex = headingScore.potentialHeadingIndex;
           highestScore.score = headingScore.score;

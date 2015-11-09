@@ -5,7 +5,7 @@ angular.module('myApp.models', ['myApp.factories'])
         function CVEducation() {
             this.keywords = [];
             this.degree = 0;
-        };
+        }
 
         function CV () {
             //CV education object
@@ -23,11 +23,10 @@ angular.module('myApp.models', ['myApp.factories'])
             this.name = [];
             //time in milliseconds
             this.workExperienceTime = 0;
-        };
+        }
 
         function save(result) {
             var tokens = cvTokenizer.tokenizeCv(result);
-            console.log("cv tokens", tokens);
             var cvParsed = new CV();
             cvParsed.name = tokens.name;
             cvParsed.education.keywords = cvParser.parse_education_keywords(tokens.education);
@@ -36,13 +35,12 @@ angular.module('myApp.models', ['myApp.factories'])
             cvParsed.interest = cvParser.parse_interest(tokens.interest);
             cvParsed.skill = cvParser.parse_skills(tokens.skill);
             cvParsed.experience = cvParser.parse_experience(tokens.experience.concat(tokens.project));
-            console.log("cv parsed", cvParsed);
             storageAccess.storeParsedCV(cvParsed);
-        };
+        }
 
         function getAll() {
             return storageAccess.getAllCV();
-        };
+        }
 
         function getAllStemmed() {
             var allCvs = storageAccess.getAllCV();
@@ -55,10 +53,9 @@ angular.module('myApp.models', ['myApp.factories'])
                 stemmedCv.skill = stem.stem_array(cv.skill);
                 stemmedCv.experience = stem.stem_array(cv.experience);
                 return stemmedCv;
-            })
-            console.log("all stemmed cvs", allCvs);
+            });
             return allCvs;
-        };
+        }
 
         return {
             /**

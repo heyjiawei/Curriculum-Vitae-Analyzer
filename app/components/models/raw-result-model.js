@@ -36,7 +36,6 @@ angular.module('myApp.models')
         rawScoredCvs.push(rawScoredCv);
       });
       storageAccess.storeRawEvaluationResults(rawScoredCvs);
-      console.log("scored CVS", rawScoredCvs);
     }
 
     function get() {

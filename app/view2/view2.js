@@ -4,7 +4,6 @@ angular.module('myApp.view2', [])
 
 .controller('View2Ctrl', function($scope, $q, $timeout, storageAccess, resultPresenter) {
         $scope.cvMatch  = resultPresenter.formatRawResultsForPresentation();
-    console.log("evaresult",  $scope.cvMatch);
 
     //get initial weights
     $scope.weights = resultPresenter.getWeights();
@@ -28,7 +27,6 @@ angular.module('myApp.view2', [])
     for (var key in $scope.emptyResultForHeaders.scoringCriteria) {
       if($scope.emptyResultForHeaders.scoringCriteria.hasOwnProperty(key)) {
         var criteriaName = $scope.emptyResultForHeaders.scoringCriteria[key].name;
-        //console.log("Key is " + key + ", value is", $scope.emptyResultForHeaders.scoringCriteria[key]);
         var column = {
           name: criteriaName,
           numeric: true,

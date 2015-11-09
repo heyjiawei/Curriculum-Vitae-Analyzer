@@ -25,7 +25,6 @@ angular.module('myApp.models')
 
         function save(jobDesc) {
             var tokens = jobDescriptionTokenizer.tokenizeJobDesc(jobDesc);
-            console.log("job desc tokens", tokens);
 
             var jobDescParsed = new JobDescription();
             jobDescParsed.essentialSkills = jobDescriptionParser.parse_min_req(tokens.minimumRequirement.concat(tokens.responsibility));
@@ -37,8 +36,7 @@ angular.module('myApp.models')
             jobDescParsed.languages = jobDescriptionParser.parse_languages(tokens.minimumRequirement.concat(tokens.preferredQualification));
             //console.log("job desc parsed", jobDescParsed);
             storageAccess.setJobDescription(jobDescParsed);
-            console.log("job desc", jobDescParsed);
-        };
+        }
 
         function get() {
             return storageAccess.getJobDescription();
@@ -54,9 +52,8 @@ angular.module('myApp.models')
             stemmedJobDescription.location = jobDescription.location;
             stemmedJobDescription.workExperienceTime = jobDescription.workExperienceTime;
             stemmedJobDescription.languages = jobDescription.languages;
-            console.log("stemmed job desc", stemmedJobDescription);
             return stemmedJobDescription;
-        };
+        }
 
         return {
             /**
@@ -77,6 +74,5 @@ angular.module('myApp.models')
              * @return stemmmedjob description from storage
              */
             get_stemmed: getStemmed
-
         };
     });
