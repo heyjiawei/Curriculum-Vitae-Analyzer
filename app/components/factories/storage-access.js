@@ -48,10 +48,9 @@ angular.module('myApp.factories')
 		setJobDescription: setJobDescription,
 		storeParsedCV: storeParsedCV,
 		storeRawEvaluationResults: storeRawEvaluationResults,
-		storeResults: storeResults,
 		getJobDescription: getJobDescription,
 		getAllCV: getAllCV,
 		getCV: getCV,
-		getAllRawEvaluationResults: getAllRawEvaluationResults,
+		getAllRawEvaluationResults: getAllRawEvaluationResults
 	};
 });
