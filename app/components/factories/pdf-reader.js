@@ -47,12 +47,16 @@ angular.module('myApp.factories')
             return (firstChar !== firstChar.toUpperCase() && firstChar === firstChar.toLowerCase());
           }
 
+          function isNbsp(str) {
+            // Non-breakable space is char 160. Fixes PDFs exported from Google Docs
+            return str == String.fromCharCode(160);
+          }
+
           function repairPdfTextFormatting(textContent) {
             var repairedTextContent = [];
             for(var i = 0; i < textContent.items.length; i++) {
               var currentElement = textContent.items[i].str;
-              if (currentElement == String.fromCharCode(160)) { // TODO: factor as global const
-                // Non-breakable space is char 160. Fixes PDFs exported from Google Docs
+              if (isNbsp(currentElement)) {
                 currentElement = " ";
                 repairedTextContent.push(currentElement);
               } else if (isFirstCharLowerCase(currentElement)) {
