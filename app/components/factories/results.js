@@ -2,16 +2,15 @@
 
 angular.module('myApp.factories')
     .factory('results', function (rawResultModel) {
-        var EDU_WEIGHT = 1, ESS_SKILL_WEIGHT = 1, PREF_SKILL_WEIGHT = 1,
-            EXP_WEIGHT = 1, LANG_WEIGHT = 1;
 
         function DefaultWeight() {
-            this.education = EDU_WEIGHT,
-            this.essSkills = ESS_SKILL_WEIGHT,
-            this.prefSkills = PREF_SKILL_WEIGHT,
-            this.experience = EXP_WEIGHT,
-            this.language = LANG_WEIGHT;
+            this.education = 1,
+            this.essSkills = 1,
+            this.prefSkills = 1,
+            this.experience = 1,
+            this.language = 1;
         }
+
         var allRawScoredCvs = rawResultModel.get();
         var scoredByCriteriaCvs = [];
         var weights = new DefaultWeight();
@@ -67,34 +66,24 @@ angular.module('myApp.factories')
             });
             return scoredByCriteriaCvs;
         }
-        function getWeights() {
-            return weights;
-        }
 
         //
-        function updateWeights(weights) {
-            ////// TODO: assert weights.length == no of keys
-            //var total = 0;
-            //for (var key in weights) {
-            //  total += weights[key];
-            //}
-            //
-            //scoredByCriteriaCvs.forEach(function(scoredByCriteriaCv) {
-            //  var totalScore = 0;
-            //  for (var key in scoredByCriteriaCv.scoringCriteria) {
-            //    if(scoredByCriteriaCv.scoringCriteria.hasOwnProperty(key)) {
-            //      scoredByCriteriaCv.scoringCriteria[key].weight = weights[key]/total;
-            //      totalScore += scoredByCriteriaCv.scoringCriteria[key].value * weights[key]/total;
-            //    }
-            //  }
-            //  scoredByCriteriaCv.finalScore.value = totalScore;
-            //
-            //});
+        function updateWeights(newWeights) {
+            //TODO: assert weights.length == no of keys
+            weights = newWeights;
+            scoredByCriteriaCvs.forEach(function (scoredByCriteriaCv) {
+                scoredByCriteriaCv.updateScore();
+            });
         }
 
         //return an empty result for the definition of the headers
         function getHeaderDefinitions() {
             return new Result();
+        }
+
+        //get weights for initialisation
+        function getWeights() {
+            return weights;
         }
 
         return {

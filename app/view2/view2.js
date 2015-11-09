@@ -6,12 +6,13 @@ angular.module('myApp.view2', [])
     var evaluatedResults = results.formatRawResultsForPresentation();
     console.log("evaresult", evaluatedResults);
 
-
+    //get initial weights
     $scope.weights = results.getWeights();
 
+   //get definition of columns
     $scope.emptyResultForHeaders = results.getHeaderDefinitions();
-    //set names and scores
 
+        //set names and scores
     $scope.columns = [{
         name: $scope.emptyResultForHeaders.id.name,
         orderBy: 'id'
@@ -48,30 +49,9 @@ angular.module('myApp.view2', [])
     $scope.cvMatch = evaluatedResults;
     console.log("to be displayed:",$scope.cvMatch);
 
-//    // default position of slider
-//    $scope.weight = {eduWeight : 1,
-//                    essSkillsWeight : 1,
-//                    prefSkillsWeight : 1,
-//                    workExpWeight : 1,
-//                    languageWeight : 1};
-
     $scope.$watch('weights', function(newWeight, oldWeight) {
         results.updateWeights(newWeight);
-//      cvEvaluator.update(newWeight.eduWeight,
-//                        newWeight.essSkillsWeight,
-//                        newWeight.prefSkillsWeight,
-//                        newWeight.workExpWeight,
-//                        newWeight.languageWeight);
-//
-//      var result = storageAccess.getAllResults();
-//
-//      // update score of each cv
-//      for (var i = 0; i < result.length; i++) {
-//        $scope.cvMatch[i]["score"] = result[i]["score"];
-//      }
-//
-//      console.log('cv', $scope.cvMatch);
-
+        
     }, true);
 
     $scope.onPaginationChange = function(page, limit) {
