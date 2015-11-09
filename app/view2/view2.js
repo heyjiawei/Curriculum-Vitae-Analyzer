@@ -6,20 +6,22 @@ angular.module('myApp.view2', [])
     var evaluatedResults = results.formatRawResultsForPresentation();
     console.log("evaresult", evaluatedResults);
 
-    $scope.columns = [{
-      name: 'Name / filename',
-      orderBy: 'id'
-    }, {
-      name: 'Match',
-      numeric: true,
-      orderBy: 'finalScore',
-      descendFirst: true,
-      unit: '%'
-    }];
 
     $scope.weights = {};
 
-    $scope.emptyResultForHeaders = new results.Result();
+    $scope.emptyResultForHeaders = results.getHeaderDefinitions();
+    //set names and scores
+    $scope.columns = [{
+        name: $scope.emptyResultForHeaders.id.name,
+        orderBy: 'id'
+    }, {
+        name: $scope.emptyResultForHeaders.finalScore.name,
+        numeric: true,
+        orderBy: 'finalScore',
+        descendFirst: true,
+        unit: '%'
+    }];
+
     for (var key in $scope.emptyResultForHeaders.scoringCriteria) {
       if($scope.emptyResultForHeaders.scoringCriteria.hasOwnProperty(key)) {
         var criteriaName = $scope.emptyResultForHeaders.scoringCriteria[key].name;

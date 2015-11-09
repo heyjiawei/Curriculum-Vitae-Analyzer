@@ -83,8 +83,13 @@ angular.module('myApp.factories')
 //      LANG_WEIGHT = lang/total;
     }
 
+      //return an empty result for the definition of the headers
+      function getHeaderDefinitions() {
+        return new Result();
+      }
+
     return {
-      Result: Result,
+      getHeaderDefinitions: getHeaderDefinitions,
       formatRawResultsForPresentation: formatRawResultsForPresentation,
       /**
        * Accepts array of weights, with the keys being the scoring criteria (e.g. education, essSkills)
