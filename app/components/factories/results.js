@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('myApp.factories')
-  .factory('results', function (cvModel, jobDescriptionModel, cvEvaluator, storageAccess) {
+  .factory('results', function (rawResultsModel, storageAccess) {
     var EDU_WEIGHT = 0.20, ESS_SKILL_WEIGHT = 0.20, PREF_SKILL_WEIGHT = 0.20,
       EXP_WEIGHT = 0.20, LANG_WEIGHT = 0.20;
 
@@ -20,20 +20,19 @@ angular.module('myApp.factories')
     }
 
     function save() {
-      var allCv = cvModel.get_all_stemmed();
-      var jobDesc = jobDescriptionModel.get_stemmed();
+      var allCvRawResults = rawResultsModel.get();
 
-      var scoredCvs = [];
-      allCv.forEach(function (evaluatedCv) {
+      var scoredByCriteriaCvs = [];
+      allCvRawResults.forEach(function (scoredByCriteriaCv) {
         var evaluatedResult = new Result();
 
-        var educationScore = cvEvaluator.calcEducationScore(evaluatedCv.education, jobDesc.education);
-        var essSkillsScore = cvEvaluator.calcSkillsScore(evaluatedCv, jobDesc.essentialSkills);
-        var prefSkillsScore = cvEvaluator.calcSkillsScore(evaluatedCv, jobDesc.preferredSkills);
-        var expScore = cvEvaluator.calcExpScore(evaluatedCv.experience, jobDesc.experience);
-        var languageScore = cvEvaluator.calcLanguageScore(evaluatedCv.languages, jobDesc.languages);
+        var educationScore = scoredByCriteriaCv.education;
+        var essSkillsScore = scoredByCriteriaCv.essSkills;
+        var prefSkillsScore = scoredByCriteriaCv.prefSkills;
+        var expScore = scoredByCriteriaCv.experience;
+        var languageScore = scoredByCriteriaCv.languages;
 
-        evaluatedResult.id.value = evaluatedCv.id;
+        evaluatedResult.id.value = scoredByCriteriaCv.id;
         evaluatedResult.finalScore.value = educationScore * EDU_WEIGHT
           + essSkillsScore * ESS_SKILL_WEIGHT
           + prefSkillsScore * PREF_SKILL_WEIGHT
@@ -45,10 +44,10 @@ angular.module('myApp.factories')
         evaluatedResult.scoringCriteria.experience.value = expScore;
         evaluatedResult.scoringCriteria.language.value = languageScore;
 
-        scoredCvs.push(evaluatedResult);
+        scoredByCriteriaCvs.push(evaluatedResult);
       });
-      storageAccess.storeResults(scoredCvs);
-      console.log("scored CVS", scoredCvs);
+      storageAccess.storeResults(scoredByCriteriaCvs);
+      console.log("scored CVS", scoredByCriteriaCvs);
     }
 
     function get() {
