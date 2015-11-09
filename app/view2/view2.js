@@ -17,7 +17,7 @@ angular.module('myApp.view2', [])
       unit: '%'
     }];
 
-    $scope.weights = [];
+    $scope.weights = {};
 
     $scope.emptyResultForHeaders = new results.Result();
     for (var key in $scope.emptyResultForHeaders.scoringCriteria) {
@@ -32,7 +32,7 @@ angular.module('myApp.view2', [])
           unit: '%'
         };
         $scope.columns.push(column);
-        $scope.weights.push(1);
+        $scope.weights[key] = 1;
       }
     }
 
@@ -53,7 +53,8 @@ angular.module('myApp.view2', [])
 //                    workExpWeight : 1,
 //                    languageWeight : 1};
 
-    $scope.$watch('weight', function(newWeight, oldWeight) {
+    $scope.$watch('weights', function(newWeight, oldWeight) {
+        results.updateWeights(newWeight);
 //      cvEvaluator.update(newWeight.eduWeight,
 //                        newWeight.essSkillsWeight,
 //                        newWeight.prefSkillsWeight,

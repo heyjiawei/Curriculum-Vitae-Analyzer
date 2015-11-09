@@ -57,6 +57,11 @@ angular.module('myApp.factories')
       // TODO: assert weights.length == no of keys
       // TODO: var total = add all values in array
 
+      var total = 0;
+      for (var key in weights) {
+        total += weights[key];
+      }
+
       scoredByCriteriaCvs.forEach(function(scoredByCriteriaCv) {
         var totalScore = 0;
         for (var key in scoredByCriteriaCv.scoringCriteria) {
@@ -66,7 +71,8 @@ angular.module('myApp.factories')
         }
         //TODO: check if this saves into the scoredByCriteriaCvs var
         // or need to do scoredByCriteriaCvs[i].finalScore = totalScore
-        scoredByCriteriaCv.finalScore = totalScore;
+        scoredByCriteriaCv.finalScore.value = totalScore;
+
       });
 //      var total = edu + essSkill + prefSkill + expe + lang;
 //
