@@ -3,8 +3,8 @@
 angular.module('myApp.view2', [])
 
 .controller('View2Ctrl', function($scope, $q, $timeout, storageAccess, results) {
-    var evaluatedResults = results.formatRawResultsForPresentation();
-    console.log("evaresult", evaluatedResults);
+        $scope.cvMatch  = results.formatRawResultsForPresentation();
+    console.log("evaresult",  $scope.cvMatch);
 
     //get initial weights
     $scope.weights = results.getWeights();
@@ -27,7 +27,7 @@ angular.module('myApp.view2', [])
     for (var key in $scope.emptyResultForHeaders.scoringCriteria) {
       if($scope.emptyResultForHeaders.scoringCriteria.hasOwnProperty(key)) {
         var criteriaName = $scope.emptyResultForHeaders.scoringCriteria[key].name;
-        console.log("Key is " + key + ", value is", $scope.emptyResultForHeaders.scoringCriteria[key]);
+        //console.log("Key is " + key + ", value is", $scope.emptyResultForHeaders.scoringCriteria[key]);
         var column = {
           name: criteriaName,
           numeric: true,
@@ -46,18 +46,14 @@ angular.module('myApp.view2', [])
       page: 1
     };
 
-    $scope.cvMatch = evaluatedResults;
-    console.log("to be displayed:",$scope.cvMatch);
-
     $scope.$watch('weights', function(newWeight, oldWeight) {
         results.updateWeights(newWeight);
-        
     }, true);
 
     $scope.onPaginationChange = function(page, limit) {
 
-      console.log('Scope Page: ' + $scope.query.page + ' Scope Limit: ' + $scope.query.limit);
-      console.log('Page: ' + page + ' Limit: ' + limit);
+      //console.log('Scope Page: ' + $scope.query.page + ' Scope Limit: ' + $scope.query.limit);
+      //console.log('Page: ' + page + ' Limit: ' + limit);
 
       var deferred = $q.defer();
 
