@@ -5,7 +5,7 @@ angular.module('myApp.factories')
     var EDU_WEIGHT = 0.20, ESS_SKILL_WEIGHT = 0.20, PREF_SKILL_WEIGHT = 0.20,
       EXP_WEIGHT = 0.20, LANG_WEIGHT = 0.20;
 
-    var allCvRawResults = rawResultModel.get();
+    var allRawScoredCvs = rawResultModel.get();
     var scoredByCriteriaCvs = [];
 
     function Result() {
@@ -21,16 +21,15 @@ angular.module('myApp.factories')
     }
 
     function formatRawResultsForPresentation() {
-      allCvRawResults.forEach(function (cvRawResult) {
+      allRawScoredCvs.forEach(function (rawScoredCv) {
+        var educationScore = rawScoredCv.scoringCriteria.education;
+        var essSkillsScore = rawScoredCv.scoringCriteria.essSkills;
+        var prefSkillsScore = rawScoredCv.scoringCriteria.prefSkills;
+        var expScore = rawScoredCv.scoringCriteria.experience;
+        var languageScore = rawScoredCv.scoringCriteria.language;
+
         var evaluatedResult = new Result();
-
-        var educationScore = cvRawResult.education;
-        var essSkillsScore = cvRawResult.essSkills;
-        var prefSkillsScore = cvRawResult.prefSkills;
-        var expScore = cvRawResult.experience;
-        var languageScore = cvRawResult.languages;
-
-        evaluatedResult.id.value = cvRawResult.id;
+        evaluatedResult.id.value = rawScoredCv.id;
 
         // TODO: can factor out and use updateWeights for this
         evaluatedResult.finalScore.value = educationScore * EDU_WEIGHT
@@ -38,18 +37,19 @@ angular.module('myApp.factories')
           + prefSkillsScore * PREF_SKILL_WEIGHT
           + expScore * EXP_WEIGHT
           + languageScore * LANG_WEIGHT; // initialise with default score
+        
 
         evaluatedResult.scoringCriteria.education.value = educationScore;
         evaluatedResult.scoringCriteria.essSkills.value = essSkillsScore;
         evaluatedResult.scoringCriteria.prefSkills.value = prefSkillsScore;
         evaluatedResult.scoringCriteria.experience.value = expScore;
         evaluatedResult.scoringCriteria.language.value = languageScore;
-
         scoredByCriteriaCvs.push(evaluatedResult);
       });
       return scoredByCriteriaCvs;
 //      storageAccess.storeResults(scoredByCriteriaCvs);
 //      console.log("scored CVS", scoredByCriteriaCvs);
+
     }
 
     //

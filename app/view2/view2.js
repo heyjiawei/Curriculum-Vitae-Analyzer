@@ -5,7 +5,7 @@ angular.module('myApp.view2', [])
 .controller('View2Ctrl', function($scope, $q, $timeout, storageAccess, results) {
     var evaluatedResults = results.formatRawResultsForPresentation();
     console.log("evaresult", evaluatedResults);
-    
+
     $scope.columns = [{
       name: 'Name / filename',
       orderBy: 'id'
@@ -46,12 +46,12 @@ angular.module('myApp.view2', [])
     $scope.cvMatch = evaluatedResults;
     console.log("to be displayed:",$scope.cvMatch);
 
-    // default position of slider
-    $scope.weight = {eduWeight : 1,
-                    essSkillsWeight : 1,
-                    prefSkillsWeight : 1,
-                    workExpWeight : 1,
-                    languageWeight : 1};
+//    // default position of slider
+//    $scope.weight = {eduWeight : 1,
+//                    essSkillsWeight : 1,
+//                    prefSkillsWeight : 1,
+//                    workExpWeight : 1,
+//                    languageWeight : 1};
 
     $scope.$watch('weight', function(newWeight, oldWeight) {
 //      cvEvaluator.update(newWeight.eduWeight,

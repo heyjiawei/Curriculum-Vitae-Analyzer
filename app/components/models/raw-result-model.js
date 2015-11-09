@@ -48,7 +48,7 @@ angular.module('myApp.models')
     }
 
     return {
-      calculateResultsAndSave: calculateResultsAndSave,
+//      calculateResultsAndSave: calculateResultsAndSave,
       get: get
     }
   });
