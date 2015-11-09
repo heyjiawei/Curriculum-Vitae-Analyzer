@@ -7,10 +7,11 @@ angular.module('myApp.view2', [])
     console.log("evaresult", evaluatedResults);
 
 
-    $scope.weights = {};
+    $scope.weights = results.getWeights();
 
     $scope.emptyResultForHeaders = results.getHeaderDefinitions();
     //set names and scores
+
     $scope.columns = [{
         name: $scope.emptyResultForHeaders.id.name,
         orderBy: 'id'
@@ -34,7 +35,6 @@ angular.module('myApp.view2', [])
           unit: '%'
         };
         $scope.columns.push(column);
-        $scope.weights[key] = 1;
       }
     }
 
