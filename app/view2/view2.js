@@ -9,10 +9,10 @@ angular.module('myApp.view2', [])
     //get initial weights
     $scope.weights = resultPresenter.getWeights();
 
-   //get definition of columns
+    //get definition of columns
     $scope.emptyResultForHeaders = resultPresenter.getHeaderDefinitions();
 
-        //set names and scores
+    //define names and score columns
     $scope.columns = [{
         name: $scope.emptyResultForHeaders.name.name,
         orderBy: 'id'
@@ -24,6 +24,7 @@ angular.module('myApp.view2', [])
         unit: '%'
     }];
 
+    //define columns for every scoring criteria
     for (var key in $scope.emptyResultForHeaders.scoringCriteria) {
       if($scope.emptyResultForHeaders.scoringCriteria.hasOwnProperty(key)) {
         var criteriaName = $scope.emptyResultForHeaders.scoringCriteria[key].name;
