@@ -11,6 +11,7 @@ angular.module('myApp.factories')
     var languageKeywords = ["languages"];
     var interestKeywords = ["interests"];
     var refereeKeywords = ["referees", "references", "reference"];
+    var publicationKeywords = ["publications"];
 
     var allHeadingKeywords = [].concat(summaryKeywords, skillKeywords, experienceKeywords,
       projectKeywords, educationKeywords, languageKeywords, interestKeywords, refereeKeywords);
@@ -28,7 +29,6 @@ angular.module('myApp.factories')
 
       var projectToken = findToken(projectKeywords, allTextFromPdf);
 
-      // parse education
       var educationToken = findToken(educationKeywords, allTextFromPdf);
 
       var languageToken = findToken(languageKeywords, allTextFromPdf);
@@ -36,6 +36,8 @@ angular.module('myApp.factories')
       var interestToken = findToken(interestKeywords, allTextFromPdf);
 
       var refereeToken = findToken(refereeKeywords, allTextFromPdf);
+
+      var publicationToken = findToken(publicationKeywords, allTextFromPdf);
 
       return {
         name: nameToken,
@@ -46,7 +48,8 @@ angular.module('myApp.factories')
         education: educationToken,
         language: languageToken,
         interest: interestToken,
-        referee: refereeToken
+        referee: refereeToken,
+        publication: publicationToken
       };
     };
 
@@ -69,7 +72,7 @@ angular.module('myApp.factories')
       }
 
       var headingIndex = guessHeadingIndex(potentialHeadingsIndexes, sourceText, keywords);
-      console.log("headingindex", headingIndex);
+      console.log("headingindex", sourceText[headingIndex], headingIndex);
 
       if(headingIndex < 0){return token;}
 
