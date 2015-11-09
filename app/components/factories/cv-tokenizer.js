@@ -4,7 +4,7 @@ angular.module('myApp.factories')
 
 .factory('cvTokenizer', function() {
     var summaryKeywords = ["summary", "introduction"];
-    var skillKeywords = ["skills & expertise", "skill set", "skillset", "preferredSkills"];
+    var skillKeywords = ["skills & expertise", "skill set", "skillset", "preferredSkills", "skills"];
     var experienceKeywords = ["experience", "employment", "work", "history"];
     var projectKeywords = ["projects"];
     var educationKeywords = ["education", "educational"];
