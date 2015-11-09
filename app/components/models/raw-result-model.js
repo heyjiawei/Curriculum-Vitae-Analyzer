@@ -4,15 +4,15 @@ angular.module('myApp.models')
     function rawResult() {
       this.id = "";
       this.scoringCriteria = {
-        education : 0,
-        essSkills : 0,
-        prefSkills : 0,
-        experience : 0,
-        language : 0
+        education: 0,
+        essSkills: 0,
+        prefSkills: 0,
+        experience: 0,
+        language: 0
       };
     }
 
-    function calculateResults() {
+    function calculateResultsAndSave() {
       var allCv = cvModel.get_all_stemmed();
       var jobDesc = jobDescriptionModel.get_stemmed();
 
@@ -36,11 +36,16 @@ angular.module('myApp.models')
 
         rawScoredCvs.push(evaluatedResult);
       });
-      storageAccess.storeResults(rawScoredCvs);
+      storageAccess.storeRawEvaluationResults(rawScoredCvs);
       console.log("scored CVS", rawScoredCvs);
     }
 
+    function get() {
+      return storageAccess.getAllRawEvaluationResults();
+    }
+
     return {
-      calculateResults: calculateResults
+      calculateResultsAndSave: calculateResultsAndSave,
+      get: get
     }
   });

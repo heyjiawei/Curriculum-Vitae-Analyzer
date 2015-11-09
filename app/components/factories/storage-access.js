@@ -8,6 +8,7 @@ angular.module('myApp.factories')
 .factory('storageAccess', function() {
 	var jobDescription = "";
 	var parsedCVs = [];
+	var rawEvaluationResults = [];
 	var evaluationResults = [];
 
 	/** ----- STORAGE WRITING ----- **/
@@ -19,6 +20,10 @@ angular.module('myApp.factories')
 	var storeParsedCV = function(parsedCV) {
 		//var cv = JSON.parse(parsedCV);
 		parsedCVs.push(parsedCV);
+	};
+
+	var storeRawEvaluationResults = function(results) {
+		rawEvaluationResults = results;
 	};
 
 	var storeResults = function(results) {
@@ -40,6 +45,10 @@ angular.module('myApp.factories')
 		return parsedCVs[name];
 	};
 
+	var getAllRawEvaluationResults = function() {
+		return rawEvaluationResults;
+	};
+
 	var getAllResults = function() {
 		return evaluationResults;
 	};
@@ -47,10 +56,12 @@ angular.module('myApp.factories')
 	return {
 		setJobDescription: setJobDescription,
 		storeParsedCV: storeParsedCV,
+		storeRawEvaluationResults: storeRawEvaluationResults,
 		storeResults: storeResults,
 		getJobDescription: getJobDescription,
 		getAllCV: getAllCV,
 		getCV: getCV,
+		getAllRawEvaluationResults: getAllRawEvaluationResults,
 		getAllResults: getAllResults
 	};
 });
