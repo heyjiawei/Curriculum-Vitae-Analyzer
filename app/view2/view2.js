@@ -2,28 +2,32 @@
 
 angular.module('myApp.view2', [])
 
-.controller('View2Ctrl', function($scope, $q, $timeout, storageAccess, results) {
-    var evaluatedResults = results.formatRawResultsForPresentation();
-    console.log("evaresult", evaluatedResults);
+.controller('View2Ctrl', function($scope, $q, $timeout, storageAccess, resultPresenter) {
+        $scope.cvMatch  = resultPresenter.formatRawResultsForPresentation();
+    console.log("evaresult",  $scope.cvMatch);
 
+    //get initial weights
+    $scope.weights = resultPresenter.getWeights();
+
+   //get definition of columns
+    $scope.emptyResultForHeaders = resultPresenter.getHeaderDefinitions();
+
+        //set names and scores
     $scope.columns = [{
-      name: 'Name / filename',
-      orderBy: 'id'
+        name: $scope.emptyResultForHeaders.id.name,
+        orderBy: 'id'
     }, {
-      name: 'Match',
-      numeric: true,
-      orderBy: 'finalScore',
-      descendFirst: true,
-      unit: '%'
+        name: $scope.emptyResultForHeaders.finalScore.name,
+        numeric: true,
+        orderBy: 'finalScore',
+        descendFirst: true,
+        unit: '%'
     }];
 
-    $scope.weights = [];
-
-    $scope.emptyResultForHeaders = new results.Result();
     for (var key in $scope.emptyResultForHeaders.scoringCriteria) {
       if($scope.emptyResultForHeaders.scoringCriteria.hasOwnProperty(key)) {
         var criteriaName = $scope.emptyResultForHeaders.scoringCriteria[key].name;
-        console.log("Key is " + key + ", value is", $scope.emptyResultForHeaders.scoringCriteria[key]);
+        //console.log("Key is " + key + ", value is", $scope.emptyResultForHeaders.scoringCriteria[key]);
         var column = {
           name: criteriaName,
           numeric: true,
@@ -32,7 +36,6 @@ angular.module('myApp.view2', [])
           unit: '%'
         };
         $scope.columns.push(column);
-        $scope.weights.push(1);
       }
     }
 
@@ -43,38 +46,14 @@ angular.module('myApp.view2', [])
       page: 1
     };
 
-    $scope.cvMatch = evaluatedResults;
-    console.log("to be displayed:",$scope.cvMatch);
-
-//    // default position of slider
-//    $scope.weight = {eduWeight : 1,
-//                    essSkillsWeight : 1,
-//                    prefSkillsWeight : 1,
-//                    workExpWeight : 1,
-//                    languageWeight : 1};
-
-    $scope.$watch('weight', function(newWeight, oldWeight) {
-//      cvEvaluator.update(newWeight.eduWeight,
-//                        newWeight.essSkillsWeight,
-//                        newWeight.prefSkillsWeight,
-//                        newWeight.workExpWeight,
-//                        newWeight.languageWeight);
-//
-//      var result = storageAccess.getAllResults();
-//
-//      // update score of each cv
-//      for (var i = 0; i < result.length; i++) {
-//        $scope.cvMatch[i]["score"] = result[i]["score"];
-//      }
-//
-//      console.log('cv', $scope.cvMatch);
-
+    $scope.$watch('weights', function(newWeight, oldWeight) {
+        resultPresenter.updateWeights(newWeight);
     }, true);
 
     $scope.onPaginationChange = function(page, limit) {
 
-      console.log('Scope Page: ' + $scope.query.page + ' Scope Limit: ' + $scope.query.limit);
-      console.log('Page: ' + page + ' Limit: ' + limit);
+      //console.log('Scope Page: ' + $scope.query.page + ' Scope Limit: ' + $scope.query.limit);
+      //console.log('Page: ' + page + ' Limit: ' + limit);
 
       var deferred = $q.defer();
 
