@@ -52,10 +52,15 @@ angular.module('myApp.factories')
             return str == String.fromCharCode(160);
           }
 
+          function isPageNumber(str) {
+            return str.match(/[pP]age\d/g);
+          }
+
           function repairPdfTextFormatting(textContent) {
             var repairedTextContent = [];
             for(var i = 0; i < textContent.items.length; i++) {
               var currentElement = textContent.items[i].str;
+              var nextElement = textContent.items[i+1] ? textContent.items[i+1].str : "";
               if (isNbsp(currentElement)) {
                 currentElement = " ";
                 repairedTextContent.push(currentElement);
@@ -63,6 +68,10 @@ angular.module('myApp.factories')
                 // If it starts with lowercase letter, append it to the end of the previous line
                 // Fixes things like ["Work experi", "e", "n", "ce"]
                 repairedTextContent[repairedTextContent.length - 1] += currentElement;
+              } else if (isPageNumber(currentElement + nextElement)) {
+                // don't add "page" to the text content
+                // increase index by 1 so that we don't add the number as well
+                i++;
               } else {
                 repairedTextContent.push(currentElement);
               }
