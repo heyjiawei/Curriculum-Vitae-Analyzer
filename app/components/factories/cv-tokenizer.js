@@ -17,9 +17,7 @@ angular.module('myApp.factories')
       projectKeywords, educationKeywords, languageKeywords, interestKeywords, refereeKeywords);
 
     var tokenizeCv = function(allTextFromPdf) {
-      // parse name
-      // name is usually either big header, or has the word "name" near it
-      var nameToken = allTextFromPdf[0]; //naive, works for linkedin.
+      var nameToken = findName(allTextFromPdf);
 
       var summaryToken = findToken(summaryKeywords, allTextFromPdf);
 
@@ -52,6 +50,30 @@ angular.module('myApp.factories')
         publication: publicationToken
       };
     };
+
+    function findName(sourceText) {
+      // find "name:" and get the text after it. if it doesn't exist,
+      // assume the first words are the name.
+      var firstWordsOfText = "";
+      var nameHeadingText = "";
+      for (var i = 0; i < sourceText.length; i++) {
+        if (!isEmptyOrWhiteSpace(sourceText[i]) && firstWordsOfText === "") {
+          firstWordsOfText = sourceText[i];
+        }
+        if (sourceText[i].toLowerCase().trim() === "name:") {
+          nameHeadingText = findNextNonEmptyElement(i, sourceText);
+        }
+      }
+      return nameHeadingText === "" ? firstWordsOfText : nameHeadingText;
+    }
+
+    function findNextNonEmptyElement(index, sourceText) {
+      for (var i = index + 1; i < sourceText.length; i++) {
+        if (!isEmptyOrWhiteSpace(sourceText[i])) {
+          return sourceText[i];
+        }
+      }
+    }
 
     function findToken(keywords, sourceText) {
       var potentialHeadingsIndexes = [];
