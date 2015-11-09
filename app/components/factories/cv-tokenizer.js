@@ -94,11 +94,13 @@ angular.module('myApp.factories')
 
       var headingIndex = guessHeadingIndex(potentialHeadingsIndexes, sourceText, keywords);
 
-      if(headingIndex < 0){return token;}
+      if(headingIndex < 0){
+        return token;
+      }
 
       for(var j = headingIndex+1; j < sourceText.length; j++) {
         var line = sourceText[j];
-        if(isHeading(line, allHeadingKeywords) < 0.5) {
+        if(isHeading(line, allHeadingKeywords) < 0.5) { //TODO: factor out magic number
           token.push(sourceText[j]);
         } else { // found next heading, end of this token
           return token;
