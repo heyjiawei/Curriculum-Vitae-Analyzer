@@ -18,9 +18,8 @@ angular.module('myApp.view2', [])
     }, {
         name: $scope.emptyResultForHeaders.finalScore.name,
         numeric: true,
-        orderBy: 'finalScore',
-        descendFirst: true,
-        unit: '%'
+        orderBy: 'finalScore.value',
+        descendFirst: true  
     }];
 
     //define columns for every scoring criteria
@@ -31,7 +30,6 @@ angular.module('myApp.view2', [])
           name: criteriaName,
           numeric: true,
           orderBy: key,
-          descendFirst: true,
           unit: '%'
         };
         $scope.columns.push(column);
