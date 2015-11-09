@@ -30,6 +30,7 @@ angular.module('myApp.view2', [])
           name: criteriaName,
           numeric: true,
           orderBy: key,
+          descendFirst: false,
           unit: '%'
         };
         $scope.columns.push(column);
@@ -38,8 +39,7 @@ angular.module('myApp.view2', [])
 
     $scope.selected = []; // selecting a row will bring us to the selected cv
     $scope.query = {
-      order: 'finalScore.value',
-      descendFirst: true,
+      order: '-finalScore.value',
       limit: 5,
       page: 1
     };
