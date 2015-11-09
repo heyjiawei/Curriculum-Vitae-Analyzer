@@ -14,7 +14,7 @@ angular.module('myApp.view2', [])
 
         //set names and scores
     $scope.columns = [{
-        name: $scope.emptyResultForHeaders.id.name,
+        name: $scope.emptyResultForHeaders.name.name,
         orderBy: 'id'
     }, {
         name: $scope.emptyResultForHeaders.finalScore.name,

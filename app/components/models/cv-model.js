@@ -19,8 +19,8 @@ angular.module('myApp.models', ['myApp.factories'])
             this.interest = [];
             //array of ISO 639-1 codes i.e. keys of languages json in Constants
             this.languages = [];
-            //TODO: not done
-            this.id = [];
+            //name of the applicant
+            this.name = [];
             //time in milliseconds
             this.workExperienceTime = 0;
         };
@@ -29,6 +29,7 @@ angular.module('myApp.models', ['myApp.factories'])
             var tokens = cvTokenizer.tokenizeCv(result);
             console.log("cv tokens", tokens);
             var cvParsed = new CV();
+            cvParsed.name = tokens.name;
             cvParsed.education.keywords = cvParser.parse_education_keywords(tokens.education);
             cvParsed.education.degree = cvParser.parse_education_degree(tokens.education);
             cvParsed.languages = cvParser.parse_language(tokens.language);

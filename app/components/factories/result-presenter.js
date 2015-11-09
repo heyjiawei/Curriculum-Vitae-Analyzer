@@ -16,7 +16,7 @@ angular.module('myApp.factories')
         var weights = new DefaultWeight();
 
         function Result() {
-            this.id = {name: "Name", value: "Placeholder Name"};
+            this.name = {name: "Name", value: "Placeholder Name"};
             this.finalScore = {name: "Score", value: 0};
             this.scoringCriteria = {
                 education: {name: "Education", value: 0},
@@ -54,7 +54,7 @@ angular.module('myApp.factories')
                 var languageScore = rawScoredCv.scoringCriteria.language;
 
                 var evaluatedResult = new Result();
-                evaluatedResult.id.value = rawScoredCv.id;
+                evaluatedResult.name.value = rawScoredCv.name;
 
                 evaluatedResult.scoringCriteria.education.value = educationScore;
                 evaluatedResult.scoringCriteria.essSkills.value = essSkillsScore;

@@ -2,7 +2,7 @@ angular.module('myApp.models')
   .factory('rawResultModel', function (cvModel, jobDescriptionModel, cvEvaluator, storageAccess) {
 
     function RawResult() {
-      this.id = "";
+      this.name = "";
       this.scoringCriteria = {
         education: 0,
         essSkills: 0,
@@ -26,7 +26,7 @@ angular.module('myApp.models')
         var languageScore = cvEvaluator.calcLanguageScore(evaluatedCv.languages, jobDesc.languages);
 
         var rawScoredCv = new RawResult();
-        rawScoredCv.id = evaluatedCv.id;
+        rawScoredCv.name = evaluatedCv.name;
         rawScoredCv.scoringCriteria.education = educationScore;
         rawScoredCv.scoringCriteria.essSkills = essSkillsScore;
         rawScoredCv.scoringCriteria.prefSkills = prefSkillsScore;

@@ -31,7 +31,7 @@
         </thead>
           <tbody>
             <tr md-auto-select data-ng-repeat="cv in cvMatch | orderBy: query.order | limitTo: query.limit : (query.page -1) * query.limit">
-              <td>{{cv.id.value}}</td>
+              <td>{{cv.name.value}}</td>
               <td>{{cv.finalScore.value.toFixed(2)}}</td>
               <td data-ng-repeat="(criteria, properties) in cv.scoringCriteria">{{criteria}} {{properties.value.toFixed(2)}}</td>
             </tr>
