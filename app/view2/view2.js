@@ -3,7 +3,7 @@
 angular.module('myApp.view2', [])
 
 .controller('View2Ctrl', function($scope, $q, $timeout, storageAccess, resultPresenter) {
-        $scope.cvMatch  = resultPresenter.formatRawResultsForPresentation();
+    $scope.cvMatch  = resultPresenter.formatRawResultsForPresentation();
 
     //get initial weights
     $scope.weights = resultPresenter.getWeights();
@@ -14,12 +14,12 @@ angular.module('myApp.view2', [])
     //define names and score columns
     $scope.columns = [{
         name: $scope.emptyResultForHeaders.name.name,
-        orderBy: 'id'
+        orderBy: 'name.value'
     }, {
         name: $scope.emptyResultForHeaders.finalScore.name,
         numeric: true,
         orderBy: 'finalScore.value',
-        descendFirst: true  
+        descendFirst: true
     }];
 
     //define columns for every scoring criteria
