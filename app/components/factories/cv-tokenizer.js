@@ -78,7 +78,7 @@ angular.module('myApp.factories')
         console.log("finding next heading", line, j);
         console.log("is heading?", line, isHeading(line, allHeadingKeywords));
 //        if(!isHeading(line)) {
-        if(isHeading(line, allHeadingKeywords) < 0) {
+        if(isHeading(line, allHeadingKeywords) < 0.5) {
           token.push(sourceText[j]);
         } else { // found next heading, end of this token
           return token;
@@ -126,7 +126,7 @@ angular.module('myApp.factories')
       }
 
       if(isUpperCase(potentialHeading)) {
-        score += 0.9
+        score += 0.4;
       }
 
       if(potentialHeading.trim().slice(-1) == ":") {
