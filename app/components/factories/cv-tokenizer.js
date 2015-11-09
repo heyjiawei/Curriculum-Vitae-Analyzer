@@ -18,6 +18,7 @@ angular.module('myApp.factories')
     var tokenizeCv = function(allTextFromPdf) {
       // parse name
       // name is usually either big header, or has the word "name" near it
+      var nameToken = allTextFromPdf[0]; //naive, works for linkedin.
 
       var summaryToken = findToken(summaryKeywords, allTextFromPdf);
 
@@ -37,6 +38,7 @@ angular.module('myApp.factories')
       var refereeToken = findToken(refereeKeywords, allTextFromPdf);
 
       return {
+        name: nameToken,
         summary: summaryToken,
         skill: skillToken,
         experience: experienceToken,
@@ -49,33 +51,62 @@ angular.module('myApp.factories')
     };
 
     function findToken(keywords, sourceText) {
-      var results = [];
-      var isHeaderFound = false;
-
+      var potentialHeadingsIndexes = [];
+      var token = [];
       for (var i = 0; i < sourceText.length; i++) {
-        var line = sourceText[i];
-        if (!isHeaderFound) {
-          var hasKeyWord = function (keyWord) {
-            return line.toLowerCase().indexOf(keyWord) >= 0;
-          };
+        // look through entire text
+        // save every time you see a potential header
+        // decide on the best header using isHeading
 
-//          if(isHeading(line) && keywords.some(hasKeyWord)) {
-          if(keywords.some(hasKeyWord)) { // found the heading?
-            results.push(line);
-            isHeaderFound = true;
-          }
-        } else { // look for next heading, return
-          if(!isHeading(line)) {
-            results.push(line);
-          } else {
-            return results;
-          }
+        var hasKeyWord = function (keyWord) {
+          return sourceText[i].toLowerCase().indexOf(keyWord) >= 0;
+        };
+
+        if(keywords.some(hasKeyWord)) {
+          potentialHeadingsIndexes.push(i);
+          console.log("findtoken:", sourceText[i], potentialHeadingsIndexes);
         }
       }
-      return results;
+
+      var headingIndex = guessHeadingIndex(potentialHeadingsIndexes, sourceText, keywords);
+      console.log("headingindex", headingIndex);
+
+      if(headingIndex < 0){return token;}
+
+      for(var j = headingIndex+1; j < sourceText.length; j++) {
+        var line = sourceText[j];
+        console.log("finding next heading", line, j);
+        console.log("is heading?", line, isHeading(line, allHeadingKeywords));
+//        if(!isHeading(line)) {
+        if(isHeading(line, allHeadingKeywords) < 0) {
+          token.push(sourceText[j]);
+        } else { // found next heading, end of this token
+          return token;
+        }
+      }
+      return token;
     }
 
-    function isHeading(text) {
+    function guessHeadingIndex(potentialHeadingsIndexes, sourceText, keywords) {
+      var headingScores = [];
+      potentialHeadingsIndexes.forEach(function(potentialHeadingIndex) {
+        var potentialHeading = sourceText[potentialHeadingIndex];
+        var score = isHeading(potentialHeading, keywords);
+        headingScores.push({potentialHeadingIndex: potentialHeadingIndex, score: score});
+      });
+
+      var highestScore = {potentialHeadingIndex: Number.NEGATIVE_INFINITY, score: 0};
+      headingScores.forEach(function(headingScore) {
+        console.log("headingscore: ", headingScore);
+        if(headingScore.score > highestScore.score) {
+          highestScore.potentialHeadingIndex = headingScore.potentialHeadingIndex;
+          highestScore.score = headingScore.score;
+        }
+      });
+      return highestScore.potentialHeadingIndex;
+    }
+
+    function isHeading(potentialHeading, keywords) {
       // determine how likely it is to be a heading
       // it's likely a heading, if
       // it matches the heading keywords defined above
@@ -83,21 +114,34 @@ angular.module('myApp.factories')
       // it contains a ":" at the end
       // it's the only word in the line provided (?)
 
+      var score = 0;
+
       var hasKeyWord = function (keyWord) {
         var matchExactWordRegex = new RegExp("(?:^|\\s)" + keyWord.toLowerCase() + "(?=\\s|$)", "g");
-        return text.toLowerCase().match(matchExactWordRegex);
+        return potentialHeading.toLowerCase().match(matchExactWordRegex);
       };
-      
-      if(allHeadingKeywords.some(hasKeyWord)) {
-        return true;
+
+      if(keywords.some(hasKeyWord)) {
+        score += 0.9;
       }
 
-      if(text === text.toUpperCase() || text.trim().slice(-1) == ":") {
-        return true;
-      } else if(isEmptyOrWhiteSpace(text) || hasDisallowedPunctuation(text) || hasTooManyWords(text)) {
-        return false;
+      if(isUpperCase(potentialHeading)) {
+        score += 0.9
       }
-      // FIXME: text === text.toUpperCase() is true for strings with only numbers
+
+      if(potentialHeading.trim().slice(-1) == ":") {
+        score += 0.4;
+      }
+
+      if(isEmptyOrWhiteSpace(potentialHeading) || hasTooManyWords(potentialHeading)) {
+        score -= 1;
+      }
+//      console.log("isheading", potentialHeading, score);
+      return score;
+    }
+
+    function isUpperCase(str) {
+      return (str === str.toUpperCase() && str !== str.toLowerCase());
     }
 
     function hasTooManyWords(str) {
