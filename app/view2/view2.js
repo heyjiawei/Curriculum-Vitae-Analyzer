@@ -4,7 +4,8 @@ angular.module('myApp.view2', [])
 
 .controller('View2Ctrl', function($scope, $q, $timeout, storageAccess, results) {
     var evaluatedResults = results.formatRawResultsForPresentation();
-
+    console.log("evaresult", evaluatedResults);
+    
     $scope.columns = [{
       name: 'Name / filename',
       orderBy: 'id'

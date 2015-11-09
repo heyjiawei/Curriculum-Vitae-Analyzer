@@ -1,7 +1,7 @@
 angular.module('myApp.models')
   .factory('rawResultModel', function (cvModel, jobDescriptionModel, cvEvaluator, storageAccess) {
 
-    function rawResult() {
+    function RawResult() {
       this.id = "";
       this.scoringCriteria = {
         education: 0,
@@ -18,7 +18,6 @@ angular.module('myApp.models')
 
       var rawScoredCvs = [];
       allCv.forEach(function (evaluatedCv) {
-        var evaluatedResult = new Result();
 
         var educationScore = cvEvaluator.calcEducationScore(evaluatedCv.education, jobDesc.education);
         var essSkillsScore = cvEvaluator.calcSkillsScore(evaluatedCv, jobDesc.essentialSkills);
@@ -26,21 +25,25 @@ angular.module('myApp.models')
         var expScore = cvEvaluator.calcExpScore(evaluatedCv.experience, jobDesc.experience);
         var languageScore = cvEvaluator.calcLanguageScore(evaluatedCv.languages, jobDesc.languages);
 
-        var rawResult = new rawResult();
-        rawResult.id = evaluatedCv.id;
-        rawResult.scoringCriteria.education = educationScore;
-        rawResult.scoringCriteria.essSkills = essSkillsScore;
-        rawResult.scoringCriteria.prefSkills = prefSkillsScore;
-        rawResult.scoringCriteria.experience = expScore;
-        rawResult.scoringCriteria.language = languageScore;
+        var rawScoredCv = new RawResult();
+        rawScoredCv.id = evaluatedCv.id;
+        rawScoredCv.scoringCriteria.education = educationScore;
+        rawScoredCv.scoringCriteria.essSkills = essSkillsScore;
+        rawScoredCv.scoringCriteria.prefSkills = prefSkillsScore;
+        rawScoredCv.scoringCriteria.experience = expScore;
+        rawScoredCv.scoringCriteria.language = languageScore;
 
-        rawScoredCvs.push(evaluatedResult);
+        rawScoredCvs.push(rawScoredCv);
       });
       storageAccess.storeRawEvaluationResults(rawScoredCvs);
       console.log("scored CVS", rawScoredCvs);
     }
 
     function get() {
+//      console.log("storage all raw eval", storageAccess.getAllRawEvaluationResults());
+      if (storageAccess.getAllRawEvaluationResults().length === 0){
+        calculateResultsAndSave();
+      }
       return storageAccess.getAllRawEvaluationResults();
     }
 
