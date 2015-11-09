@@ -42,8 +42,9 @@ angular.module('myApp.factories')
     var getTextFromPdfPage = function(pageNumber, pdf) {
       return pdf.getPage(pageNumber).then(function(page) {
         return page.getTextContent().then(function(textContent) {
-          function isLowerCase(str) {
-            return str === str.toLowerCase();
+          function isFirstCharLowerCase(str) {
+            var firstChar = str.slice(0, 1);
+            return (firstChar !== firstChar.toUpperCase() && firstChar === firstChar.toLowerCase());
           }
 
           function repairPdfTextFormatting(textContent) {
@@ -54,7 +55,7 @@ angular.module('myApp.factories')
                 // Non-breakable space is char 160. Fixes PDFs exported from Google Docs
                 currentElement = " ";
                 repairedTextContent.push(currentElement);
-              } else if (isLowerCase(currentElement.slice(0, 1))) {
+              } else if (isFirstCharLowerCase(currentElement)) {
                 // If it starts with lowercase letter, append it to the end of the previous line
                 // Fixes things like ["Work experi", "e", "n", "ce"]
                 repairedTextContent[repairedTextContent.length - 1] += currentElement;
