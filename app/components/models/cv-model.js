@@ -31,17 +31,16 @@ angular.module('cvia.models', ['cvia.factories'])
 
         function save(result) {
             var tokens = cvTokenizer.tokenizeCv(result);
-            var cvParsed = new CV();
-            cvParsed.name = tokens.name;
-            cvParsed.education.keywords = cvParser.parse_education_keywords(tokens.education);
-            cvParsed.education.degree = cvParser.parse_education_degree(tokens.education);
-            cvParsed.languages = cvParser.parse_language(tokens.language);
-            cvParsed.interest = cvParser.parse_interest(tokens.interest);
-            cvParsed.skill = cvParser.parse_skills(tokens.skill);
-            cvParsed.experience = cvParser.parse_experience(tokens.experience.concat(tokens.project));
-            cvParsed.workExperienceTime = cvParser.find_and_parse_work_time(tokens.experience);
-            console.log("parsed cv", cvParsed);
-            storageAccess.storeParsedCV(cvParsed);
+            var tokenizedCv = new CV();
+            tokenizedCv.name = tokens.name;
+            tokenizedCv.education.keywords = cvParser.parse_education_keywords(tokens.education);
+            tokenizedCv.education.degree = cvParser.parse_education_degree(tokens.education);
+            tokenizedCv.languages = cvParser.parse_language(tokens.language);
+            tokenizedCv.interest = cvParser.parse_interest(tokens.interest);
+            tokenizedCv.skill = cvParser.parse_skills(tokens.skill);
+            tokenizedCv.experience = cvParser.parse_experience(tokens.experience.concat(tokens.project));
+            tokenizedCv.workExperienceTime = cvParser.find_and_parse_work_time(tokens.experience);
+            storageAccess.storeParsedCV(tokenizedCv);
         }
 
         function getAll() {
