@@ -11,6 +11,12 @@ var interestKeywords = ["interests"];
 var refereeKeywords = ["referees", "references", "reference"];
 var publicationKeywords = ["publications"];
 
+// Job Description Tokenizer
+var responsibilityKeywords = ["responsibilities", "job scope"];
+var minimumRequirementKeywords = ["minimum requirements"];
+var preferredQualificationKeywords = ["preferred qualifications"];
+var locationKeywords = ["location"];
+
 // CV Parser
 var diplomaKeyWords = ["diploma"];
 var bachelorKeyWords = ["bachelor's", "bachelor", "bsc", "be"];
