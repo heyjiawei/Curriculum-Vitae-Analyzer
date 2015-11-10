@@ -19,6 +19,8 @@ angular.module('cvia.factories')
             } else {
                 return ((cvEdu.degree >= jdEdu.degree ? 100 : 0) + eduCount/jdEdu.keywords.length*100) / 2;
             }
+            //console.log("degree", jdEdu.degree, cvEdu.degree);
+            //console.log("eduCount", cvEdu.keywords, jdEdu.keywords);
         }
 
         /* SKILLS SCORING */
@@ -28,7 +30,7 @@ angular.module('cvia.factories')
                 return 100;
             }
             var SKILLS_WEIGHT = 3, EXP_WEIGHT = 1.5, INTEREST_WEIGHT = 0.5;
-            //var WEIGHT_NORM = SKILLS_WEIGHT + EXP_WEIGHT + INTEREST_WEIGHT;
+            var WEIGHT_NORM = SKILLS_WEIGHT + EXP_WEIGHT + INTEREST_WEIGHT;
 
             var skillCount = findMatchingWords(cv.skill, jdSkills);
 
@@ -86,7 +88,7 @@ angular.module('cvia.factories')
             for (var i = 0; i < source1.length; i++) {
                 //for each word, check the entire wordsOfSource2?
                 var hasKeyWord = function (keyWord) {
-                    return source1[i].toLowerCase() == keyWord.toLowerCase();
+                    return source1[i].toLowerCase().indexOf(keyWord.toLowerCase()) >= 0;
                 };
                 var matchedWords = source2.filter(hasKeyWord);
                 results = results.concat(matchedWords);
