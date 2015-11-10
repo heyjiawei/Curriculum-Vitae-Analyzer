@@ -63,13 +63,12 @@ angular.module('myApp.factories')
             var count = 0;
             cvLang.forEach(function (lang) {
                 for(var i=0; i<jdLang.length; i++) {
-                    if(lang.name === jdLang[i].name) {
+                    if(lang === jdLang[i]) {
                         count++;
                         break;
                     }
                 }
             });
-
             return count/jdLang.length * 100;
         }
 
