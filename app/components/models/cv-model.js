@@ -75,13 +75,13 @@ angular.module('cvia.models', ['cvia.factories'])
              * @param void
              * @return an array of cv objects from the storage
              */
-            get_all: getAll,
+            getAll: getAll,
             /**
              * Retrieves and stems all the CVs from storage
              * @param void
              * @return an array of stemmed cv objects from the storage
              */
-            get_all_stemmed: getAllStemmed,
+            getAllStemmed: getAllStemmed,
             /**
              * Clears CV from storage
              * @param void

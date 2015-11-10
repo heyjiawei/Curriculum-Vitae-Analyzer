@@ -77,7 +77,7 @@ angular.module('cvia.models')
              * @param void
              * @return stemmmedjob description from storage
              */
-            get_stemmed: getStemmed,
+            getStemmed: getStemmed,
             /**
              * Clears job description from storage
              * @param void
