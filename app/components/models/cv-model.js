@@ -25,6 +25,10 @@ angular.module('cvia.models', ['cvia.factories'])
             this.workExperienceTime = 0;
         }
 
+        function reset() {
+            storageAccess.resetAllCVs();
+        }
+
         function save(result) {
             var tokens = cvTokenizer.tokenizeCv(result);
             var cvParsed = new CV();
@@ -75,6 +79,12 @@ angular.module('cvia.models', ['cvia.factories'])
              * @param void
              * @return an array of stemmed cv objects from the storage
              */
-            get_all_stemmed: getAllStemmed
+            get_all_stemmed: getAllStemmed,
+            /**
+             * Clears CV from storage
+             * @param void
+             * @return void
+             */
+            reset: reset
         };
     });

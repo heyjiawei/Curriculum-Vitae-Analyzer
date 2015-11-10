@@ -46,6 +46,7 @@ angular.module('cvia.factories')
         }
 
         function formatRawResultsForPresentation() {
+            scoredByCriteriaCvs = [];
             allRawScoredCvs.forEach(function (rawScoredCv) {
                 var educationScore = rawScoredCv.scoringCriteria.education;
                 var essSkillsScore = rawScoredCv.scoringCriteria.essSkills;

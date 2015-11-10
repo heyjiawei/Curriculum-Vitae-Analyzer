@@ -5,52 +5,74 @@
 
 angular.module('cvia.factories')
 
-.factory('storageAccess', function() {
-	var jobDescription = "";
-	var parsedCVs = [];
-	var rawEvaluationResults = [];
+    .factory('storageAccess', function () {
+        var jobDescription = "";
+        var parsedCVs = [];
+        var rawEvaluationResults = [];
 
-	/** ----- STORAGE WRITING ----- **/
+        /** ----- STORAGE WRITING ----- **/
 
-	var setJobDescription = function(input) {
-		jobDescription = input;
-	};
+        var setJobDescription = function (input) {
+            jobDescription = input;
+        };
 
-	var storeParsedCV = function(parsedCV) {
-		//var cv = JSON.parse(parsedCV);
-		parsedCVs.push(parsedCV);
-	};
+        var storeParsedCV = function (parsedCV) {
+            //var cv = JSON.parse(parsedCV);
+            parsedCVs.push(parsedCV);
+        };
 
-	var storeRawEvaluationResults = function(results) {
-		rawEvaluationResults = results;
-	};
+        var storeRawEvaluationResults = function (results) {
+            rawEvaluationResults = results;
+        };
 
 
-	/** ----- STORAGE RETRIEVAL ----- */
+        /** ----- STORAGE RETRIEVAL ----- */
 
-	var getJobDescription = function() {
-		return jobDescription;
-	};
+        var getJobDescription = function () {
+            return jobDescription;
+        };
 
-	var getAllCV = function() {
-		return parsedCVs;
-	};
+        var getAllCV = function () {
+            return parsedCVs;
+        };
 
-	var getCV = function(name) {
-		return parsedCVs[name];
-	};
+        var getCV = function (name) {
+            for (var i = 0; i < parsedCVs.length; i++) {
+                if (parsedCVs[i].name === name) {
+                    return parsedCVs[i];
+                }
+            }
+            return false;
+        };
 
-	var getAllRawEvaluationResults = function() {
-		return rawEvaluationResults;
-	};
+        var getAllRawEvaluationResults = function () {
+            return rawEvaluationResults;
+        };
 
-	return {
-		setJobDescription: setJobDescription,
-		storeParsedCV: storeParsedCV,
-		storeRawEvaluationResults: storeRawEvaluationResults,
-		getJobDescription: getJobDescription,
-		getAllCV: getAllCV,
-		getCV: getCV,
-		getAllRawEvaluationResults: getAllRawEvaluationResults
-	};
-});
+        /** ----- STORAGE RESET ----- */
+        var resetJobDescription = function () {
+            jobDescription = "";
+        };
+
+        var resetAllCVs = function () {
+           parsedCVs = [];
+        };
+
+        var resetRawResults = function () {
+            rawEvaluationResults = [];
+        };
+
+
+        return {
+            setJobDescription: setJobDescription,
+            storeParsedCV: storeParsedCV,
+            storeRawEvaluationResults: storeRawEvaluationResults,
+            getJobDescription: getJobDescription,
+            getAllCV: getAllCV,
+            getCV: getCV,
+            getAllRawEvaluationResults: getAllRawEvaluationResults,
+            resetJobDescription: resetJobDescription,
+            resetAllCVs: resetAllCVs,
+            resetRawResults: resetRawResults,
+        };
+    });

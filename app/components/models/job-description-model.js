@@ -23,6 +23,10 @@ angular.module('cvia.models')
             this.languages = [];
         }
 
+        function reset() {
+            storageAccess.resetJobDescription();
+        }
+
         function save(jobDesc) {
             var tokens = jobDescriptionTokenizer.tokenizeJobDesc(jobDesc);
 
@@ -73,6 +77,12 @@ angular.module('cvia.models')
              * @param void
              * @return stemmmedjob description from storage
              */
-            get_stemmed: getStemmed
+            get_stemmed: getStemmed,
+            /**
+             * Clears job description from storage
+             * @param void
+             * @return void
+             */
+            reset: reset
         };
     });

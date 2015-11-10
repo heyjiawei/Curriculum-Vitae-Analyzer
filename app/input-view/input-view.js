@@ -37,12 +37,14 @@ angular.module('cvia.inputView', ['ngRoute', 'ngFileUpload'])
   };
 
   function getAllTextFromPdf(pdf) {
+    cvModel.reset();
     return pdfReader.getAllTextFromPdf(pdf).then(function(result) {
       cvModel.save(result);
     });
   }
 
   var processJobDesc = function(jobDesc) {
+    jobDescriptionModel.reset();
     var deferred = $q.defer();
     jobDescriptionModel.save(jobDesc);
     deferred.resolve();
