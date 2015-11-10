@@ -13,12 +13,12 @@ angular.module('cvia.models')
     }
 
     function calculateResultsAndSave() {
+
       var allCv = cvModel.getAllStemmed();
       var jobDesc = jobDescriptionModel.getStemmed();
 
       var rawScoredCvs = [];
       allCv.forEach(function (evaluatedCv) {
-
         var educationScore = cvEvaluator.calcEducationScore(evaluatedCv.education, jobDesc.education);
         var essSkillsScore = cvEvaluator.calcSkillsScore(evaluatedCv, jobDesc.essentialSkills);
         var prefSkillsScore = cvEvaluator.calcSkillsScore(evaluatedCv, jobDesc.preferredSkills);
@@ -46,12 +46,17 @@ angular.module('cvia.models')
       return storageAccess.getAllRawEvaluationResults();
     }
 
+      function reset() {
+        storageAccess.resetRawResults();
+      }
+
     return {
       /**
        * Retrieves raw results from storage, otherwise calculate result
        * @param: void
        * @return array of RawResult objects
        */
-      get: get
+      get: get,
+      reset: reset
     }
   });
