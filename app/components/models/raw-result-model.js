@@ -13,9 +13,10 @@ angular.module('cvia.models')
     }
 
     function calculateResultsAndSave() {
-      var allCv = cvModel.get_all_stemmed();
-      //console.log("stemmed CVS", allCv);
-      var jobDesc = jobDescriptionModel.get_stemmed();
+
+      var allCv = cvModel.getAllStemmed();
+      var jobDesc = jobDescriptionModel.getStemmed();
+
       var rawScoredCvs = [];
       allCv.forEach(function (evaluatedCv) {
         var educationScore = cvEvaluator.calcEducationScore(evaluatedCv.education, jobDesc.education);

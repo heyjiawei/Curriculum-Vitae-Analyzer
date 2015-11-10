@@ -13,8 +13,8 @@
           </div>
           <md-progress-linear ng-if="showProgressBar" md-mode="determinate" value="{{progress}}"></md-progress-linear>
         </div>
-        <div>
-          {{fileNames}}
+        <div data-ng-if="fileNames">
+          Parsing: {{fileNames}}
         </div>
 
         <div>

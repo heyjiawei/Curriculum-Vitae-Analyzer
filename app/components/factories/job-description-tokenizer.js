@@ -1,22 +1,11 @@
 'use strict';
 
 angular.module('cvia.factories')
-  // TODO: REFACTOR INTO A GENERIC TOKENIZER CLASS, USED BY BOTH CV AND JOB DESC
 .factory('jobDescriptionTokenizer', function() {
-    // education “bachelor”, min req, skill
-    // (preferred qualifications. responsibilities comes under preferredSkills),
-    // location, work experience (time), languages
-
-    var responsibilityKeywords = ["responsibilities", "job scope"];
-    var minimumRequirementKeywords = ["minimum requirements"];
-    var preferredQualificationKeywords = ["preferred qualifications"];
-    var locationKeywords = ["location"];
-
     var allHeadingKeywords = [].concat(responsibilityKeywords, minimumRequirementKeywords,
       preferredQualificationKeywords, locationKeywords);
 
     var tokenizeJobDesc = function(jobDesc) {
-      // Split into lines
       var jobDescLines = jobDesc.split("\n");
 
       var responsibilityToken = findToken(responsibilityKeywords, jobDescLines);
@@ -44,7 +33,6 @@ angular.module('cvia.factories')
           };
 
           if(keywords.some(hasKeyWord)) { // found the heading?
-//            results.push(line);
             isHeaderFound = true;
           }
         } else { // look for next heading, return

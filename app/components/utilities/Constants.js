@@ -1,3 +1,23 @@
+// CV Tokenizer
+const HEADING_GUESS_TOLERANCE = 0.5;
+
+var summaryKeywords = ["summary", "introduction"];
+var skillKeywords = ["skills & expertise", "skill set", "skillset", "preferredSkills", "skills"];
+var experienceKeywords = ["experience", "employment", "work", "history"];
+var projectKeywords = ["projects"];
+var educationKeywords = ["education", "educational"];
+var languageKeywords = ["languages"];
+var interestKeywords = ["interests"];
+var refereeKeywords = ["referees", "references", "reference"];
+var publicationKeywords = ["publications"];
+
+// Job Description Tokenizer
+var responsibilityKeywords = ["responsibilities", "job scope"];
+var minimumRequirementKeywords = ["minimum requirements"];
+var preferredQualificationKeywords = ["preferred qualifications"];
+var locationKeywords = ["location"];
+
+// CV Parser
 var diplomaKeyWords = ["diploma"];
 var bachelorKeyWords = ["bachelor's", "bachelor", "bsc", "be"];
 var masterKeyWords = ["master", "master's", "mscs", "msc"];

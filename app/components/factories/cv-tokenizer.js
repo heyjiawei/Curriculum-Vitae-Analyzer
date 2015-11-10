@@ -3,16 +3,6 @@
 angular.module('cvia.factories')
 
 .factory('cvTokenizer', function() {
-    var summaryKeywords = ["summary", "introduction"];
-    var skillKeywords = ["skills & expertise", "skill set", "skillset", "preferredSkills", "skills"];
-    var experienceKeywords = ["experience", "employment", "work", "history"];
-    var projectKeywords = ["projects"];
-    var educationKeywords = ["education", "educational"];
-    var languageKeywords = ["languages"];
-    var interestKeywords = ["interests"];
-    var refereeKeywords = ["referees", "references", "reference"];
-    var publicationKeywords = ["publications"];
-
     var allHeadingKeywords = [].concat(summaryKeywords, skillKeywords, experienceKeywords,
       projectKeywords, educationKeywords, languageKeywords, interestKeywords, refereeKeywords,
       publicationKeywords);
@@ -101,7 +91,8 @@ angular.module('cvia.factories')
 
       for(var j = headingIndex+1; j < sourceText.length; j++) {
         var line = sourceText[j];
-        if(isHeading(line, allHeadingKeywords) < 0.5) { //TODO: factor out magic number
+
+        if(isHeading(line, allHeadingKeywords) < HEADING_GUESS_TOLERANCE) {
           token.push(sourceText[j]);
         } else { // found next heading, end of this token
           return token;
@@ -158,7 +149,6 @@ angular.module('cvia.factories')
       if(isEmptyOrWhiteSpace(potentialHeading) || hasTooManyWords(potentialHeading)) {
         score -= 1;
       }
-//      console.log("isheading", potentialHeading, score);
       return score;
     }
 
