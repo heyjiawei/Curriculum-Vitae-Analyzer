@@ -7,12 +7,12 @@ angular.module('cvia', [
 ]).
 config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/input-view', {
-    templateUrl: 'input-view/input-view.html',
+    templateUrl: 'views/input-view/input-view.html',
     controller: 'inputViewCtrl'
   });
 
   $routeProvider.when('/results-view', {
-    templateUrl: 'results-view/results-view.html',
+    templateUrl: 'views/results-view/results-view.html',
     controller: 'resultsViewCtrl'
   });
   $routeProvider.otherwise({redirectTo: '/input-view'});
