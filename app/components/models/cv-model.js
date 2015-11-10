@@ -1,4 +1,4 @@
-angular.module('myApp.models', ['myApp.factories'])
+angular.module('cvia.models', ['cvia.factories'])
     .factory( 'cvModel', function (stem, cvParser, cvTokenizer, storageAccess) {
 
         //degree: 0 for undefined, 1 for diploma, 2 for bachelor, 3 for master, 4 for phd

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('myApp.factories')
+angular.module('cvia.factories')
 
     .factory('jobDescriptionParser', function (nlp, parserUtils) {
 

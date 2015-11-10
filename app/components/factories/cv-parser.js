@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('myApp.factories')
+angular.module('cvia.factories')
 
     .factory('cvParser', function (nlp, parserUtils) {
 

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('myApp.factories', ['nlpCompromise', 'myApp.models'])
+angular.module('cvia.factories', ['nlpCompromise', 'cvia.models'])
 
 .factory('fileReader', function($q, $log) {
   //http://odetocode.com/blogs/scott/archive/2013/07/03/building-a-filereader-service-for-angularjs-the-service.aspx

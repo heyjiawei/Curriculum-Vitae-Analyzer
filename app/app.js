@@ -1,14 +1,14 @@
 'use strict';
 
 // Declare app level module which depends on views, and components
-angular.module('myApp', [
+angular.module('cvia', [
   'ngRoute',
   'ngMaterial', 'nlpCompromise', 'ngFileUpload', 'md.data.table',
-  'myApp.factories',
-  'myApp.models',
-  'myApp.view1',
-  'myApp.view2',
-  'myApp.version'
+  'cvia.factories',
+  'cvia.models',
+  'cvia.view1',
+  'cvia.view2',
+  'cvia.version'
 ]).
 config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/view1', {

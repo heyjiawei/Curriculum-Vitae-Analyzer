@@ -1,4 +1,4 @@
-angular.module('myApp.models')
+angular.module('cvia.models')
     .factory( 'jobDescriptionModel', function (stem, jobDescriptionParser, jobDescriptionTokenizer, storageAccess) {
 
         //degree: 0 for undefined, 1 for diploma, 2 for bachelor, 3 for master, 4 for phd

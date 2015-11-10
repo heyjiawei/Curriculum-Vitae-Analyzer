@@ -1,4 +1,4 @@
-angular.module('myApp.models')
+angular.module('cvia.models')
   .factory('rawResultModel', function (cvModel, jobDescriptionModel, cvEvaluator, storageAccess) {
 
     function RawResult() {

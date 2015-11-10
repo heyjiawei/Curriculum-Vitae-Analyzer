@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('myApp.view1', ['ngRoute', 'ngFileUpload'])
+angular.module('cvia.view1', ['ngRoute', 'ngFileUpload'])
 
 
 .controller('View1Ctrl', function($scope, $q, fileReader, pdfReader, cvModel, jobDescriptionModel, cvEvaluator, $location) {

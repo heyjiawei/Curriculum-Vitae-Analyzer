@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('myApp.factories')
+angular.module('cvia.factories')
 
     .factory('parserUtils', function (nlp) {
         //returns all the sentence splitted up by " "

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('myApp.factories')
+angular.module('cvia.factories')
   // TODO: REFACTOR INTO A GENERIC TOKENIZER CLASS, USED BY BOTH CV AND JOB DESC
 .factory('jobDescriptionTokenizer', function() {
     // education “bachelor”, min req, skill

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('myApp.factories')
+angular.module('cvia.factories')
     .factory('cvEvaluator', function () {
 
         /* EDUCATION SCORING */

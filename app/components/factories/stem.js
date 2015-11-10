@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('myApp.factories')
+angular.module('cvia.factories')
     .factory('stem', function() {
         var stemArray = function(words) {
             return words.map(function(word) {

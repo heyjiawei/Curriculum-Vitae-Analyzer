@@ -3,7 +3,7 @@
  */
 'use strict';
 
-angular.module('myApp.factories')
+angular.module('cvia.factories')
 
 .factory('storageAccess', function() {
 	var jobDescription = "";

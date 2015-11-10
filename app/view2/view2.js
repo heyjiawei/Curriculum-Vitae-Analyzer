@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('myApp.view2', [])
+angular.module('cvia.view2', [])
 
 .controller('View2Ctrl', function($scope, $q, $timeout, storageAccess, resultPresenter) {
     $scope.cvMatch  = resultPresenter.formatRawResultsForPresentation();
