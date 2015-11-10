@@ -28,17 +28,22 @@ angular.module('cvia.factories')
                 return 100;
             }
             var SKILLS_WEIGHT = 3, EXP_WEIGHT = 1.5, INTEREST_WEIGHT = 0.5;
-            var WEIGHT_NORM = SKILLS_WEIGHT + EXP_WEIGHT + INTEREST_WEIGHT;
+            //var WEIGHT_NORM = SKILLS_WEIGHT + EXP_WEIGHT + INTEREST_WEIGHT;
 
             var skillCount = findMatchingWords(cv.skill, jdSkills);
 
             var expCount = findMatchingWords(cv.experience, jdSkills);
 
             var interestCount = findMatchingWords(cv.interest, jdSkills);
-
-            var totalScore = (skillCount * SKILLS_WEIGHT + expCount * EXP_WEIGHT + interestCount * INTEREST_WEIGHT) /
-                (jdSkills.length * WEIGHT_NORM) * 100;
-            return totalScore > 100 ? 100 : totalScore;
+            var totalScore;
+            var totalSkillsLength = cv.skill.length * SKILLS_WEIGHT + cv.experience.length * EXP_WEIGHT + cv.interest.length * INTEREST_WEIGHT;
+            if (totalSkillsLength == 0) {
+                return 0;
+            } else {
+                totalScore = (skillCount * SKILLS_WEIGHT + expCount * EXP_WEIGHT + interestCount * INTEREST_WEIGHT) /
+                    (totalSkillsLength) * 100;
+                return totalScore > 100 ? 100 : totalScore;
+            }
         }
 
         /* EXPERIENCE SCORING */
@@ -46,7 +51,8 @@ angular.module('cvia.factories')
         // If experience lesser than requirement return 0
         function calcExpScore(cvExp, jdExp) {
             var EXP_NORMAL = 100;
-
+            console.log("cvExp", cvExp);
+            console.log("jdExp", jdExp);
             if(cvExp < jdExp)
                 return cvExp/jdExp * 100;
             else
@@ -75,7 +81,8 @@ angular.module('cvia.factories')
         //returns number of matched words
         function findMatchingWords(source1, source2) {
             var results = [];
-
+            console.log("source 1", source1);
+            console.log("source 2", source2);
             for (var i = 0; i < source1.length; i++) {
                 //for each word, check the entire wordsOfSource2?
                 var hasKeyWord = function (keyWord) {
@@ -84,6 +91,8 @@ angular.module('cvia.factories')
                 var matchedWords = source2.filter(hasKeyWord);
                 results = results.concat(matchedWords);
             }
+            console.log("outcome", results);
+            console.log("outcome length", results.length);
             return results.length;
         }
 

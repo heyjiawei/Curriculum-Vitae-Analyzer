@@ -38,7 +38,7 @@ angular.module('cvia.models')
             jobDescParsed.education.degree = jobDescriptionParser.parse_education_degree(tokens.minimumRequirement);
             jobDescParsed.workExperienceTime = jobDescriptionParser.find_and_parse_work_time(tokens.minimumRequirement);
             jobDescParsed.languages = jobDescriptionParser.parse_languages(tokens.minimumRequirement.concat(tokens.preferredQualification));
-            //console.log("job desc parsed", jobDescParsed);
+            console.log("job desc parsed", jobDescParsed);
             storageAccess.setJobDescription(jobDescParsed);
         }
 
