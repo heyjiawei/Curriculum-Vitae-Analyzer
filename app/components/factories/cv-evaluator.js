@@ -88,9 +88,6 @@ angular.module('cvia.factories')
         }
 
         return {
-            /**
-             *
-             */
             calcEducationScore: calcEducationScore,
             calcSkillsScore: calcSkillsScore,
             calcExpScore: calcExpScore,
