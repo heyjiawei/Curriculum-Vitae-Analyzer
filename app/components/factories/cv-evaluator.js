@@ -48,7 +48,7 @@ angular.module('myApp.factories')
             var EXP_NORMAL = 100;
 
             if(cvExp < jdExp)
-                return 0;
+                return cvExp/jdExp * 100;
             else
                 return EXP_NORMAL;
         }
