@@ -14,6 +14,7 @@ angular.module('cvia.models')
 
     function calculateResultsAndSave() {
       var allCv = cvModel.get_all_stemmed();
+      console.log("stemmed CVS", allCv);
       var jobDesc = jobDescriptionModel.get_stemmed();
       var rawScoredCvs = [];
       allCv.forEach(function (evaluatedCv) {

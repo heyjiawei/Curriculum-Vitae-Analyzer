@@ -49,7 +49,7 @@ angular.module('cvia.models', ['cvia.factories'])
 
         function getAllStemmed() {
             var allCvs = storageAccess.getAllCV();
-            allCvs.map(function(cv) {
+            return allCvs.map(function(cv) {
                 var stemmedCv = new CV();
                 stemmedCv.education.keywords = stem.stem_array(cv.education.keywords);
                 stemmedCv.education.degree = cv.education.degree;
@@ -61,7 +61,6 @@ angular.module('cvia.models', ['cvia.factories'])
                 console.log("stemmed cv", stemmedCv);
                 return stemmedCv;
             });
-            return allCvs;
         }
 
         return {
