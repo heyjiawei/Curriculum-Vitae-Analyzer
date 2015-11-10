@@ -43,9 +43,8 @@ angular.module('cvia.factories')
             return line.toLowerCase().indexOf(keyWord) >= 0;
           };
 
-//          if(isHeading(line) && keywords.some(hasKeyWord)) {
           if(keywords.some(hasKeyWord)) { // found the heading?
-            results.push(line);
+//            results.push(line);
             isHeaderFound = true;
           }
         } else { // look for next heading, return
@@ -60,13 +59,7 @@ angular.module('cvia.factories')
     }
 
     function isHeading(text) {
-      // determine how likely it is to be a heading
-      // it's likely a heading, if
-      // it matches the heading keywords defined above
-      // if it's all caps
-      // it contains a ":" at the end
-      // it's the only word in the line provided (?)
-
+      // must match exactly to be a keyword, unlike for CVs
       var hasKeyWord = function (keyWord) {
         var matchExactWordRegex = new RegExp("(?:^|\\s)" + keyWord.toLowerCase() + "(?=\\s|$)", "g");
         return text.toLowerCase().match(matchExactWordRegex);
