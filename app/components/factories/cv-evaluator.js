@@ -19,6 +19,8 @@ angular.module('cvia.factories')
             } else {
                 return ((cvEdu.degree >= jdEdu.degree ? 100 : 0) + eduCount/jdEdu.keywords.length*100) / 2;
             }
+            //console.log("degree", jdEdu.degree, cvEdu.degree);
+            //console.log("eduCount", cvEdu.keywords, jdEdu.keywords);
         }
 
         /* SKILLS SCORING */
@@ -35,10 +37,15 @@ angular.module('cvia.factories')
             var expCount = findMatchingWords(cv.experience, jdSkills);
 
             var interestCount = findMatchingWords(cv.interest, jdSkills);
-
-            var totalScore = (skillCount * SKILLS_WEIGHT + expCount * EXP_WEIGHT + interestCount * INTEREST_WEIGHT) /
-                (jdSkills.length * WEIGHT_NORM) * 100;
-            return totalScore > 100 ? 100 : totalScore;
+            var totalScore;
+            var totalSkillsLength = cv.skill.length * SKILLS_WEIGHT + cv.experience.length * EXP_WEIGHT + cv.interest.length * INTEREST_WEIGHT;
+            if (totalSkillsLength == 0) {
+                return 0;
+            } else {
+                totalScore = (skillCount * SKILLS_WEIGHT + expCount * EXP_WEIGHT + interestCount * INTEREST_WEIGHT) /
+                    (totalSkillsLength) * 100;
+                return totalScore > 100 ? 100 : totalScore;
+            }
         }
 
         /* EXPERIENCE SCORING */
@@ -46,7 +53,8 @@ angular.module('cvia.factories')
         // If experience lesser than requirement return 0
         function calcExpScore(cvExp, jdExp) {
             var EXP_NORMAL = 100;
-
+            //console.log("cvExp", cvExp);
+            //console.log("jdExp", jdExp);
             if(cvExp < jdExp)
                 return cvExp/jdExp * 100;
             else
@@ -75,22 +83,22 @@ angular.module('cvia.factories')
         //returns number of matched words
         function findMatchingWords(source1, source2) {
             var results = [];
-
+            //console.log("source 1", source1);
+            //console.log("source 2", source2);
             for (var i = 0; i < source1.length; i++) {
                 //for each word, check the entire wordsOfSource2?
                 var hasKeyWord = function (keyWord) {
-                    return source1[i].toLowerCase().indexOf(keyWord.toLowerCase()) >= 0;
+                    return source1[i].toLowerCase() === (keyWord.toLowerCase());
                 };
                 var matchedWords = source2.filter(hasKeyWord);
                 results = results.concat(matchedWords);
             }
+            //console.log("outcome", results);
+            //console.log("outcome length", results.length);
             return results.length;
         }
 
         return {
-            /**
-             *
-             */
             calcEducationScore: calcEducationScore,
             calcSkillsScore: calcSkillsScore,
             calcExpScore: calcExpScore,

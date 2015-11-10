@@ -10,8 +10,7 @@ angular.module('cvia.factories')
             this.experience = 1,
             this.language = 1;
         }
-
-        var allRawScoredCvs = rawResultModel.get();
+        var allRawScoredCvs;
         var scoredByCriteriaCvs = [];
         var weights = new DefaultWeight();
 
@@ -46,7 +45,10 @@ angular.module('cvia.factories')
         }
 
         function formatRawResultsForPresentation() {
+            rawResultModel.reset();
+            allRawScoredCvs = rawResultModel.get();
             scoredByCriteriaCvs = [];
+            weights = new DefaultWeight();
             allRawScoredCvs.forEach(function (rawScoredCv) {
                 var educationScore = rawScoredCv.scoringCriteria.education;
                 var essSkillsScore = rawScoredCv.scoringCriteria.essSkills;

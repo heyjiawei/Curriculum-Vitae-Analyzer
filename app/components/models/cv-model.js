@@ -49,8 +49,9 @@ angular.module('cvia.models', ['cvia.factories'])
 
         function getAllStemmed() {
             var allCvs = storageAccess.getAllCV();
-            allCvs.map(function(cv) {
+            return allCvs.map(function(cv) {
                 var stemmedCv = new CV();
+                stemmedCv.name = cv.name;
                 stemmedCv.education.keywords = stem.stem_array(cv.education.keywords);
                 stemmedCv.education.degree = cv.education.degree;
                 stemmedCv.languages = cv.languages;
@@ -58,9 +59,9 @@ angular.module('cvia.models', ['cvia.factories'])
                 stemmedCv.skill = stem.stem_array(cv.skill);
                 stemmedCv.experience = stem.stem_array(cv.experience);
                 stemmedCv.workExperienceTime = cv.workExperienceTime;
+                //console.log("stemmed cv", stemmedCv);
                 return stemmedCv;
             });
-            return allCvs;
         }
 
         return {
