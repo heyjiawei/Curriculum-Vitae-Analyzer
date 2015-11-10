@@ -22,7 +22,7 @@ angular.module('cvia.models')
         var educationScore = cvEvaluator.calcEducationScore(evaluatedCv.education, jobDesc.education);
         var essSkillsScore = cvEvaluator.calcSkillsScore(evaluatedCv, jobDesc.essentialSkills);
         var prefSkillsScore = cvEvaluator.calcSkillsScore(evaluatedCv, jobDesc.preferredSkills);
-        var expScore = cvEvaluator.calcExpScore(evaluatedCv.experience, jobDesc.experience);
+        var expScore = cvEvaluator.calcExpScore(evaluatedCv.workExperienceTime, jobDesc.workExperienceTime);
         var languageScore = cvEvaluator.calcLanguageScore(evaluatedCv.languages, jobDesc.languages);
 
         var rawScoredCv = new RawResult();

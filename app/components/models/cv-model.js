@@ -39,6 +39,8 @@ angular.module('cvia.models', ['cvia.factories'])
             cvParsed.interest = cvParser.parse_interest(tokens.interest);
             cvParsed.skill = cvParser.parse_skills(tokens.skill);
             cvParsed.experience = cvParser.parse_experience(tokens.experience.concat(tokens.project));
+            cvParsed.workExperienceTime = cvParser.find_and_parse_work_time(tokens.experience);
+            console.log("parsed cv", cvParsed);
             storageAccess.storeParsedCV(cvParsed);
         }
 
@@ -56,6 +58,7 @@ angular.module('cvia.models', ['cvia.factories'])
                 stemmedCv.interest = stem.stem_array(cv.interest);
                 stemmedCv.skill = stem.stem_array(cv.skill);
                 stemmedCv.experience = stem.stem_array(cv.experience);
+                stemmedCv.workExperienceTime = cv.workExperienceTime;
                 return stemmedCv;
             });
             return allCvs;
