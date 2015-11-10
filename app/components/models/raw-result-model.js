@@ -45,12 +45,17 @@ angular.module('cvia.models')
       return storageAccess.getAllRawEvaluationResults();
     }
 
+      function reset() {
+        storageAccess.resetRawResults();
+      }
+
     return {
       /**
        * Retrieves raw results from storage, otherwise calculate result
        * @param: void
        * @return array of RawResult objects
        */
-      get: get
+      get: get,
+      reset: reset
     }
   });
