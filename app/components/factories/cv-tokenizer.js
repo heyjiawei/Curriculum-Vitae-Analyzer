@@ -14,7 +14,8 @@ angular.module('cvia.factories')
     var publicationKeywords = ["publications"];
 
     var allHeadingKeywords = [].concat(summaryKeywords, skillKeywords, experienceKeywords,
-      projectKeywords, educationKeywords, languageKeywords, interestKeywords, refereeKeywords);
+      projectKeywords, educationKeywords, languageKeywords, interestKeywords, refereeKeywords,
+      publicationKeywords);
 
     var tokenizeCv = function(allTextFromPdf) {
       var nameToken = findName(allTextFromPdf);

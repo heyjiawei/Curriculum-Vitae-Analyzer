@@ -70,7 +70,6 @@ angular.module('cvia.factories')
 
         //
         function updateWeights(newWeights) {
-            //TODO: assert weights.length == no of keys
             weights = newWeights;
             scoredByCriteriaCvs.forEach(function (scoredByCriteriaCv) {
                 scoredByCriteriaCv.updateScore();
