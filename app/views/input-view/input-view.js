@@ -21,7 +21,7 @@ angular.module('cvia.inputView', ['ngRoute', 'ngFileUpload'])
     if (files && files.length) {
       var promises = [];
       for (var i = 0; i < files.length; i++) {
-        $scope.fileNames += files[i].name + "\n";
+        $scope.fileNames += files[i].name + ", ";
         $scope.showProgressBar = true;
 
         var readPdf = fileReader.readAsDataUrl(files[i], $scope)
