@@ -2,23 +2,29 @@
   <div layout="row" layout-margin layout-fill layout-sm="column">
     <md-card flex>
       <md-card-content>
-        <h3 class="md-headline">Upload CVs</h3>
-        <span class="md-caption">*Only .pdf files are accepted</span>
-        <div ngf-select ngf-drop ng-model="files" class="drop-box"
-             ngf-drag-over-class="dragover" ngf-multiple="true" accept="application/pdf"
-             ngf-pattern="'application/pdf'">
-          Drag and drop PDFs here, or click to upload.
+        <div>
+          <h3 class="md-headline">Upload CVs</h3>
+          <p class="md-body-1">Upload the CVs of the applicants that you want to evaluate and rank.</p>
+          <span class="md-caption">*Only .pdf files are accepted</span>
+          <div ngf-select ngf-drop ng-model="files" class="drop-box"
+               ngf-drag-over-class="dragover" ngf-multiple="true" accept="application/pdf"
+               ngf-pattern="'application/pdf'">
+            Drag and drop PDFs here, or click to upload.
+          </div>
+          <md-progress-linear ng-if="showProgressBar" md-mode="determinate" value="{{progress}}"></md-progress-linear>
         </div>
-        <md-progress-linear ng-if="showProgressBar" md-mode="determinate" value="{{progress}}"></md-progress-linear>
-
         <div>
           {{fileNames}}
         </div>
 
-        <md-input-container flex>
-          <label>Job Description</label>
-          <textarea ng-model="jobDescript" columns="1"></textarea>
-        </md-input-container>
+        <div>
+          <h3 class="md-headline">Job Description</h3>
+          <p class="md-body-1">Enter the job description for comparison and ranking with the CVs.</p>
+          <md-input-container flex>
+            <label>Job Description</label>
+            <textarea ng-model="jobDescript" columns="1"></textarea>
+          </md-input-container>
+        </div>
       </md-card-content>
       <md-card-actions layout="row" layout-align="end center">
         <md-button class="md-raised md-primary" data-ng-click="doProcess()"
