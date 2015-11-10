@@ -53,8 +53,8 @@ angular.module('cvia.factories')
         // If experience lesser than requirement return 0
         function calcExpScore(cvExp, jdExp) {
             var EXP_NORMAL = 100;
-            console.log("cvExp", cvExp);
-            console.log("jdExp", jdExp);
+            //console.log("cvExp", cvExp);
+            //console.log("jdExp", jdExp);
             if(cvExp < jdExp)
                 return cvExp/jdExp * 100;
             else
@@ -83,8 +83,8 @@ angular.module('cvia.factories')
         //returns number of matched words
         function findMatchingWords(source1, source2) {
             var results = [];
-            console.log("source 1", source1);
-            console.log("source 2", source2);
+            //console.log("source 1", source1);
+            //console.log("source 2", source2);
             for (var i = 0; i < source1.length; i++) {
                 //for each word, check the entire wordsOfSource2?
                 var hasKeyWord = function (keyWord) {
@@ -93,15 +93,12 @@ angular.module('cvia.factories')
                 var matchedWords = source2.filter(hasKeyWord);
                 results = results.concat(matchedWords);
             }
-            console.log("outcome", results);
-            console.log("outcome length", results.length);
+            //console.log("outcome", results);
+            //console.log("outcome length", results.length);
             return results.length;
         }
 
         return {
-            /**
-             *
-             */
             calcEducationScore: calcEducationScore,
             calcSkillsScore: calcSkillsScore,
             calcExpScore: calcExpScore,

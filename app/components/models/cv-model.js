@@ -59,7 +59,7 @@ angular.module('cvia.models', ['cvia.factories'])
                 stemmedCv.skill = stem.stem_array(cv.skill);
                 stemmedCv.experience = stem.stem_array(cv.experience);
                 stemmedCv.workExperienceTime = cv.workExperienceTime;
-                console.log("stemmed cv", stemmedCv);
+                //console.log("stemmed cv", stemmedCv);
                 return stemmedCv;
             });
         }
