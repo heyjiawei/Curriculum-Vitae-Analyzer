@@ -7,8 +7,7 @@ angular.module('cvia', [
   'cvia.factories',
   'cvia.models',
   'cvia.view1',
-  'cvia.view2',
-  'cvia.version'
+  'cvia.view2'
 ]).
 config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/view1', {
