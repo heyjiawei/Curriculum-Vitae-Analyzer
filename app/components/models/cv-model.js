@@ -39,7 +39,7 @@ angular.module('cvia.models', ['cvia.factories'])
             tokenizedCv.interest = cvParser.parse_interest(tokens.interest);
             tokenizedCv.skill = cvParser.parse_skills(tokens.skill);
             tokenizedCv.experience = cvParser.parse_experience(tokens.experience.concat(tokens.project));
-            cvParsed.workExperienceTime = cvParser.find_and_parse_work_time(tokens.experience);
+            tokenizedCv.workExperienceTime = cvParser.find_and_parse_work_time(tokens.experience);
             storageAccess.storeParsedCV(tokenizedCv);
         }
 
