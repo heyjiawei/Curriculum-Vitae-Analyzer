@@ -88,7 +88,7 @@ angular.module('cvia.factories')
 
         return {
             /**
-             * Returns the definitions of the headers for view2.js
+             * Returns the definitions of the headers for resultsView
              * @param: void
              * @return: Result object
              */

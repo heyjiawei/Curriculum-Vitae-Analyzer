@@ -3,17 +3,17 @@
 // Declare app level module which depends on views, and components
 angular.module('cvia', [
   'ngRoute', 'ngMaterial', 'nlpCompromise', 'ngFileUpload', 'md.data.table',
-  'cvia.factories', 'cvia.models', 'cvia.inputView', 'cvia.view2'
+  'cvia.factories', 'cvia.models', 'cvia.inputView', 'cvia.resultsView'
 ]).
 config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/input_view', {
-    templateUrl: 'input_view/input-view.html',
+  $routeProvider.when('/input-view', {
+    templateUrl: 'input-view/input-view.html',
     controller: 'inputViewCtrl'
   });
 
-  $routeProvider.when('/view2', {
-    templateUrl: 'view2/view2.html',
-    controller: 'View2Ctrl'
+  $routeProvider.when('/results-view', {
+    templateUrl: 'results-view/results-view.html',
+    controller: 'resultsViewCtrl'
   });
-  $routeProvider.otherwise({redirectTo: '/input_view'});
+  $routeProvider.otherwise({redirectTo: '/input-view'});
 }]);

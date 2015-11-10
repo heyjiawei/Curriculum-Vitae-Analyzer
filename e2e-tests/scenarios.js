@@ -5,16 +5,16 @@
 describe('my app', function() {
 
 
-  it('should automatically redirect to /input_view when location hash/fragment is empty', function() {
+  it('should automatically redirect to /input-view when location hash/fragment is empty', function() {
     browser.get('index.html');
-    expect(browser.getLocationAbsUrl()).toMatch("/input_view");
+    expect(browser.getLocationAbsUrl()).toMatch("/input-view");
   });
 
 
   describe('inputView', function() {
 
     beforeEach(function() {
-      browser.get('index.html#/input_view');
+      browser.get('index.html#/input-view');
     });
 
 
@@ -26,14 +26,14 @@ describe('my app', function() {
   });
 
 
-  describe('view2', function() {
+  describe('resultsView', function() {
 
     beforeEach(function() {
-      browser.get('index.html#/view2');
+      browser.get('index.html#/results-view');
     });
 
 
-    it('should render view2 when user navigates to /view2', function() {
+    it('should render resultsView when user navigates to /results-view', function() {
       expect(element.all(by.css('[ng-view] p')).first().getText()).
         toMatch(/partial for view 2/);
     });

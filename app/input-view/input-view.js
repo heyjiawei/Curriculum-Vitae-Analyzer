@@ -53,7 +53,7 @@ angular.module('cvia.inputView', ['ngRoute', 'ngFileUpload'])
     var processJobDescPromise = processJobDesc($scope.jobDescript);
     var processFilesPromise = processFiles($scope.files);
     $q.all([processJobDescPromise, processFilesPromise]).then(function(jobDescAndFiles) {
-      $location.url("/view2");
+      $location.url("/results-view");
     });
   };
 });

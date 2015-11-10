@@ -1,8 +1,8 @@
 'use strict';
 
-angular.module('cvia.view2', [])
+angular.module('cvia.resultsView', [])
 
-.controller('View2Ctrl', function($scope, $q, $timeout, storageAccess, resultPresenter) {
+.controller('resultsViewCtrl', function($scope, $q, $timeout, storageAccess, resultPresenter) {
     $scope.cvMatch  = resultPresenter.formatRawResultsForPresentation();
 
     //get initial weights
@@ -37,7 +37,7 @@ angular.module('cvia.view2', [])
       }
     }
 
-    $scope.selected = []; // selecting a row will bring us to the selected cv
+//    $scope.selected = []; // selecting a row will bring us to the selected cv
     $scope.query = {
       order: '-finalScore.value',
       limit: 5,
