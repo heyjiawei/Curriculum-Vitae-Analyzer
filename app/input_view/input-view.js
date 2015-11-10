@@ -1,9 +1,9 @@
 'use strict';
 
-angular.module('cvia.view1', ['ngRoute', 'ngFileUpload'])
+angular.module('cvia.inputView', ['ngRoute', 'ngFileUpload'])
 
 
-.controller('View1Ctrl', function($scope, $q, fileReader, pdfReader, cvModel, jobDescriptionModel, cvEvaluator, $location) {
+.controller('inputViewCtrl', function($scope, $q, fileReader, pdfReader, cvModel, jobDescriptionModel, cvEvaluator, $location) {
     $scope.fileNames = "";
     $scope.jobDescript = "";
   $scope.$watch('file', function () {
