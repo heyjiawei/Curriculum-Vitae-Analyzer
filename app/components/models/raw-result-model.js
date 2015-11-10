@@ -15,14 +15,17 @@ angular.module('cvia.models')
     function calculateResultsAndSave() {
       var allCv = cvModel.get_all_stemmed();
       var jobDesc = jobDescriptionModel.get_stemmed();
-
       var rawScoredCvs = [];
       allCv.forEach(function (evaluatedCv) {
-
+        console.log("education");
         var educationScore = cvEvaluator.calcEducationScore(evaluatedCv.education, jobDesc.education);
+        console.log("ess");
         var essSkillsScore = cvEvaluator.calcSkillsScore(evaluatedCv, jobDesc.essentialSkills);
+        console.log("pref");
         var prefSkillsScore = cvEvaluator.calcSkillsScore(evaluatedCv, jobDesc.preferredSkills);
+        console.log("exp");
         var expScore = cvEvaluator.calcExpScore(evaluatedCv.workExperienceTime, jobDesc.workExperienceTime);
+        console.log("lang");
         var languageScore = cvEvaluator.calcLanguageScore(evaluatedCv.languages, jobDesc.languages);
 
         var rawScoredCv = new RawResult();

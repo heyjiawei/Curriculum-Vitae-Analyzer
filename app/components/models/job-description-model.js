@@ -56,6 +56,7 @@ angular.module('cvia.models')
             stemmedJobDescription.location = jobDescription.location;
             stemmedJobDescription.workExperienceTime = jobDescription.workExperienceTime;
             stemmedJobDescription.languages = jobDescription.languages;
+            console.log("stemmedJobDesc", stemmedJobDescription);
             return stemmedJobDescription;
         }
 

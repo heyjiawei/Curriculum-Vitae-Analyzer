@@ -86,7 +86,7 @@ angular.module('cvia.factories')
             for (var i = 0; i < source1.length; i++) {
                 //for each word, check the entire wordsOfSource2?
                 var hasKeyWord = function (keyWord) {
-                    return source1[i].toLowerCase().indexOf(keyWord.toLowerCase()) >= 0;
+                    return source1[i].toLowerCase() == keyWord.toLowerCase();
                 };
                 var matchedWords = source2.filter(hasKeyWord);
                 results = results.concat(matchedWords);
