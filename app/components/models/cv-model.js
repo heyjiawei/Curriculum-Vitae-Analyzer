@@ -51,6 +51,7 @@ angular.module('cvia.models', ['cvia.factories'])
             var allCvs = storageAccess.getAllCV();
             return allCvs.map(function(cv) {
                 var stemmedCv = new CV();
+                stemmedCv.name = cv.name;
                 stemmedCv.education.keywords = stem.stem_array(cv.education.keywords);
                 stemmedCv.education.degree = cv.education.degree;
                 stemmedCv.languages = cv.languages;
